@@ -22,6 +22,7 @@ import {
   Eye,
   Package,
   CheckCircle,
+  ChevronLeft,
 } from "lucide-react";
 import ProductQuickView from "@/components/ProductQuickView";
 import { motion } from "framer-motion";

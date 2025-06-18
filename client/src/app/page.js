@@ -495,7 +495,7 @@ const WhyChooseUsSection = () => {
             Why Choose Genuine Vitals
           </h2>
           <p className="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto px-4">
-            We're committed to providing you with the best supplements and service
+            We&apos;re committed to providing you with the best supplements and service
           </p>
         </div>
 
@@ -645,7 +645,7 @@ const TestimonialsSection = () => {
                 </div>
 
                 <p className="text-sm sm:text-base text-gray-700 mb-4 sm:mb-6 leading-relaxed">
-                  "{testimonial.quote}"
+                  {testimonial.quote}
                 </p>
 
                 <div className="flex items-center">

@@ -144,15 +144,15 @@ export default function AboutPage() {
             <h2 className="text-3xl font-bold text-gray-900">Our Story</h2>
             <p className="text-gray-600">
               Founded in 2014, we started with a simple mission: to provide
-              high-quality products that make a difference in people's lives.
-              Over the years, we've grown from a small team to a company serving
-              thousands of customers worldwide.
+              high-quality products that make a difference in people&apos;s
+              lives. Over the years, we&apos;ve grown from a small team to a
+              company serving thousands of customers worldwide.
             </p>
             <p className="text-gray-600">
               Our journey has been marked by continuous innovation,
               customer-focused development, and a commitment to excellence. We
               believe in creating products that not only meet but exceed our
-              customers' expectations.
+              customers&apos; expectations.
             </p>
             <div className="flex items-center gap-4">
               <Button className="gap-2">

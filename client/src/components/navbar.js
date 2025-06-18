@@ -14,6 +14,7 @@ import { ClientOnly } from "./client-only";
 import Image from "next/image";
 import { toast, Toaster } from "sonner";
 import { ArrowDown, Heart, LogIn, Menu, Phone, Search, ShoppingCart, User, X } from "lucide-react";
+import { Close } from "@radix-ui/react-dialog";
 
 export function Navbar() {
   const { user, isAuthenticated, logout } = useAuth();
@@ -465,14 +466,14 @@ export function Navbar() {
                   onClick={() => setIsMenuOpen(false)}
                   className="p-2 text-gray-400 hover:text-gray-600"
                 >
-                  <AiOutlineClose className="h-6 w-6" />
+                  <Close className="h-6 w-6" />
                 </button>
               </div>
 
               <div className="p-4 space-y-4">
                 {/* Search */}
                 <form onSubmit={handleSearch} className="relative">
-                  <AiOutlineSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
                   <Input
                     type="text"
                     placeholder="Search products..."
