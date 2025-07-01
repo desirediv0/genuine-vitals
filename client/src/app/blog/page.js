@@ -237,8 +237,8 @@ export default function BlogPage() {
               No Posts Found
             </h2>
             <p className="text-gray-600 mb-6">
-              Try adjusting your search or filter to find what you're looking
-              for
+              Try adjusting your search or filter to find what you&apos;re
+              looking for
             </p>
             <Button variant="outline" onClick={() => setSearchQuery("")}>
               Clear Search

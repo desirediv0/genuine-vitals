@@ -5,22 +5,17 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import {
-  AiOutlineInstagram,
-  AiOutlineFacebook,
-  AiOutlineTwitter,
-  AiOutlineYoutube,
-  AiOutlineMail,
-  AiOutlinePhone,
-  AiOutlineEnvironment,
-  AiOutlineTruck,
-  AiOutlineCreditCard,
-  AiOutlineCheckCircle,
-  AiOutlineSend,
-} from "react-icons/ai";
-import { MdSecurity } from "react-icons/md";
 import { useState } from "react";
 import { toast } from "sonner";
+import {
+  CheckCircle,
+  CreditCard,
+  Mail,
+  Phone,
+  Shield,
+  Truck,
+  MapPin,
+} from "lucide-react";
 
 export function Footer() {
   const [email, setEmail] = useState("");
@@ -44,22 +39,22 @@ export function Footer() {
 
   const features = [
     {
-      icon: <AiOutlineTruck className="h-5 w-5" />,
+      icon: <Truck className="h-5 w-5" />,
       title: "Free Shipping",
       description: "On orders above ₹999",
     },
     {
-      icon: <MdSecurity className="h-5 w-5" />,
+      icon: <Shield className="h-5 w-5" />,
       title: "Secure Payment",
       description: "100% secure transaction",
     },
     {
-      icon: <AiOutlineCreditCard className="h-5 w-5" />,
+      icon: <CreditCard className="h-5 w-5" />,
       title: "Multiple Payment Options",
       description: "Credit cards, UPI & more",
     },
     {
-      icon: <AiOutlineCheckCircle className="h-5 w-5" />,
+      icon: <CheckCircle className="h-5 w-5" />,
       title: "Quality Products",
       description: "100% genuine supplements",
     },
@@ -86,7 +81,7 @@ export function Footer() {
     <footer className="bg-white border-t border-gray-200">
       {/* Features Section */}
       <div className="bg-gray-50">
-        <div className="container mx-auto px-4 py-12">
+        <div className="max-w-7xl mx-auto px-4 py-12">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {features.map((feature, index) => (
               <div key={index} className="text-center">
@@ -104,7 +99,7 @@ export function Footer() {
       </div>
 
       {/* Main Footer */}
-      <div className="container mx-auto px-4 py-12">
+      <div className="max-w-7xl mx-auto px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Brand Column */}
           <div className="space-y-4">
@@ -121,22 +116,6 @@ export function Footer() {
               Premium quality fitness supplements to help you achieve your goals
               faster and safer.
             </p>
-            <div className="flex space-x-3">
-              {[
-                { icon: <AiOutlineInstagram size={20} />, href: "#" },
-                { icon: <AiOutlineFacebook size={20} />, href: "#" },
-                { icon: <AiOutlineTwitter size={20} />, href: "#" },
-                { icon: <AiOutlineYoutube size={20} />, href: "#" },
-              ].map((social, idx) => (
-                <Link
-                  key={idx}
-                  href={social.href}
-                  className="bg-gray-100 text-gray-600 p-2 rounded-lg hover:bg-[#2E9692] hover:text-white transition-all duration-200"
-                >
-                  {social.icon}
-                </Link>
-              ))}
-            </div>
           </div>
 
           {/* Shop Links */}
@@ -204,21 +183,21 @@ export function Footer() {
         <div className="container mx-auto px-4 py-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
             <div className="flex items-center justify-center space-x-3">
-              <AiOutlineEnvironment className="h-5 w-5 text-[#2E9692]" />
+              <MapPin className="h-5 w-5 text-[#2E9692]" />
               <div>
                 <h4 className="font-medium text-gray-900 text-sm">Address</h4>
                 <p className="text-gray-600 text-sm">Mumbai, Maharashtra</p>
               </div>
             </div>
             <div className="flex items-center justify-center space-x-3">
-              <AiOutlinePhone className="h-5 w-5 text-[#2E9692]" />
+              <Phone className="h-5 w-5 text-[#2E9692]" />
               <div>
                 <h4 className="font-medium text-gray-900 text-sm">Phone</h4>
                 <p className="text-gray-600 text-sm">+91 98765 43210</p>
               </div>
             </div>
             <div className="flex items-center justify-center space-x-3">
-              <AiOutlineMail className="h-5 w-5 text-[#2E9692]" />
+              <Mail className="h-5 w-5 text-[#2E9692]" />
               <div>
                 <h4 className="font-medium text-gray-900 text-sm">Email</h4>
                 <p className="text-gray-600 text-sm">info@genuinevitals.com</p>

@@ -385,7 +385,7 @@ const FeaturedProducts = ({
                       />
                     ))}
                   </div>
-                  <span className="text-xs text-gray-500">
+                  <span className="text-[10px] sm:text-xs text-gray-500">
                     ({product.reviewCount || 0})
                   </span>
                 </div>
@@ -405,7 +405,7 @@ const FeaturedProducts = ({
                       ₹{product.basePrice || 0}
                     </span>
                     {product.hasSale && (
-                      <span className="text-sm text-gray-500 line-through">
+                      <span className="text-xs sm:text-sm text-gray-500 line-through">
                         ₹{product.regularPrice || 0}
                       </span>
                     )}
@@ -779,7 +779,7 @@ export default function Home() {
       <CategoriesSection />
 
       {/* Featured Products Section */}
-      <section className="py-16 bg-gray-50">
+      <section className="py-20 bg-gray-50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">

@@ -4,17 +4,6 @@ import Link from "next/link";
 import { useAuth } from "@/lib/auth-context";
 import { useCart } from "@/lib/cart-context";
 import { useState, useEffect, useRef } from "react";
-import {
-  AiOutlineShoppingCart,
-  AiOutlineUser,
-  AiOutlineMenu,
-  AiOutlineClose,
-  AiOutlineSearch,
-  AiOutlineHeart,
-  AiOutlineDown,
-  AiOutlinePhone,
-  AiOutlineLogin,
-} from "react-icons/ai";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { useRouter, usePathname } from "next/navigation";
@@ -22,6 +11,17 @@ import { fetchApi } from "@/lib/utils";
 import { ClientOnly } from "./client-only";
 import Image from "next/image";
 import { toast, Toaster } from "sonner";
+import {
+  ArrowDown,
+  Heart,
+  LogIn,
+  Menu,
+  Phone,
+  Search,
+  ShoppingCart,
+  User,
+  X,
+} from "lucide-react";
 
 export function Navbar() {
   const { user, isAuthenticated, logout } = useAuth();
@@ -127,7 +127,7 @@ export function Navbar() {
           <div className="flex animate-scroll whitespace-nowrap">
             <div className="flex items-center space-x-8 text-sm min-w-full">
               <div className="flex items-center space-x-2">
-                <AiOutlinePhone className="h-4 w-4" />
+                <Phone className="h-4 w-4" />
                 <span>+91 98765 43210</span>
               </div>
               <span>🎉 Free shipping on orders over ₹999</span>
@@ -139,7 +139,7 @@ export function Navbar() {
             </div>
             <div className="flex items-center space-x-8 text-sm min-w-full">
               <div className="flex items-center space-x-2">
-                <AiOutlinePhone className="h-4 w-4" />
+                <Phone className="h-4 w-4" />
                 <span>+91 98765 43210</span>
               </div>
               <span>🎉 Free shipping on orders over ₹999</span>
@@ -179,7 +179,7 @@ export function Navbar() {
                   onClick={() => toggleDropdown("categories")}
                 >
                   <span>Categories</span>
-                  <AiOutlineDown
+                  <ArrowDown
                     className={`h-4 w-4 transition-transform duration-200 ${
                       activeDropdown === "categories" ? "rotate-180" : ""
                     }`}
@@ -266,7 +266,7 @@ export function Navbar() {
                         className="relative bg-white rounded-lg shadow-lg border border-gray-200 max-w-md mx-auto"
                       >
                         <div className="flex items-center p-3">
-                          <AiOutlineSearch className="h-5 w-5 text-gray-400 mr-3" />
+                          <Search className="h-5 w-5 text-gray-400 mr-3" />
                           <Input
                             ref={searchInputRef}
                             type="search"
@@ -280,7 +280,7 @@ export function Navbar() {
                             onClick={() => setIsSearchExpanded(false)}
                             className="ml-2 p-1 text-gray-400 hover:text-gray-600"
                           >
-                            <AiOutlineClose className="h-5 w-5" />
+                            <X className="h-5 w-5" />
                           </button>
                         </div>
                       </form>
@@ -291,7 +291,7 @@ export function Navbar() {
                     onClick={() => setIsSearchExpanded(true)}
                     className="p-2 text-gray-700 hover:text-[#2E9692] transition-colors duration-200"
                   >
-                    <AiOutlineSearch className="h-5 w-5" />
+                    <Search className="h-5 w-5" />
                   </button>
                 )}
               </div>
@@ -301,7 +301,7 @@ export function Navbar() {
                 href="/wishlist"
                 className="hidden md:block p-2 text-gray-700 hover:text-[#2E9692] transition-colors duration-200"
               >
-                <AiOutlineHeart className="h-5 w-5" />
+                <Heart className="h-5 w-5" />
               </Link>
 
               {/* Cart */}
@@ -310,7 +310,7 @@ export function Navbar() {
                   href="/cart"
                   className="relative p-2 text-gray-700 hover:text-[#2E9692] transition-colors duration-200"
                 >
-                  <AiOutlineShoppingCart className="h-5 w-5" />
+                  <ShoppingCart className="h-5 w-5" />
                   {cart && cart.items?.length > 0 && (
                     <span className="absolute -top-1 -right-1 bg-[#2E9692] text-white rounded-full text-xs w-5 h-5 flex items-center justify-center">
                       {cart.items.reduce((acc, item) => acc + item.quantity, 0)}
@@ -334,16 +334,16 @@ export function Navbar() {
                   >
                     {isAuthenticated ? (
                       <>
-                        <AiOutlineUser className="h-5 w-5" />
+                        <User className="h-5 w-5" />
                         <span className="text-sm font-medium">Account</span>
                       </>
                     ) : (
                       <>
-                        <AiOutlineLogin className="h-5 w-5" />
+                        <LogIn className="h-5 w-5" />
                         <span className="text-sm font-medium">Login</span>
                       </>
                     )}
-                    <AiOutlineDown
+                    <ArrowDown
                       className={`h-4 w-4 transition-transform duration-200 ${
                         activeDropdown === "account" ? "rotate-180" : ""
                       }`}
@@ -351,7 +351,7 @@ export function Navbar() {
                   </button>
 
                   <div
-                    className={`absolute right-0 top-full mt-2 w-64 bg-white shadow-lg rounded-lg py-3 border border-gray-200 z-50 transition-all duration-200 ease-in-out ${
+                    className={`absolute right-0 top-full mt-2 w-48 bg-white shadow-lg rounded-lg py-2 border border-gray-200 z-50 transition-all duration-200 ease-in-out ${
                       activeDropdown === "account"
                         ? "opacity-100 scale-100 translate-y-0"
                         : "opacity-0 scale-95 -translate-y-2 pointer-events-none"
@@ -359,79 +359,59 @@ export function Navbar() {
                   >
                     {isAuthenticated ? (
                       <>
-                        <div className="px-4 py-3 border-b border-gray-200">
-                          <p className="font-medium text-gray-900">
-                            Hi, {user?.name || "User"}
+                        <div className="px-4 py-2 border-b border-gray-200">
+                          <p className="text-sm text-gray-900 font-medium">
+                            {user?.name || "User"}
                           </p>
-                          <p className="text-sm text-gray-500 truncate">
-                            {user?.email}
-                          </p>
+                          <p className="text-xs text-gray-500">{user?.email}</p>
                         </div>
-                        <div className="py-2">
-                          <Link
-                            href="/account"
-                            className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-50 hover:text-[#2E9692]"
-                            onClick={() => setActiveDropdown(null)}
-                          >
-                            <AiOutlineUser className="h-4 w-4 mr-3" />
-                            My Profile
-                          </Link>
-                          <Link
-                            href="/account/orders"
-                            className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-50 hover:text-[#2E9692]"
-                            onClick={() => setActiveDropdown(null)}
-                          >
-                            <AiOutlineShoppingCart className="h-4 w-4 mr-3" />
-                            Order History
-                          </Link>
-                          <Link
-                            href="/wishlist"
-                            className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-50 hover:text-[#2E9692]"
-                            onClick={() => setActiveDropdown(null)}
-                          >
-                            <AiOutlineHeart className="h-4 w-4 mr-3" />
-                            My Wishlist
-                          </Link>
-                        </div>
-                        <div className="border-t border-gray-200 pt-2">
+                        <Link
+                          href="/account"
+                          className="block px-4 py-2 text-gray-700 hover:bg-gray-50 hover:text-[#2E9692] transition-colors duration-200"
+                          onClick={() => setActiveDropdown(null)}
+                        >
+                          My Account
+                        </Link>
+                        <Link
+                          href="/account/orders"
+                          className="block px-4 py-2 text-gray-700 hover:bg-gray-50 hover:text-[#2E9692] transition-colors duration-200"
+                          onClick={() => setActiveDropdown(null)}
+                        >
+                          Orders
+                        </Link>
+                        <Link
+                          href="/wishlist"
+                          className="block px-4 py-2 text-gray-700 hover:bg-gray-50 hover:text-[#2E9692] transition-colors duration-200"
+                          onClick={() => setActiveDropdown(null)}
+                        >
+                          Wishlist
+                        </Link>
+                        <div className="border-t border-gray-200 mt-2 pt-2">
                           <button
-                            onClick={() => {
-                              handleLogout();
-                              setActiveDropdown(null);
-                            }}
-                            className="flex w-full items-center px-4 py-2 text-red-600 hover:bg-red-50"
+                            onClick={handleLogout}
+                            className="block w-full text-left px-4 py-2 text-red-600 hover:bg-gray-50 transition-colors duration-200"
                           >
-                            <AiOutlineLogin className="h-4 w-4 mr-3" />
                             Logout
                           </button>
                         </div>
                       </>
                     ) : (
-                      <div className="p-4">
-                        <h3 className="font-medium mb-2">Welcome!</h3>
-                        <p className="text-sm text-gray-500 mb-4">
-                          Sign in to access your account
-                        </p>
+                      <>
                         <Link
                           href="/login"
+                          className="block px-4 py-2 text-gray-700 hover:bg-gray-50 hover:text-[#2E9692] transition-colors duration-200"
                           onClick={() => setActiveDropdown(null)}
                         >
-                          <Button className="w-full mb-2 bg-[#2E9692] hover:bg-[#2E9692]/90">
-                            Login
-                          </Button>
+                          Login
                         </Link>
                         <Link
                           href="/register"
+                          className="block px-4 py-2 text-gray-700 hover:bg-gray-50 hover:text-[#2E9692] transition-colors duration-200"
                           onClick={() => setActiveDropdown(null)}
                         >
-                          <Button
-                            variant="outline"
-                            className="w-full border-[#2E9692] text-[#2E9692] hover:bg-[#2E9692]/10"
-                          >
-                            Register
-                          </Button>
+                          Register
                         </Link>
-                      </div>
+                      </>
                     )}
                   </div>
                 </ClientOnly>
@@ -440,170 +420,145 @@ export function Navbar() {
               {/* Mobile menu button */}
               <button
                 className="lg:hidden p-2 text-gray-700 hover:text-[#2E9692] transition-colors duration-200"
-                onClick={() => setIsMenuOpen(true)}
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
               >
-                <AiOutlineMenu className="h-6 w-6" />
+                {isMenuOpen ? (
+                  <X className="h-6 w-6" />
+                ) : (
+                  <Menu className="h-6 w-6" />
+                )}
               </button>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Mobile Menu */}
-      <ClientOnly>
-        {isMenuOpen && (
-          <div className="fixed inset-0 z-50 lg:hidden">
-            <div
-              className="fixed inset-0 bg-black/50"
-              onClick={() => setIsMenuOpen(false)}
+      {/* Mobile menu */}
+      <div
+        className={`lg:hidden bg-white border-t border-gray-200 transition-all duration-300 ease-in-out ${
+          isMenuOpen
+            ? "max-h-96 opacity-100"
+            : "max-h-0 opacity-0 overflow-hidden"
+        }`}
+      >
+        <div className="container mx-auto px-4 py-4 space-y-4">
+          {/* Mobile search */}
+          <form onSubmit={handleSearch} className="flex space-x-2">
+            <Input
+              type="search"
+              placeholder="Search products..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="flex-1"
             />
-            <div className="fixed inset-y-0 left-0 w-full max-w-sm bg-white shadow-xl">
-              <div className="flex items-center justify-between p-4 border-b border-gray-200">
-                <Link href="/" onClick={() => setIsMenuOpen(false)}>
-                  <Image
-                    src="/logo.jpeg"
-                    alt="Genuine Vitals"
-                    width={100}
-                    height={30}
-                    className="rounded-lg"
-                  />
-                </Link>
-                <button
-                  onClick={() => setIsMenuOpen(false)}
-                  className="p-2 text-gray-400 hover:text-gray-600"
-                >
-                  <AiOutlineClose className="h-6 w-6" />
-                </button>
-              </div>
+            <Button type="submit" size="sm" className="bg-[#2E9692]">
+              <Search className="h-4 w-4" />
+            </Button>
+          </form>
 
-              <div className="p-4 space-y-4">
-                {/* Search */}
-                <form onSubmit={handleSearch} className="relative">
-                  <AiOutlineSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-                  <Input
-                    type="text"
-                    placeholder="Search products..."
-                    className="w-full pl-10"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                  />
-                </form>
+          {/* Mobile navigation */}
+          <div className="space-y-2">
+            <Link
+              href="/products"
+              className="block py-2 text-gray-700 hover:text-[#2E9692] font-medium"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              All Products
+            </Link>
+            <Link
+              href="/categories"
+              className="block py-2 text-gray-700 hover:text-[#2E9692] font-medium"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Categories
+            </Link>
+            <Link
+              href="/blog"
+              className="block py-2 text-gray-700 hover:text-[#2E9692] font-medium"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Blog
+            </Link>
+            <Link
+              href="/about"
+              className="block py-2 text-gray-700 hover:text-[#2E9692] font-medium"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              About
+            </Link>
+            <Link
+              href="/contact"
+              className="block py-2 text-gray-700 hover:text-[#2E9692] font-medium"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Contact
+            </Link>
+          </div>
 
-                {/* Navigation Links */}
+          {/* Mobile account section */}
+          <div className="border-t border-gray-200 pt-4">
+            <ClientOnly>
+              {isAuthenticated ? (
                 <div className="space-y-2">
-                  <Link
-                    href="/products"
-                    className="block py-2 text-gray-700 hover:text-[#2E9692] font-medium"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    All Products
-                  </Link>
-
-                  <div className="border-b pb-2 mb-2">
-                    <h3 className="font-medium text-gray-900 mb-2">
-                      Categories
-                    </h3>
-                    <div className="space-y-1 pl-4">
-                      {categories.map((category) => (
-                        <Link
-                          key={category.id}
-                          href={`/category/${category.slug}`}
-                          className="block py-1 text-gray-600 hover:text-[#2E9692]"
-                          onClick={() => setIsMenuOpen(false)}
-                        >
-                          {category.name}
-                        </Link>
-                      ))}
-                    </div>
+                  <div className="py-2">
+                    <p className="text-sm text-gray-900 font-medium">
+                      {user?.name || "User"}
+                    </p>
+                    <p className="text-xs text-gray-500">{user?.email}</p>
                   </div>
-
                   <Link
-                    href="/blog"
-                    className="block py-2 text-gray-700 hover:text-[#2E9692] font-medium"
+                    href="/account"
+                    className="block py-2 text-gray-700 hover:text-[#2E9692]"
                     onClick={() => setIsMenuOpen(false)}
                   >
-                    Blog
+                    My Account
                   </Link>
                   <Link
-                    href="/about"
-                    className="block py-2 text-gray-700 hover:text-[#2E9692] font-medium"
+                    href="/account/orders"
+                    className="block py-2 text-gray-700 hover:text-[#2E9692]"
                     onClick={() => setIsMenuOpen(false)}
                   >
-                    About
-                  </Link>
-                  <Link
-                    href="/contact"
-                    className="block py-2 text-gray-700 hover:text-[#2E9692] font-medium"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    Contact
+                    Orders
                   </Link>
                   <Link
                     href="/wishlist"
-                    className="block py-2 text-gray-700 hover:text-[#2E9692] font-medium"
+                    className="block py-2 text-gray-700 hover:text-[#2E9692]"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     Wishlist
                   </Link>
+                  <button
+                    onClick={() => {
+                      handleLogout();
+                      setIsMenuOpen(false);
+                    }}
+                    className="block w-full text-left py-2 text-red-600"
+                  >
+                    Logout
+                  </button>
                 </div>
-
-                {/* Account section */}
-                <div className="border-t pt-4">
-                  {isAuthenticated ? (
-                    <div className="space-y-2">
-                      <p className="font-medium text-gray-900">
-                        Hi, {user?.name}
-                      </p>
-                      <Link
-                        href="/account"
-                        className="block py-2 text-gray-700 hover:text-[#2E9692]"
-                        onClick={() => setIsMenuOpen(false)}
-                      >
-                        My Account
-                      </Link>
-                      <Link
-                        href="/account/orders"
-                        className="block py-2 text-gray-700 hover:text-[#2E9692]"
-                        onClick={() => setIsMenuOpen(false)}
-                      >
-                        My Orders
-                      </Link>
-                      <button
-                        onClick={() => {
-                          handleLogout();
-                          setIsMenuOpen(false);
-                        }}
-                        className="block w-full text-left py-2 text-red-600 hover:text-red-800"
-                      >
-                        Logout
-                      </button>
-                    </div>
-                  ) : (
-                    <div className="space-y-3">
-                      <Link href="/login" onClick={() => setIsMenuOpen(false)}>
-                        <Button className="w-full bg-[#2E9692] hover:bg-[#2E9692]/90">
-                          Login
-                        </Button>
-                      </Link>
-                      <Link
-                        href="/register"
-                        onClick={() => setIsMenuOpen(false)}
-                      >
-                        <Button
-                          variant="outline"
-                          className="w-full border-[#2E9692] text-[#2E9692] hover:bg-[#2E9692]/10"
-                        >
-                          Register
-                        </Button>
-                      </Link>
-                    </div>
-                  )}
+              ) : (
+                <div className="space-y-2">
+                  <Link
+                    href="/login"
+                    className="block py-2 text-gray-700 hover:text-[#2E9692]"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Login
+                  </Link>
+                  <Link
+                    href="/register"
+                    className="block py-2 text-gray-700 hover:text-[#2E9692]"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Register
+                  </Link>
                 </div>
-              </div>
-            </div>
+              )}
+            </ClientOnly>
           </div>
-        )}
-      </ClientOnly>
+        </div>
+      </div>
     </header>
   );
 }
