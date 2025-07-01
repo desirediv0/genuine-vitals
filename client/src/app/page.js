@@ -86,7 +86,7 @@ const ModernHero = () => {
   ];
 
   return (
-    <section className="relative min-h-screen bg-gray-50 overflow-hidden p-10 md:p-0">
+    <section className="relative min-h-screen bg-gray-50 overflow-hidden p-5 md:p-0">
       <Carousel setApi={setApi} className="w-full md:h-screen">
         <CarouselContent>
           {heroSlides.map((slide, index) => (
@@ -215,7 +215,7 @@ const ModernHero = () => {
                           </div>
                         </div>
 
-                        <div className="absolute -bottom-4 -left-4 bg-white rounded-xl p-4 shadow-xl border border-gray-100">
+                        <div className=" md:block hidden absolute -bottom-4 -left-4 bg-white rounded-xl p-4 shadow-xl border border-gray-100">
                           <div className="flex items-center gap-2">
                             <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
                               <CheckCircle className="h-4 w-4 text-white" />
@@ -245,7 +245,7 @@ const ModernHero = () => {
       {/* Trust Indicators */}
       <div className="absolute bottom-0 left-0 right-0 bg-white/95 backdrop-blur-sm border-t border-gray-200">
         <div className="container mx-auto px-4 py-4">
-          <div className="flex justify-center items-center gap-8 text-sm text-gray-600">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-sm text-gray-600">
             <div className="flex items-center gap-2">
               <Shield className="h-4 w-4 text-primary" />
               <span>100% Authentic</span>

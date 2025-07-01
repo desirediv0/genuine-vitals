@@ -76,7 +76,7 @@ export default function RegisterPage() {
           <div className="text-center mb-8">
             <Link href="/" className="inline-block">
               <Image
-                src="/logo.jpeg"
+                src="/logo.png"
                 alt="Logo"
                 width={100}
                 height={100}
