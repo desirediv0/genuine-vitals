@@ -5,7 +5,21 @@ import Link from "next/link";
 import Image from "next/image";
 import { fetchApi } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Star, ChevronRight, Heart, Eye } from "lucide-react";
+import {
+  ArrowRight,
+  Star,
+  Eye,
+  Zap,
+  Shield,
+  Truck,
+  Gift,
+  Phone,
+  MapPin,
+  Users,
+  Award,
+  Clock,
+  Trophy,
+} from "lucide-react";
 import {
   Carousel,
   CarouselContent,
@@ -14,346 +28,282 @@ import {
   CarouselNext,
 } from "@/components/ui/carousel";
 import { motion } from "framer-motion";
-import GymSupplementShowcase from "@/components/showcase";
-import BenefitsSec from "@/components/benifit-sec";
-import FeaturedCategoriesSection from "@/components/catgry";
-import Headtext from "@/components/ui/headtext";
 import ProductQuickView from "@/components/ProductQuickView";
 
-// Hero Carousel Component
-const HeroCarousel = () => {
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const [api, setApi] = useState(null);
-
-  const slides = [
+// Hero Section with Carousel
+const ModernHero = () => {
+  const heroSlides = [
     {
-      title: ["UNLEASH", "YOUR", "POTENTIAL"],
-      subtitle: "Pre-workout supplements that deliver real power",
+      title: "Transform Your Body",
+      subtitle: "Premium Supplements",
       description:
-        "Elevate your workouts with our premium pre-workout formulas",
-      cta: "DISCOVER MORE",
-      ctaLink: "/category/pre-workout",
-      bgColor: "from-rose-500 to-orange-500",
-      image: "/images/hero-1.jpg",
-      video: "/video.mp4",
+        "Discover high-quality fitness supplements designed to help you achieve your goals faster.",
+      image: "/c3.jpg",
+      bgColor: "from-[#2E9692] to-[#1a6b68]",
+      textColor: "text-white",
     },
     {
-      title: ["PREMIUM", "PROTEIN", "FORMULA"],
-      subtitle: "Advanced supplements for maximum results",
+      title: "Build Lean Muscle",
+      subtitle: "Protein Power",
       description:
-        "Science-backed protein supplements for optimal muscle growth",
-      cta: "SHOP PROTEIN",
-      ctaLink: "/category/protein",
-      bgColor: "from-blue-600 to-cyan-500",
-      image: "/images/hero-2.jpg",
+        "Get 25g of premium protein per serving with our scientifically formulated blends.",
+      image: "/c3.jpg",
+      bgColor: "from-[#D5DA2A] to-[#b8bd22]",
+      textColor: "text-gray-900",
     },
     {
-      title: ["TRANSFORM", "YOUR", "JOURNEY"],
-      subtitle: "Quality supplements for peak performance",
-      description: "Complete your fitness journey with our trusted products",
-      cta: "EXPLORE NOW",
-      ctaLink: "/products",
-      bgColor: "from-[#2E9692] to-[#D5DA2A]",
-      image: "/images/hero-3.jpg",
+      title: "Boost Your Energy",
+      subtitle: "Pre-Workout Excellence",
+      description:
+        "Unleash your potential with our explosive pre-workout formulas for maximum performance.",
+      image: "/c3.jpg",
+      bgColor: "from-purple-600 to-purple-800",
+      textColor: "text-white",
     },
   ];
 
-  useEffect(() => {
-    if (!api) return;
-    api.on("select", () => setCurrentSlide(api.selectedScrollSnap()));
-    return () => api.off("select", () => {});
-  }, [api]);
-
-  const textVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: (i) => ({
-      opacity: 1,
-      y: 0,
-      transition: {
-        delay: i * 0.15,
-        duration: 0.8,
-        ease: "easeOut",
-      },
-    }),
-  };
-
   return (
-    <div className="relative w-full h-auto bg-black">
-      <Carousel
-        setApi={setApi}
-        className="h-full"
-        opts={{
-          loop: true,
-          dragFree: true,
-        }}
-      >
-        <CarouselContent className="h-full">
-          {slides.map((slide, index) => (
-            <CarouselItem
-              key={index}
-              className=" relative md:h-[600px] h-[500px]"
-            >
-              <div className="relative h-full w-full overflow-hidden group">
-                {/* Background Gradients */}
-                <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/50 to-transparent z-10 transition-opacity duration-500 group-hover:opacity-75" />
-                <div
-                  className={`absolute inset-0 bg-gradient-to-tr ${slide.bgColor} opacity-40 transition-opacity duration-500 group-hover:opacity-50`}
-                />
+    <section className="relative min-h-screen overflow-hidden">
+      <Carousel className="w-full h-screen">
+        <CarouselContent>
+          {heroSlides.map((slide, index) => (
+            <CarouselItem key={index} className="min-h-screen">
+              <div
+                className={`relative min-h-screen bg-gradient-to-br ${slide.bgColor} flex items-center justify-center overflow-hidden`}
+              >
+                {/* Dynamic Background Pattern */}
+                <div className="absolute inset-0 overflow-hidden">
+                  <div className="absolute -top-20 -right-20 w-80 h-80 bg-white/10 rounded-full blur-3xl animate-pulse"></div>
+                  <div className="absolute -bottom-20 -left-20 w-80 h-80 bg-white/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
+                  <div className="absolute top-1/3 right-1/3 w-60 h-60 bg-white/5 rounded-full blur-2xl animate-float"></div>
 
-                {/* Background Media */}
-                <div className="absolute inset-0">
-                  {index === 0 && slide.video ? (
-                    <video
-                      autoPlay
-                      muted
-                      loop
-                      playsInline
-                      className="object-cover w-full h-full"
-                    >
-                      <source src={slide.video} type="video/mp4" />
-                    </video>
-                  ) : (
-                    <Image
-                      src={slide.image || "/banner-background.jpg"}
-                      alt="Background"
-                      fill
-                      className="object-cover transform scale-100 group-hover:scale-105 transition-transform duration-4000"
-                      priority
-                    />
-                  )}
+                  {/* Floating Elements */}
+                  <div className="absolute top-20 left-20 w-4 h-4 bg-white/30 rounded-full animate-bounce"></div>
+                  <div className="absolute bottom-32 right-32 w-3 h-3 bg-white/40 rounded-full animate-bounce delay-500"></div>
+                  <div className="absolute top-1/2 left-10 w-2 h-2 bg-white/20 rounded-full animate-pulse"></div>
+                  <div className="absolute bottom-1/4 left-1/3 w-5 h-5 bg-white/25 rounded-full animate-ping"></div>
+
+                  {/* Geometric Shapes */}
+                  <div className="absolute top-1/4 right-1/4 w-16 h-16 border-2 border-white/20 rotate-45 animate-spin-slow"></div>
+                  <div className="absolute bottom-1/3 left-1/4 w-12 h-12 border border-white/30 rounded-full animate-pulse delay-700"></div>
                 </div>
 
-                {/* Content */}
-                <div className="relative h-full z-20">
-                  <div className="container mx-auto px-4 h-full flex flex-col justify-center">
-                    <div className="max-w-4xl space-y-8">
-                      {/* Title Animation */}
-                      <div className="space-y-3">
-                        {slide.title.map((word, i) => (
-                          <motion.div
-                            key={i}
-                            className="overflow-hidden"
-                            initial="hidden"
-                            animate={
-                              currentSlide === index ? "visible" : "hidden"
-                            }
-                            variants={textVariants}
-                            custom={i}
-                          >
-                            <h2 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white tracking-tight">
-                              {word}
-                            </h2>
-                          </motion.div>
-                        ))}
-                      </div>
-
-                      {/* Subtitle & Description */}
-                      <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={
-                          currentSlide === index
-                            ? { opacity: 1, y: 0 }
-                            : { opacity: 0, y: 20 }
-                        }
-                        transition={{ delay: 0.6, duration: 0.8 }}
-                        className="space-y-4"
-                      >
-                        <h3 className="text-xl md:text-2xl text-white font-medium">
+                <div className="container mx-auto px-4 relative z-10">
+                  <div className="grid lg:grid-cols-2 gap-12 items-center">
+                    {/* Content Side */}
+                    <motion.div
+                      initial={{ opacity: 0, x: -50 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.8, delay: index * 0.2 }}
+                      className={`${slide.textColor} space-y-8`}
+                    >
+                      <div>
+                        <h1 className="text-5xl md:text-7xl font-black leading-tight mb-4">
+                          {slide.title}
+                        </h1>
+                        <h2 className="text-3xl md:text-4xl font-bold mb-6 opacity-90">
                           {slide.subtitle}
-                        </h3>
-                        <p className="text-gray-200 text-base md:text-lg max-w-2xl">
+                        </h2>
+                        <p className="text-xl md:text-2xl opacity-80 max-w-xl leading-relaxed">
                           {slide.description}
                         </p>
-                      </motion.div>
+                      </div>
 
-                      {/* CTA Button */}
-                      <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={
-                          currentSlide === index
-                            ? { opacity: 1, y: 0 }
-                            : { opacity: 0, y: 20 }
-                        }
-                        transition={{ delay: 0.8, duration: 0.8 }}
-                      >
-                        <Link href={slide.ctaLink}>
+                      <div className="flex flex-col sm:flex-row gap-4">
+                        <Link href="/products">
                           <Button
-                            className="bg-white text-black hover:bg-gray-100 rounded-full px-8 py-6 text-lg font-medium transition-transform hover:scale-105"
                             size="lg"
+                            className="bg-white/20 backdrop-blur-sm border-2 border-white/30 text-white hover:bg-white/30 px-8 py-4 text-lg font-bold rounded-full shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300"
                           >
-                            {slide.cta}
-                            <ArrowRight className="ml-2 h-5 w-5" />
+                            Shop Now
+                            <ArrowRight className="ml-2 h-6 w-6" />
                           </Button>
                         </Link>
-                      </motion.div>
-                    </div>
+                        <Link href="/about">
+                          <Button
+                            variant="outline"
+                            size="lg"
+                            className="border-2 border-white/50 text-white hover:bg-white/10 px-8 py-4 text-lg font-bold rounded-full backdrop-blur-sm transition-all duration-300"
+                          >
+                            Learn More
+                          </Button>
+                        </Link>
+                      </div>
+
+                      {/* Stats */}
+                      <div className="grid grid-cols-3 gap-6 pt-8">
+                        <div className="text-center">
+                          <div className="text-3xl font-black mb-2">25g</div>
+                          <div className="text-sm opacity-80">
+                            Premium Protein
+                          </div>
+                        </div>
+                        <div className="text-center">
+                          <div className="text-3xl font-black mb-2">100%</div>
+                          <div className="text-sm opacity-80">Natural</div>
+                        </div>
+                        <div className="text-center">
+                          <div className="text-3xl font-black mb-2">24/7</div>
+                          <div className="text-sm opacity-80">Support</div>
+                        </div>
+                      </div>
+                    </motion.div>
+
+                    {/* Image Side */}
+                    <motion.div
+                      initial={{ opacity: 0, x: 50 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.8, delay: index * 0.2 + 0.3 }}
+                      className="relative"
+                    >
+                      <div className="relative w-full h-96 lg:h-[500px]">
+                        <div className="absolute inset-0 bg-white/10 rounded-3xl backdrop-blur-sm border border-white/20 shadow-2xl">
+                          <Image
+                            src={slide.image}
+                            alt="Fitness Supplement"
+                            fill
+                            className="object-cover rounded-3xl"
+                            sizes="(max-width: 768px) 100vw, 50vw"
+                          />
+                        </div>
+
+                        {/* Floating Badge */}
+                        <div className="absolute -top-4 -right-4 bg-white/20 backdrop-blur-sm border border-white/30 rounded-2xl p-4 shadow-xl">
+                          <div className="text-center">
+                            <Trophy className="h-8 w-8 text-white mx-auto mb-2" />
+                            <div className="text-white font-bold text-sm">
+                              Premium Quality
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </motion.div>
                   </div>
                 </div>
               </div>
             </CarouselItem>
           ))}
         </CarouselContent>
-
-        {/* Navigation Controls */}
-        <div className="container mx-auto px-4">
-          <CarouselPrevious className="absolute left-4 md:left-8 z-30 bg-white/10 hover:bg-white/20 border-none text-white backdrop-blur-sm" />
-          <CarouselNext className="absolute right-4 md:right-8 z-30 bg-white/10 hover:bg-white/20 border-none text-white backdrop-blur-sm" />
-        </div>
-
-        {/* Slide Indicators */}
-        <div className="absolute bottom-8 left-0 right-0 z-30">
-          <div className="container mx-auto px-4">
-            <div className="flex items-center gap-3">
-              {slides.map((_, i) => (
-                <button
-                  key={i}
-                  className={`h-2 rounded-full transition-all duration-300 ${
-                    currentSlide === i ? "w-8 bg-white" : "w-2 bg-white/50"
-                  }`}
-                  onClick={() => api?.scrollTo(i)}
-                  aria-label={`Go to slide ${i + 1}`}
-                />
-              ))}
-            </div>
-          </div>
-        </div>
+        <CarouselPrevious className="left-4 bg-white/20 backdrop-blur-sm border-white/30 text-white hover:bg-white/30" />
+        <CarouselNext className="right-4 bg-white/20 backdrop-blur-sm border-white/30 text-white hover:bg-white/30" />
       </Carousel>
-    </div>
+    </section>
   );
 };
 
-// Announcement Banner
-const AnnouncementBanner = () => {
+// Announcement Bar
+const AnnouncementBar = () => {
+  const announcements = [
+    {
+      icon: <Truck className="h-4 w-4" />,
+      text: "FREE SHIPPING ON ORDERS ₹999+",
+    },
+    { icon: <Gift className="h-4 w-4" />, text: "FREE SHAKER WITH PROTEIN" },
+    { icon: <Zap className="h-4 w-4" />, text: "USE CODE FIT10 FOR 10% OFF" },
+  ];
+
   return (
-    <div className="bg-gradient-to-r from-[#2E9692] to-[#D5DA2A] relative overflow-hidden">
-      <div className="absolute inset-0 bg-[url('/pattern.png')] opacity-10" />
-      <div className="container mx-auto relative">
-        <div className="flex items-center justify-between py-3 px-4">
-          <motion.div
-            initial={{ x: -100, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            transition={{ duration: 0.5 }}
-            className="flex items-center space-x-8"
-          >
-            <div className="hidden md:flex items-center space-x-2">
-              <span className="text-white">⚡</span>
-              <span className="text-white font-medium">
-                FREE SHIPPING ON ORDERS ABOVE ₹999
-              </span>
-            </div>
-            <div className="hidden lg:flex items-center space-x-2">
-              <span className="text-white">🎁</span>
-              <span className="text-white font-medium">
-                FREE SHAKER WITH PROTEIN PURCHASES
-              </span>
-            </div>
-            <div className="flex items-center space-x-2">
-              <span className="text-white">🔥</span>
-              <span className="text-white font-medium">
-                USE CODE{" "}
-                <span className="font-bold bg-white/20 px-2 py-0.5 rounded">
-                  FIT10
-                </span>{" "}
-                FOR 10% OFF
-              </span>
-            </div>
-          </motion.div>
-          <Link
-            href="/products"
-            className="hidden md:flex items-center text-white hover:text-white/90 font-medium transition-colors"
-          >
-            Shop Now
-            <ChevronRight className="h-4 w-4 ml-1" />
-          </Link>
+    <div className="bg-gray-900 py-2">
+      <div className="container mx-auto px-4">
+        <div className="flex justify-center">
+          <div className="flex items-center space-x-6 text-white text-sm">
+            {announcements.map((item, index) => (
+              <div key={index} className="flex items-center space-x-2">
+                {item.icon}
+                <span className="hidden sm:inline">{item.text}</span>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>
   );
 };
 
-// Utility functions for colors
-// Function to get a consistent color based on category name
-const getCategoryColor = (name) => {
-  const colors = [
-    "from-blue-700 to-blue-500",
-    "from-purple-700 to-purple-500",
-    "from-red-700 to-red-500",
-    "from-green-700 to-green-500",
-    "from-yellow-700 to-yellow-500",
-    "from-indigo-700 to-indigo-500",
-    "from-pink-700 to-pink-500",
-    "from-teal-700 to-teal-500",
+// Categories Section
+const CategoriesSection = () => {
+  const categories = [
+    {
+      name: "Protein Powder",
+      icon: "💪",
+      description: "Build lean muscle",
+      color: "from-blue-500 to-blue-600",
+    },
+    {
+      name: "Pre-Workout",
+      icon: "⚡",
+      description: "Energy & Focus",
+      color: "from-red-500 to-red-600",
+    },
+    {
+      name: "Weight Loss",
+      icon: "🔥",
+      description: "Burn fat fast",
+      color: "from-orange-500 to-orange-600",
+    },
+    {
+      name: "Vitamins",
+      icon: "🌟",
+      description: "Complete nutrition",
+      color: "from-green-500 to-green-600",
+    },
+    {
+      name: "Mass Gainers",
+      icon: "💯",
+      description: "Gain weight healthy",
+      color: "from-purple-500 to-purple-600",
+    },
+    {
+      name: "Recovery",
+      icon: "🧘",
+      description: "Post-workout care",
+      color: "from-teal-500 to-teal-600",
+    },
   ];
 
-  // Simple hash function to get consistent color for same category name
-  const index =
-    name.split("").reduce((acc, char) => acc + char.charCodeAt(0), 0) %
-    colors.length;
-  return colors[index];
+  return (
+    <section className="py-16 bg-white">
+      <div className="container mx-auto px-4">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            Shop by Category
+          </h2>
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            Find the perfect supplements for your fitness goals
+          </p>
+        </div>
+
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+          {categories.map((category, index) => (
+            <Link
+              href={`/products?category=${category.name}`}
+              key={index}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              viewport={{ once: true }}
+              className="group cursor-pointer"
+            >
+              <div className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-all duration-300 border border-gray-100 group-hover:scale-105 group-hover:border-[#2E9692]/20 text-center">
+                <div className="text-4xl mb-3 group-hover:scale-110 transition-transform duration-300">
+                  {category.icon}
+                </div>
+                <h3 className="text-lg font-semibold text-gray-900 mb-1 group-hover:text-[#2E9692] transition-colors">
+                  {category.name}
+                </h3>
+                <p className="text-sm text-gray-600 mb-2">
+                  {category.description}
+                </p>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
 };
 
-// Function to get a consistent color based on product name
-const getProductColor = (name) => {
-  const colors = [
-    "bg-blue-100",
-    "bg-purple-100",
-    "bg-red-100",
-    "bg-green-100",
-    "bg-yellow-100",
-    "bg-indigo-100",
-    "bg-pink-100",
-    "bg-teal-100",
-  ];
-
-  // Simple hash function to get consistent color for same product name
-  const index =
-    name.split("").reduce((acc, char) => acc + char.charCodeAt(0), 0) %
-    colors.length;
-  return colors[index];
-};
-
-// This returns a gradient background for categories without images
-const getCategoryGradient = (name) => {
-  const gradients = {
-    Protein: "from-orange-400 to-amber-600",
-    "Pre-Workout": "from-purple-500 to-indigo-600",
-    "Weight Loss": "from-green-400 to-teal-500",
-    Vitamins: "from-blue-400 to-cyan-500",
-    Performance: "from-red-400 to-rose-600",
-    Wellness: "from-pink-400 to-fuchsia-600",
-    Accessories: "from-gray-400 to-slate-600",
-  };
-
-  return gradients[name] || "from-primary/60 to-primary";
-};
-
-// Calculate number of items to show based on screen size
-function useWindowSize() {
-  const [size, setSize] = useState(4);
-
-  useEffect(() => {
-    function updateSize() {
-      if (window.innerWidth < 640) {
-        setSize(1);
-      } else if (window.innerWidth < 768) {
-        setSize(2);
-      } else if (window.innerWidth < 1024) {
-        setSize(3);
-      } else {
-        setSize(4);
-      }
-    }
-
-    window.addEventListener("resize", updateSize);
-    updateSize();
-
-    return () => window.removeEventListener("resize", updateSize);
-  }, []);
-
-  return size;
-}
-
-// Featured Products Component with modern card design
+// Featured Products
 const FeaturedProducts = ({
   products = [],
   isLoading = false,
@@ -364,7 +314,7 @@ const FeaturedProducts = ({
 
   if (isLoading) {
     return (
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {[...Array(8)].map((_, index) => (
           <ProductSkeleton key={index} />
         ))}
@@ -390,7 +340,7 @@ const FeaturedProducts = ({
 
   return (
     <>
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {products.map((product, index) => (
           <motion.div
             key={product.id || product.slug || index}
@@ -400,19 +350,19 @@ const FeaturedProducts = ({
             viewport={{ once: true }}
             className="group"
           >
-            <div className="relative bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
+            <div className="bg-white rounded-xl p-4 shadow-md hover:shadow-lg transition-all duration-300 border border-gray-100 hover:border-[#2E9692]/20">
               <Link href={`/products/${product.slug || ""}`}>
-                <div className="relative aspect-square bg-gray-50">
+                <div className="relative aspect-square bg-gray-50 rounded-lg mb-4 overflow-hidden">
                   <Image
                     src={product.image || "/product-placeholder.jpg"}
                     alt={product.name || "Product"}
                     fill
-                    className="object-contain p-6 transform group-hover:scale-110 transition-transform duration-500"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    className="object-contain p-3 group-hover:scale-110 transition-transform duration-500"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
                   />
                   {product.hasSale && (
-                    <div className="absolute top-4 left-4 z-10">
-                      <div className="bg-red-500 text-white text-xs font-bold px-3 py-1.5 rounded-full">
+                    <div className="absolute top-2 left-2 z-10">
+                      <div className="bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">
                         SALE
                       </div>
                     </div>
@@ -420,37 +370,13 @@ const FeaturedProducts = ({
                 </div>
               </Link>
 
-              {/* Quick Actions */}
-              <div className="absolute top-4 right-4 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                <Button
-                  variant="secondary"
-                  size="icon"
-                  className="h-9 w-9 rounded-full bg-white shadow-lg hover:scale-110 transition-transform"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setQuickViewProduct(product);
-                    setQuickViewOpen(true);
-                  }}
-                >
-                  <Eye className="h-4 w-4" />
-                </Button>
-                <Button
-                  variant="secondary"
-                  size="icon"
-                  className="h-9 w-9 rounded-full bg-white shadow-lg hover:scale-110 transition-transform"
-                >
-                  <Heart className="h-4 w-4" />
-                </Button>
-              </div>
-
-              <div className="p-4">
-                {/* Rating */}
-                <div className="flex items-center gap-1.5 mb-3">
+              <div className="space-y-2">
+                <div className="flex items-center gap-1">
                   <div className="flex text-yellow-400">
                     {[...Array(5)].map((_, i) => (
                       <Star
                         key={i}
-                        className="h-4 w-4"
+                        className="h-3 w-3"
                         fill={
                           i < Math.round(product.avgRating || 0)
                             ? "currentColor"
@@ -464,20 +390,18 @@ const FeaturedProducts = ({
                   </span>
                 </div>
 
-                {/* Product Info */}
                 <Link
                   href={`/products/${product.slug || ""}`}
-                  className="block group"
+                  className="block"
                 >
-                  <h3 className="font-medium text-gray-800 group-hover:text-primary transition-colors line-clamp-2">
+                  <h3 className="font-medium text-gray-900 hover:text-[#2E9692] transition-colors line-clamp-2 text-sm">
                     {product.name || "Product"}
                   </h3>
                 </Link>
 
-                {/* Price */}
-                <div className="mt-3 flex items-center justify-between">
+                <div className="flex items-center justify-between">
                   <div className="flex items-baseline gap-2">
-                    <span className="text-lg font-bold text-primary">
+                    <span className="text-lg font-bold text-[#2E9692]">
                       ₹{product.basePrice || 0}
                     </span>
                     {product.hasSale && (
@@ -486,11 +410,27 @@ const FeaturedProducts = ({
                       </span>
                     )}
                   </div>
-                  {(product.flavors || 0) > 1 && (
-                    <span className="text-xs text-gray-500 px-2 py-1 bg-gray-100 rounded-full">
-                      {product.flavors} variants
-                    </span>
-                  )}
+                </div>
+
+                <div className="flex gap-2 pt-2">
+                  <Button
+                    size="sm"
+                    className="flex-1 bg-[#2E9692] hover:bg-[#2E9692]/90 text-white rounded-lg text-xs"
+                  >
+                    Add to Cart
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="border-[#2E9692] text-[#2E9692] hover:bg-[#2E9692] hover:text-white rounded-lg"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setQuickViewProduct(product);
+                      setQuickViewOpen(true);
+                    }}
+                  >
+                    <Eye className="h-3 w-3" />
+                  </Button>
                 </div>
               </div>
             </div>
@@ -498,21 +438,14 @@ const FeaturedProducts = ({
         ))}
       </div>
 
-      <div className="text-center mt-16">
+      <div className="text-center mt-12">
         <Link href="/products">
           <Button
-            variant="outline"
             size="lg"
-            className="font-medium border-2 border-primary text-primary hover:bg-primary hover:text-white rounded-full px-8 py-6 group"
+            className="bg-gradient-to-r from-[#2E9692] to-[#D5DA2A] hover:from-[#2E9692]/90 hover:to-[#D5DA2A]/90 text-white px-12 py-3 rounded-full font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
           >
             View All Products
-            <motion.span
-              className="inline-block ml-2"
-              whileHover={{ x: 5 }}
-              transition={{ type: "spring", stiffness: 300 }}
-            >
-              <ArrowRight className="h-5 w-5" />
-            </motion.span>
+            <ArrowRight className="ml-2 h-5 w-5" />
           </Button>
         </Link>
       </div>
@@ -526,117 +459,205 @@ const FeaturedProducts = ({
   );
 };
 
+// Why Choose Us Section
+const WhyChooseUsSection = () => {
+  const features = [
+    {
+      title: "Lab Tested Quality",
+      description: "Every product is third-party tested for purity and potency",
+      icon: <Shield className="h-8 w-8" />,
+    },
+    {
+      title: "Fast Delivery",
+      description: "Free shipping on orders above ₹999 across India",
+      icon: <Truck className="h-8 w-8" />,
+    },
+    {
+      title: "Expert Support",
+      description: "Get guidance from certified nutritionists",
+      icon: <Phone className="h-8 w-8" />,
+    },
+    {
+      title: "Money Back Guarantee",
+      description: "100% satisfaction guaranteed or your money back",
+      icon: <Award className="h-8 w-8" />,
+    },
+  ];
+
+  return (
+    <section className="py-16 bg-gray-50">
+      <div className="container mx-auto px-4">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            Why Choose Genuine Vitals
+          </h2>
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            We're committed to providing you with the best supplements and
+            service
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          {features.map((feature, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              viewport={{ once: true }}
+              className="text-center group"
+            >
+              <div className="bg-gradient-to-br from-[#2E9692]/10 to-[#D5DA2A]/10 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
+                <div className="text-[#2E9692]">{feature.icon}</div>
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">
+                {feature.title}
+              </h3>
+              <p className="text-gray-600 leading-relaxed">
+                {feature.description}
+              </p>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+// Stats Section
+const StatsSection = () => {
+  const stats = [
+    {
+      number: "50K+",
+      label: "Happy Customers",
+      icon: <Users className="h-6 w-6" />,
+    },
+    {
+      number: "100+",
+      label: "Premium Products",
+      icon: <Award className="h-6 w-6" />,
+    },
+    {
+      number: "500+",
+      label: "Cities Delivered",
+      icon: <MapPin className="h-6 w-6" />,
+    },
+    {
+      number: "24/7",
+      label: "Customer Support",
+      icon: <Clock className="h-6 w-6" />,
+    },
+  ];
+
+  return (
+    <section className="py-16 bg-gradient-to-r from-[#2E9692] to-[#D5DA2A]">
+      <div className="container mx-auto px-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+          {stats.map((stat, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, scale: 0.5 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              viewport={{ once: true }}
+              className="text-white"
+            >
+              <div className="flex justify-center mb-3 text-white/80">
+                {stat.icon}
+              </div>
+              <div className="text-3xl md:text-4xl font-bold mb-2">
+                {stat.number}
+              </div>
+              <div className="text-sm font-medium opacity-90">{stat.label}</div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
 // Testimonials Section
 const TestimonialsSection = () => {
   const testimonials = [
     {
       name: "Ravi Sharma",
       role: "Fitness Enthusiast",
-      avatar: "/avatar1.jpg",
       quote:
-        "These supplements have completely transformed my fitness journey. The quality and results are unmatched!",
+        "Amazing quality supplements! Saw results within 2 weeks of using their protein powder.",
       rating: 5,
+      location: "Mumbai",
     },
     {
       name: "Priya Patel",
       role: "Yoga Instructor",
-      avatar: "/avatar2.jpg",
       quote:
-        "Clean ingredients and exceptional quality. I confidently recommend these products to all my clients.",
+        "Clean ingredients and great taste. I recommend these to all my students.",
       rating: 5,
+      location: "Delhi",
     },
     {
       name: "Arjun Singh",
       role: "Professional Athlete",
-      avatar: "/avatar3.jpg",
       quote:
-        "The performance boost from these supplements is incredible. They've become an essential part of my training.",
+        "The pre-workout gives me incredible energy. Perfect for intense training sessions.",
       rating: 5,
+      location: "Bangalore",
     },
   ];
 
   return (
-    <section className="py-24 relative overflow-hidden bg-gradient-to-b from-white to-gray-50">
-      {/* Background Elements */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-0 left-1/4 w-64 h-64 bg-[#2E9692]/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 right-1/4 w-64 h-64 bg-[#D5DA2A]/10 rounded-full blur-3xl" />
-      </div>
-
-      <div className="container mx-auto px-4 relative">
-        <div className="text-center mb-16">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-          >
-            <Headtext
-              title={"VOICES OF SUCCESS"}
-              subtitle={
-                "Real stories from our community members who've experienced remarkable transformations"
-              }
-            />
-          </motion.div>
+    <section className="py-16 bg-white">
+      <div className="container mx-auto px-4">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            What Our Customers Say
+          </h2>
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            Real stories from real people who achieved their fitness goals
+          </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {testimonials.map((testimonial, index) => (
             <motion.div
               key={index}
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: index * 0.2 }}
               viewport={{ once: true }}
-              className="relative"
+              className="group"
             >
-              <div className="bg-white rounded-2xl p-6 shadow-xl hover:shadow-2xl transition-shadow relative z-10">
-                {/* Decorative Elements */}
-                <div className="absolute -top-3 -right-3 w-20 h-20 bg-gradient-to-br from-[#2E9692] to-[#D5DA2A] rounded-full opacity-10" />
+              <div className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 h-full border border-gray-100 group-hover:border-[#2E9692]/20">
+                <div className="flex items-center gap-1 mb-4">
+                  {[...Array(5)].map((_, i) => (
+                    <Star
+                      key={i}
+                      className={`h-4 w-4 ${
+                        i < testimonial.rating
+                          ? "text-[#D5DA2A] fill-[#D5DA2A]"
+                          : "text-gray-300"
+                      }`}
+                    />
+                  ))}
+                </div>
 
-                {/* Quote */}
-                <div className="relative">
-                  <div className="mb-6">
-                    <svg
-                      className="w-10 h-10 text-gray-200"
-                      fill="currentColor"
-                      viewBox="0 0 32 32"
-                    >
-                      <path d="M9.352 4C4.456 7.456 1 13.12 1 19.36c0 5.088 3.072 8.064 6.624 8.064 3.36 0 5.856-2.688 5.856-5.856 0-3.168-2.208-5.472-5.088-5.472-.576 0-1.344.096-1.536.192.48-3.264 3.552-7.104 6.624-9.024L9.352 4zm16.512 0c-4.8 3.456-8.256 9.12-8.256 15.36 0 5.088 3.072 8.064 6.624 8.064 3.264 0 5.856-2.688 5.856-5.856 0-3.168-2.304-5.472-5.184-5.472-.576 0-1.248.096-1.44.192.48-3.264 3.456-7.104 6.528-9.024L25.864 4z" />
-                    </svg>
+                <p className="text-gray-700 mb-6 leading-relaxed">
+                  "{testimonial.quote}"
+                </p>
+
+                <div className="flex items-center">
+                  <div className="w-12 h-12 bg-gradient-to-r from-[#2E9692] to-[#D5DA2A] rounded-full flex items-center justify-center text-white font-bold">
+                    {testimonial.name.charAt(0)}
                   </div>
-
-                  <p className="text-gray-700 text-lg font-medium italic mb-6">
-                    &quot;{testimonial.quote}&quot;
-                  </p>
-
-                  {/* Rating */}
-                  <div className="flex items-center gap-1 mb-4">
-                    {[...Array(5)].map((_, i) => (
-                      <Star
-                        key={i}
-                        className={`h-5 w-5 ${
-                          i < testimonial.rating
-                            ? "text-yellow-400 fill-yellow-400"
-                            : "text-gray-300"
-                        }`}
-                      />
-                    ))}
-                  </div>
-
-                  {/* Profile */}
-                  <div className="flex items-center">
-                    <div className="w-12 h-12 rounded-full overflow-hidden bg-gradient-to-br from-[#2E9692] to-[#D5DA2A] flex items-center justify-center text-white font-bold text-lg">
-                      {testimonial.name.charAt(0)}
-                    </div>
-                    <div className="ml-4">
-                      <h4 className="font-semibold text-gray-900">
-                        {testimonial.name}
-                      </h4>
-                      <p className="text-sm text-gray-500">
-                        {testimonial.role}
-                      </p>
-                    </div>
+                  <div className="ml-3">
+                    <h4 className="font-semibold text-gray-900">
+                      {testimonial.name}
+                    </h4>
+                    <p className="text-sm text-gray-600">{testimonial.role}</p>
+                    <p className="text-sm text-[#2E9692] font-medium">
+                      {testimonial.location}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -648,18 +669,81 @@ const TestimonialsSection = () => {
   );
 };
 
+// Newsletter Section
+const NewsletterSection = () => {
+  const [email, setEmail] = useState("");
+  const [isSubscribed, setIsSubscribed] = useState(false);
+
+  const handleSubscribe = (e) => {
+    e.preventDefault();
+    if (email) {
+      setIsSubscribed(true);
+      setEmail("");
+      setTimeout(() => setIsSubscribed(false), 3000);
+    }
+  };
+
+  return (
+    <section className="py-16 bg-gray-50">
+      <div className="container mx-auto px-4">
+        <div className="max-w-3xl mx-auto text-center">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            Stay Updated
+          </h2>
+          <p className="text-lg text-gray-600 mb-8">
+            Get the latest fitness tips, product launches, and exclusive offers
+          </p>
+
+          <form
+            onSubmit={handleSubscribe}
+            className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto"
+          >
+            <input
+              type="email"
+              placeholder="Enter your email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="flex-1 px-4 py-3 rounded-lg border border-gray-300 focus:border-[#2E9692] focus:outline-none"
+              required
+            />
+            <Button
+              type="submit"
+              className={`px-6 py-3 rounded-lg font-medium transition-all duration-300 ${
+                isSubscribed
+                  ? "bg-green-500 hover:bg-green-600"
+                  : "bg-gradient-to-r from-[#2E9692] to-[#D5DA2A] hover:from-[#2E9692]/90 hover:to-[#D5DA2A]/90"
+              } text-white shadow-lg hover:shadow-xl transform hover:scale-105`}
+            >
+              {isSubscribed ? "Subscribed!" : "Subscribe"}
+            </Button>
+          </form>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+// Product Skeleton
 const ProductSkeleton = () => (
-  <div className="bg-white rounded-lg overflow-hidden shadow-sm animate-pulse">
-    <div className="aspect-square bg-gray-200"></div>
-    <div className="p-4">
-      <div className="h-4 bg-gray-200 rounded mb-2 w-3/4"></div>
-      <div className="h-4 bg-gray-200 rounded mb-4 w-1/2"></div>
-      <div className="h-8 bg-gray-200 rounded w-full"></div>
+  <div className="bg-white rounded-xl p-4 shadow-md animate-pulse border border-gray-100">
+    <div className="aspect-square bg-gray-200 rounded-lg mb-4"></div>
+    <div className="space-y-3">
+      <div className="flex space-x-1 mb-2">
+        {[...Array(5)].map((_, i) => (
+          <div key={i} className="h-3 w-3 bg-gray-200 rounded"></div>
+        ))}
+      </div>
+      <div className="h-4 bg-gray-200 rounded w-3/4"></div>
+      <div className="h-3 bg-gray-200 rounded w-1/2"></div>
+      <div className="flex space-x-2 mt-3">
+        <div className="h-8 bg-gray-200 rounded-lg flex-1"></div>
+        <div className="h-8 w-8 bg-gray-200 rounded-lg"></div>
+      </div>
     </div>
   </div>
 );
 
-// Home page component
+// Main Home Component
 export default function Home() {
   const [featuredProducts, setFeaturedProducts] = useState([]);
   const [productsLoading, setProductsLoading] = useState(true);
@@ -684,30 +768,27 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="overflow-hidden">
+    <div className="min-h-screen">
       {/* Hero Section */}
-      <HeroCarousel />
+      <ModernHero />
 
-      {/* Announcement Banner */}
-      <AnnouncementBanner />
+      {/* Announcement Bar */}
+      <AnnouncementBar />
 
       {/* Categories Section */}
-      <section className="py-20 bg-gradient-to-b from-white to-gray-50">
-        <div className="container mx-auto px-4">
-          <FeaturedCategoriesSection />
-        </div>
-      </section>
+      <CategoriesSection />
 
       {/* Featured Products Section */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <Headtext
-              title={"FEATURED PRODUCTS"}
-              subtitle={
-                "Premium supplements designed to enhance your fitness journey"
-              }
-            />
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              Featured Products
+            </h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Discover our most popular supplements trusted by fitness
+              enthusiasts
+            </p>
           </div>
           <FeaturedProducts
             products={featuredProducts}
@@ -717,30 +798,17 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Showcase Section */}
-      <section className="py-20 bg-white">
-        <div className="container mx-auto">
-          <GymSupplementShowcase />
-        </div>
-      </section>
+      {/* Why Choose Us Section */}
+      <WhyChooseUsSection />
 
-      {/* Benefits Section */}
-      <section className="py-20 bg-gradient-to-b from-gray-50 to-white">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <Headtext
-              title={"WHY CHOOSE US"}
-              subtitle={
-                "Experience the difference with our premium quality products"
-              }
-            />
-          </div>
-          <BenefitsSec />
-        </div>
-      </section>
+      {/* Stats Section */}
+      <StatsSection />
 
       {/* Testimonials Section */}
       <TestimonialsSection />
+
+      {/* Newsletter Section */}
+      <NewsletterSection />
     </div>
   );
 }

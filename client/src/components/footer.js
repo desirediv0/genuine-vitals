@@ -6,20 +6,19 @@ import { motion } from "framer-motion";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
-  Instagram,
-  Facebook,
-  Twitter,
-  Youtube,
-  Mail,
-  Phone,
-  MapPin,
-  Truck,
-  Shield,
-  CreditCard,
-  CheckCircle,
-  ArrowRight,
-  Send,
-} from "lucide-react";
+  AiOutlineInstagram,
+  AiOutlineFacebook,
+  AiOutlineTwitter,
+  AiOutlineYoutube,
+  AiOutlineMail,
+  AiOutlinePhone,
+  AiOutlineEnvironment,
+  AiOutlineTruck,
+  AiOutlineCreditCard,
+  AiOutlineCheckCircle,
+  AiOutlineSend,
+} from "react-icons/ai";
+import { MdSecurity } from "react-icons/md";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -33,7 +32,6 @@ export function Footer() {
 
     setLoading(true);
     try {
-      // Simulate API call
       await new Promise((resolve) => setTimeout(resolve, 1000));
       toast.success("Successfully subscribed to newsletter!");
       setEmail("");
@@ -46,22 +44,22 @@ export function Footer() {
 
   const features = [
     {
-      icon: <Truck className="h-6 w-6" />,
+      icon: <AiOutlineTruck className="h-5 w-5" />,
       title: "Free Shipping",
       description: "On orders above ₹999",
     },
     {
-      icon: <Shield className="h-6 w-6" />,
+      icon: <MdSecurity className="h-5 w-5" />,
       title: "Secure Payment",
       description: "100% secure transaction",
     },
     {
-      icon: <CreditCard className="h-6 w-6" />,
+      icon: <AiOutlineCreditCard className="h-5 w-5" />,
       title: "Multiple Payment Options",
       description: "Credit cards, UPI & more",
     },
     {
-      icon: <CheckCircle className="h-6 w-6" />,
+      icon: <AiOutlineCheckCircle className="h-5 w-5" />,
       title: "Quality Products",
       description: "100% genuine supplements",
     },
@@ -85,29 +83,21 @@ export function Footer() {
   };
 
   return (
-    <footer className="bg-gray-50">
+    <footer className="bg-white border-t border-gray-200">
       {/* Features Section */}
-      <div className="border-b border-gray-200">
+      <div className="bg-gray-50">
         <div className="container mx-auto px-4 py-12">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {features.map((feature, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="flex items-start space-x-4"
-              >
-                <div className="bg-primary/10 p-3 rounded-lg">
-                  {feature.icon}
+              <div key={index} className="text-center">
+                <div className="bg-white w-12 h-12 rounded-lg flex items-center justify-center mx-auto mb-3 shadow-sm">
+                  <div className="text-[#2E9692]">{feature.icon}</div>
                 </div>
-                <div>
-                  <h3 className="font-semibold text-gray-900 mb-1">
-                    {feature.title}
-                  </h3>
-                  <p className="text-gray-600 text-sm">{feature.description}</p>
-                </div>
-              </motion.div>
+                <h3 className="font-semibold text-gray-900 mb-1">
+                  {feature.title}
+                </h3>
+                <p className="text-sm text-gray-600">{feature.description}</p>
+              </div>
             ))}
           </div>
         </div>
@@ -115,33 +105,33 @@ export function Footer() {
 
       {/* Main Footer */}
       <div className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Brand Column */}
-          <div className="space-y-6">
+          <div className="space-y-4">
             <Link href="/" className="inline-block">
               <Image
                 src="/logo.jpeg"
-                alt="GenuineVitals"
-                width={150}
-                height={150}
+                alt="Genuine Vitals"
+                width={120}
+                height={40}
                 className="rounded-lg"
               />
             </Link>
-            <p className="text-gray-600 text-sm">
-              Premium quality fitness supplements to enhance your workout
-              results and overall wellness.
+            <p className="text-gray-600 text-sm leading-relaxed">
+              Premium quality fitness supplements to help you achieve your goals
+              faster and safer.
             </p>
-            <div className="flex space-x-4">
+            <div className="flex space-x-3">
               {[
-                { icon: <Instagram size={20} />, href: "#" },
-                { icon: <Facebook size={20} />, href: "#" },
-                { icon: <Twitter size={20} />, href: "#" },
-                { icon: <Youtube size={20} />, href: "#" },
+                { icon: <AiOutlineInstagram size={20} />, href: "#" },
+                { icon: <AiOutlineFacebook size={20} />, href: "#" },
+                { icon: <AiOutlineTwitter size={20} />, href: "#" },
+                { icon: <AiOutlineYoutube size={20} />, href: "#" },
               ].map((social, idx) => (
                 <Link
                   key={idx}
                   href={social.href}
-                  className="bg-gray-100 hover:bg-primary hover:text-white p-2 rounded-full transition-colors duration-300"
+                  className="bg-gray-100 text-gray-600 p-2 rounded-lg hover:bg-[#2E9692] hover:text-white transition-all duration-200"
                 >
                   {social.icon}
                 </Link>
@@ -152,14 +142,13 @@ export function Footer() {
           {/* Shop Links */}
           <div>
             <h3 className="font-semibold text-gray-900 mb-4">Shop</h3>
-            <ul className="space-y-3">
+            <ul className="space-y-2">
               {footerLinks.shop.map((link, idx) => (
                 <li key={idx}>
                   <Link
                     href={link.href}
-                    className="text-gray-600 hover:text-primary transition-colors duration-300 flex items-center group"
+                    className="text-gray-600 hover:text-[#2E9692] transition-colors duration-200 text-sm"
                   >
-                    <ArrowRight className="h-4 w-4 mr-2 opacity-0 group-hover:opacity-100 transition-opacity" />
                     {link.label}
                   </Link>
                 </li>
@@ -170,14 +159,13 @@ export function Footer() {
           {/* Help Links */}
           <div>
             <h3 className="font-semibold text-gray-900 mb-4">Help</h3>
-            <ul className="space-y-3">
+            <ul className="space-y-2">
               {footerLinks.help.map((link, idx) => (
                 <li key={idx}>
                   <Link
                     href={link.href}
-                    className="text-gray-600 hover:text-primary transition-colors duration-300 flex items-center group"
+                    className="text-gray-600 hover:text-[#2E9692] transition-colors duration-200 text-sm"
                   >
-                    <ArrowRight className="h-4 w-4 mr-2 opacity-0 group-hover:opacity-100 transition-opacity" />
                     {link.label}
                   </Link>
                 </li>
@@ -187,54 +175,54 @@ export function Footer() {
 
           {/* Newsletter */}
           <div>
-            <h3 className="font-semibold text-gray-900 mb-4">Newsletter</h3>
+            <h3 className="font-semibold text-gray-900 mb-4">Stay Updated</h3>
             <p className="text-gray-600 text-sm mb-4">
-              Subscribe to our newsletter for the latest updates and offers.
+              Get the latest updates and exclusive offers.
             </p>
             <form onSubmit={handleSubscribe} className="space-y-3">
-              <div className="relative">
-                <Input
-                  type="email"
-                  placeholder="Enter your email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="pr-12"
-                />
-                <Button
-                  type="submit"
-                  size="icon"
-                  className="absolute right-1 top-1"
-                  disabled={loading}
-                >
-                  {loading ? (
-                    <Send className="h-4 w-4 animate-spin" />
-                  ) : (
-                    <Send className="h-4 w-4" />
-                  )}
-                </Button>
-              </div>
+              <Input
+                type="email"
+                placeholder="Enter your email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="text-sm"
+              />
+              <Button
+                type="submit"
+                className="w-full bg-[#2E9692] hover:bg-[#2E9692]/90 text-sm"
+                disabled={loading}
+              >
+                {loading ? "Subscribing..." : "Subscribe"}
+              </Button>
             </form>
           </div>
         </div>
       </div>
 
       {/* Contact Info */}
-      <div className="border-t border-gray-200">
+      <div className="border-t border-gray-200 bg-gray-50">
         <div className="container mx-auto px-4 py-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="flex items-center space-x-3">
-              <MapPin className="h-5 w-5 text-primary" />
-              <span className="text-gray-600">
-                123 Fitness Street, Mumbai, Maharashtra, 400001
-              </span>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+            <div className="flex items-center justify-center space-x-3">
+              <AiOutlineEnvironment className="h-5 w-5 text-[#2E9692]" />
+              <div>
+                <h4 className="font-medium text-gray-900 text-sm">Address</h4>
+                <p className="text-gray-600 text-sm">Mumbai, Maharashtra</p>
+              </div>
             </div>
-            <div className="flex items-center space-x-3">
-              <Phone className="h-5 w-5 text-primary" />
-              <span className="text-gray-600">+91 98765 43210</span>
+            <div className="flex items-center justify-center space-x-3">
+              <AiOutlinePhone className="h-5 w-5 text-[#2E9692]" />
+              <div>
+                <h4 className="font-medium text-gray-900 text-sm">Phone</h4>
+                <p className="text-gray-600 text-sm">+91 98765 43210</p>
+              </div>
             </div>
-            <div className="flex items-center space-x-3">
-              <Mail className="h-5 w-5 text-primary" />
-              <span className="text-gray-600">info@GenuineVitals.com</span>
+            <div className="flex items-center justify-center space-x-3">
+              <AiOutlineMail className="h-5 w-5 text-[#2E9692]" />
+              <div>
+                <h4 className="font-medium text-gray-900 text-sm">Email</h4>
+                <p className="text-gray-600 text-sm">info@genuinevitals.com</p>
+              </div>
             </div>
           </div>
         </div>
@@ -244,25 +232,25 @@ export function Footer() {
       <div className="bg-gray-900 text-white">
         <div className="container mx-auto px-4 py-6">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-            <p className="text-sm text-gray-400">
-              © {new Date().getFullYear()} GenuineVitals. All rights reserved.
+            <p className="text-sm">
+              © {new Date().getFullYear()} Genuine Vitals. All rights reserved.
             </p>
             <div className="flex space-x-6">
               <Link
                 href="/terms"
-                className="text-sm text-gray-400 hover:text-white transition-colors"
+                className="text-sm hover:text-gray-300 transition-colors duration-200"
               >
                 Terms of Service
               </Link>
               <Link
                 href="/privacy"
-                className="text-sm text-gray-400 hover:text-white transition-colors"
+                className="text-sm hover:text-gray-300 transition-colors duration-200"
               >
                 Privacy Policy
               </Link>
               <Link
                 href="/cookies"
-                className="text-sm text-gray-400 hover:text-white transition-colors"
+                className="text-sm hover:text-gray-300 transition-colors duration-200"
               >
                 Cookie Policy
               </Link>
