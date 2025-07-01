@@ -144,7 +144,7 @@ function ProductsContent() {
     <div className="w-full max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="flex flex-col gap-8">
         {/* Hero Section */}
-        <div>
+        {/* <div>
           <h1 className="text-4xl font-bold tracking-tight">Shop</h1>
           <div className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
             <div className="overflow-hidden rounded-lg bg-white shadow">
@@ -240,7 +240,7 @@ function ProductsContent() {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
 
         {/* Filters */}
         <div className="relative bg-white shadow-sm sm:rounded-lg border overflow-hidden">
