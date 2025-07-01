@@ -13,19 +13,19 @@ export default defineConfig({
   },
   // Add the preview configuration for production builds
   preview: {
-    port: 4173,
+    port: 4176,
     host: "0.0.0.0",
     allowedHosts: [
-      "admin.GenuineVitals.com",
-      "www.admin.GenuineVitals.com",
+      "admin.genuinevitals.com",
+      "www.admin.genuinevitals.com",
     ],
   },
   // Add server configuration for development
   server: {
     host: "0.0.0.0",
     allowedHosts: [
-      "admin.GenuineVitals.com",
-      "www.admin.GenuineVitals.com",
+      "admin.genuinevitals.com",
+      "www.admin.genuinevitals.com",
     ],
   },
 });

@@ -10,6 +10,10 @@ import {
   createProductVariant,
   updateProductVariant,
   deleteProductVariant,
+  uploadVariantImage,
+  deleteVariantImage,
+  setVariantImageAsPrimary,
+  reorderVariantImages,
   bulkVariantOperations,
   getFlavors,
   createFlavor,
@@ -110,6 +114,36 @@ router.delete(
   verifyAdminJWT,
   hasPermission("products", "update"),
   deleteProductVariant
+);
+
+// Variant image routes
+router.post(
+  "/variants/:variantId/images",
+  verifyAdminJWT,
+  hasPermission("products", "update"),
+  uploadFiles.single("image"),
+  uploadVariantImage
+);
+
+router.delete(
+  "/variants/images/:imageId",
+  verifyAdminJWT,
+  hasPermission("products", "update"),
+  deleteVariantImage
+);
+
+router.patch(
+  "/variants/images/:imageId/set-primary",
+  verifyAdminJWT,
+  hasPermission("products", "update"),
+  setVariantImageAsPrimary
+);
+
+router.patch(
+  "/variants/:variantId/images/reorder",
+  verifyAdminJWT,
+  hasPermission("products", "update"),
+  reorderVariantImages
 );
 
 // Flavor routes

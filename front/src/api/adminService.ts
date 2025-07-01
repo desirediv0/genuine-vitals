@@ -177,14 +177,6 @@ export const products = {
   createProduct: (data: ProductData) => {
     // Check if data is already FormData
     if (data instanceof FormData) {
-      for (const [key, value] of (data as FormData).entries()) {
-        const displayValue =
-          value instanceof File
-            ? `File: ${value.name} (${value.size} bytes)`
-            : value;
-        console.log(`${key}: ${displayValue}`);
-      }
-
       return api.post("/api/admin/products", data, {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -206,14 +198,6 @@ export const products = {
       }
     });
 
-    for (const [key, value] of formData.entries()) {
-      const displayValue =
-        value instanceof File
-          ? `File: ${value.name} (${value.size} bytes)`
-          : value;
-      console.log(`${key}: ${displayValue}`);
-    }
-
     return api.post("/api/admin/products", formData, {
       headers: {
         "Content-Type": "multipart/form-data",
@@ -223,14 +207,6 @@ export const products = {
   updateProduct: (productId: string, data: ProductData) => {
     // Check if data is already FormData
     if (data instanceof FormData) {
-      for (const [key, value] of (data as FormData).entries()) {
-        const displayValue =
-          value instanceof File
-            ? `File: ${value.name} (${value.size} bytes)`
-            : value;
-        console.log(`${key}: ${displayValue}`);
-      }
-
       return api.patch(`/api/admin/products/${productId}`, data, {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -251,14 +227,6 @@ export const products = {
         }
       }
     });
-
-    for (const [key, value] of formData.entries()) {
-      const displayValue =
-        value instanceof File
-          ? `File: ${value.name} (${value.size} bytes)`
-          : value;
-      console.log(`${key}: ${displayValue}`);
-    }
 
     return api.patch(`/api/admin/products/${productId}`, formData, {
       headers: {
@@ -313,6 +281,41 @@ export const products = {
   },
   getVariantsByProductId: (productId: string) => {
     return api.get(`/api/admin/products/${productId}/variants`);
+  },
+  // Variant Images
+  uploadVariantImage: (
+    variantId: string,
+    imageFile: File,
+    isPrimary?: boolean
+  ) => {
+    const formData = new FormData();
+    formData.append("image", imageFile);
+
+    // Only append isPrimary if it's explicitly set (true or false)
+    // If undefined, let backend handle the decision
+    if (isPrimary !== undefined) {
+      formData.append("isPrimary", isPrimary.toString());
+    }
+
+    return api.post(`/api/admin/variants/${variantId}/images`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+  },
+  deleteVariantImage: (imageId: string) => {
+    return api.delete(`/api/admin/variants/images/${imageId}`);
+  },
+  setVariantImageAsPrimary: (imageId: string) => {
+    return api.patch(`/api/admin/variants/images/${imageId}/set-primary`);
+  },
+  reorderVariantImages: (
+    variantId: string,
+    imageOrders: Array<{ imageId: string; order: number }>
+  ) => {
+    return api.patch(`/api/admin/variants/${variantId}/images/reorder`, {
+      imageOrders,
+    });
   },
 };
 
@@ -444,8 +447,10 @@ export const weights = {
   ) => {
     return api.patch(`/api/admin/weights/${weightId}`, data);
   },
-  deleteWeight: (weightId: string) => {
-    return api.delete(`/api/admin/weights/${weightId}`);
+  deleteWeight: (weightId: string, force: boolean = false) => {
+    return api.delete(
+      `/api/admin/weights/${weightId}${force ? "?force=true" : ""}`
+    );
   },
 };
 

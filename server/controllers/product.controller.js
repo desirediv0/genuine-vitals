@@ -23,108 +23,111 @@ export const getAllProducts = asyncHandler(async (req, res) => {
   // Build filter conditions
   const whereConditions = {
     isActive: true,
-  };
-
-  // Add search filter
-  if (search) {
-    whereConditions.OR = [
-      { name: { contains: search, mode: "insensitive" } },
-      { description: { contains: search, mode: "insensitive" } },
-    ];
-  }
-
-  // Add category filter
-  if (category && category !== "all" && category !== "") {
-    whereConditions.categories = {
-      some: {
-        category: {
-          OR: [{ id: category }, { slug: category }],
+    // Search in name or description
+    ...(search && {
+      OR: [
+        { name: { contains: search, mode: "insensitive" } },
+        { description: { contains: search, mode: "insensitive" } },
+      ],
+    }),
+    // Filter by category
+    ...(category && {
+      categories: {
+        some: {
+          category: {
+            OR: [{ id: category }, { slug: category }],
+          },
         },
       },
-    };
-  }
-
-  // Add featured filter
-  if (featured === "true") {
-    whereConditions.featured = true;
-  }
-
-  // Add price range filter
-  if (minPrice || maxPrice) {
-    whereConditions.variants = {
-      some: {
-        AND: [{ isActive: true }],
-      },
-    };
-
-    if (minPrice) {
-      whereConditions.variants.some.AND.push({
-        OR: [
-          { price: { gte: parseFloat(minPrice) } },
-          {
-            AND: [
-              { salePrice: { not: null } },
-              { salePrice: { gte: parseFloat(minPrice) } },
-            ],
-          },
-        ],
-      });
-    }
-
-    if (maxPrice) {
-      whereConditions.variants.some.AND.push({
-        OR: [
-          {
-            AND: [
-              { salePrice: { not: null } },
-              { salePrice: { lte: parseFloat(maxPrice) } },
-            ],
-          },
-          {
-            AND: [
-              { salePrice: null },
-              { price: { lte: parseFloat(maxPrice) } },
-            ],
-          },
-        ],
-      });
-    }
-  }
-
-  // Add flavor filter
-  if (flavor) {
-    if (!whereConditions.variants) {
-      whereConditions.variants = { some: {} };
-    }
-    whereConditions.variants.some.flavor = {
-      OR: [{ id: flavor }, { name: { contains: flavor, mode: "insensitive" } }],
-    };
-  }
-
-  // Add weight filter
-  if (weight) {
-    if (!whereConditions.variants) {
-      whereConditions.variants = { some: {} };
-    }
-    whereConditions.variants.some.weight = {
-      OR: [
-        { id: weight },
-        {
+    }),
+    // Filter by featured
+    ...(featured === "true" && { featured: true }),
+    // Filter by price range via variants
+    ...((minPrice || maxPrice) && {
+      variants: {
+        some: {
           AND: [
-            { value: parseFloat(weight.replace(/[^0-9.]/g, "")) },
-            { unit: weight.replace(/[0-9.]/g, "").trim() },
+            { isActive: true },
+            // Min price
+            ...(minPrice
+              ? [
+                  {
+                    OR: [
+                      { price: { gte: parseFloat(minPrice) } },
+                      {
+                        AND: [
+                          { salePrice: { not: null } },
+                          { salePrice: { gte: parseFloat(minPrice) } },
+                        ],
+                      },
+                    ],
+                  },
+                ]
+              : []),
+            // Max price
+            ...(maxPrice
+              ? [
+                  {
+                    OR: [
+                      {
+                        AND: [
+                          { salePrice: { not: null } },
+                          { salePrice: { lte: parseFloat(maxPrice) } },
+                        ],
+                      },
+                      {
+                        AND: [
+                          { salePrice: null },
+                          { price: { lte: parseFloat(maxPrice) } },
+                        ],
+                      },
+                    ],
+                  },
+                ]
+              : []),
           ],
         },
-      ],
-    };
-  }
+      },
+    }),
+    // Filter by flavor
+    ...(flavor && {
+      variants: {
+        some: {
+          flavor: {
+            OR: [
+              { id: flavor },
+              { name: { contains: flavor, mode: "insensitive" } },
+            ],
+          },
+        },
+      },
+    }),
+    // Filter by weight
+    ...(weight && {
+      variants: {
+        some: {
+          weight: {
+            OR: [
+              { id: weight },
+              {
+                AND: [
+                  { value: parseFloat(weight.replace(/[^0-9.]/g, "")) },
+                  { unit: weight.replace(/[0-9.]/g, "").trim() },
+                ],
+              },
+            ],
+          },
+        },
+      },
+    }),
+  };
 
   // Get total count for pagination
   const totalProducts = await prisma.product.count({
     where: whereConditions,
   });
 
-  // Get products with sorting and pagination
+  // Get products with pagination, sorting
   const products = await prisma.product.findMany({
     where: whereConditions,
     include: {
@@ -142,9 +145,11 @@ export const getAllProducts = asyncHandler(async (req, res) => {
         include: {
           flavor: true,
           weight: true,
+          images: {
+            orderBy: { order: "asc" }, // Sort images by order (0, 1, 2, 3...)
+          },
         },
         orderBy: { price: "asc" },
-        take: 1, // Get at least one variant for displaying base price
       },
       _count: {
         select: {
@@ -157,30 +162,41 @@ export const getAllProducts = asyncHandler(async (req, res) => {
         },
       },
     },
-    orderBy: (() => {
-      switch (sort) {
-        case "newest":
-          return { createdAt: order };
-        case "price_asc":
-          return { variants: { _min: { price: "asc" } } };
-        case "price_desc":
-          return { variants: { _min: { price: "desc" } } };
-        case "name_asc":
-          return { name: "asc" };
-        case "name_desc":
-          return { name: "desc" };
-        default:
-          return { createdAt: "desc" };
-      }
-    })(),
+    orderBy: {
+      [sort]: order,
+    },
     skip: (parseInt(page) - 1) * parseInt(limit),
     take: parseInt(limit),
   });
 
-  // Format the response
+  // Format products for response
   const formattedProducts = products.map((product) => {
+    // Get primary category (first in the list)
     const primaryCategory =
       product.categories.length > 0 ? product.categories[0].category : null;
+
+    // Get image with fallback logic
+    let imageUrl = null;
+
+    // Priority 1: Product images
+    if (product.images && product.images.length > 0) {
+      const primaryImage = product.images.find((img) => img.isPrimary);
+      imageUrl = primaryImage ? primaryImage.url : product.images[0].url;
+    }
+    // Priority 2: Any variant images
+    else if (product.variants && product.variants.length > 0) {
+      const variantWithImages = product.variants.find(
+        (variant) => variant.images && variant.images.length > 0
+      );
+      if (variantWithImages) {
+        const primaryImage = variantWithImages.images.find(
+          (img) => img.isPrimary
+        );
+        imageUrl = primaryImage
+          ? primaryImage.url
+          : variantWithImages.images[0].url;
+      }
+    }
 
     return {
       id: product.id,
@@ -195,7 +211,17 @@ export const getAllProducts = asyncHandler(async (req, res) => {
             slug: primaryCategory.slug,
           }
         : null,
-      image: product.images[0] ? getFileUrl(product.images[0].url) : null,
+      image: imageUrl ? getFileUrl(imageUrl) : null,
+      // Add variants for frontend fallback
+      variants: product.variants.map((variant) => ({
+        ...variant,
+        images: variant.images
+          ? variant.images.map((image) => ({
+              ...image,
+              url: getFileUrl(image.url),
+            }))
+          : [],
+      })),
       basePrice:
         product.variants.length > 0
           ? parseFloat(
@@ -208,8 +234,7 @@ export const getAllProducts = asyncHandler(async (req, res) => {
         product.variants.length > 0
           ? parseFloat(product.variants[0].price)
           : null,
-      variants: product._count.variants,
-      hasVariants: product._count.variants > 1,
+      flavors: product._count.variants,
       reviewCount: product._count.reviews,
     };
   });
@@ -254,6 +279,9 @@ export const getProductBySlug = asyncHandler(async (req, res) => {
         include: {
           flavor: true,
           weight: true,
+          images: {
+            orderBy: { order: "asc" }, // Sort images by order (0, 1, 2, 3...)
+          },
         },
         orderBy: [{ flavor: { name: "asc" } }, { weight: { value: "asc" } }],
       },
@@ -299,6 +327,24 @@ export const getProductBySlug = asyncHandler(async (req, res) => {
     images: product.images.map((image) => ({
       ...image,
       url: getFileUrl(image.url),
+    })),
+    // Format variants with proper image URLs
+    variants: product.variants.map((variant) => ({
+      ...variant,
+      flavor: variant.flavor
+        ? {
+            ...variant.flavor,
+            image: variant.flavor.image
+              ? getFileUrl(variant.flavor.image)
+              : null,
+          }
+        : null,
+      images: variant.images
+        ? variant.images.map((image) => ({
+            ...image,
+            url: getFileUrl(image.url),
+          }))
+        : [],
     })),
     // Group variants by flavor
     flavorOptions: Array.from(
@@ -370,6 +416,7 @@ export const getProductBySlug = asyncHandler(async (req, res) => {
             include: {
               flavor: true,
               weight: true,
+              images: true,
             },
           },
           _count: {
@@ -399,6 +446,23 @@ export const getProductBySlug = asyncHandler(async (req, res) => {
     regularPrice:
       p.variants.length > 0 ? parseFloat(p.variants[0].price) : null,
     reviewCount: p._count.reviews,
+    variants: p.variants.map((variant) => ({
+      ...variant,
+      flavor: variant.flavor
+        ? {
+            ...variant.flavor,
+            image: variant.flavor.image
+              ? getFileUrl(variant.flavor.image)
+              : null,
+          }
+        : null,
+      images: variant.images
+        ? variant.images.map((image) => ({
+            ...image,
+            url: getFileUrl(image.url),
+          }))
+        : [],
+    })),
   }));
 
   res.status(200).json(
@@ -436,6 +500,7 @@ export const getProductVariant = asyncHandler(async (req, res) => {
     include: {
       flavor: true,
       weight: true,
+      images: true,
     },
   });
 
@@ -452,6 +517,12 @@ export const getProductVariant = asyncHandler(async (req, res) => {
           image: variant.flavor.image ? getFileUrl(variant.flavor.image) : null,
         }
       : null,
+    images: variant.images
+      ? variant.images.map((image) => ({
+          ...image,
+          url: getFileUrl(image.url),
+        }))
+      : [],
   };
 
   res
@@ -536,25 +607,4 @@ export const getMaxPrice = asyncHandler(async (req, res) => {
     .json(
       new ApiResponsive(200, { maxPrice }, "Maximum price fetched successfully")
     );
-});
-
-// Get product statistics
-export const getProductStats = asyncHandler(async (req, res) => {
-  const [total, active, featured] = await Promise.all([
-    prisma.product.count(),
-    prisma.product.count({ where: { isActive: true } }),
-    prisma.product.count({ where: { featured: true, isActive: true } }),
-  ]);
-
-  res.status(200).json(
-    new ApiResponsive(
-      200,
-      {
-        total,
-        active,
-        featured,
-      },
-      "Product stats fetched successfully"
-    )
-  );
 });
