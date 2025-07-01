@@ -105,10 +105,10 @@ export function Footer() {
           <div className="space-y-4">
             <Link href="/" className="inline-block">
               <Image
-                src="/logo.jpeg"
+                src="/logo.png"
                 alt="Genuine Vitals"
-                width={120}
-                height={40}
+                width={200}
+                height={100}
                 className="rounded-lg"
               />
             </Link>
