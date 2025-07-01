@@ -12,13 +12,15 @@ import {
   Zap,
   Shield,
   Truck,
-  Gift,
   Phone,
   MapPin,
   Users,
   Award,
   Clock,
   Trophy,
+  Heart,
+  ShoppingCart,
+  CheckCircle,
 } from "lucide-react";
 import {
   Carousel,
@@ -29,63 +31,72 @@ import {
 } from "@/components/ui/carousel";
 import { motion } from "framer-motion";
 import ProductQuickView from "@/components/ProductQuickView";
+import { useAuth } from "@/lib/auth-context";
+import { toast } from "sonner";
+import useEmblaCarouselAutoplay from "@/hooks/use-embla-carousel-autoplay";
+import CTASection from "@/components/cta-section";
+import { useRouter } from "next/navigation";
+import {
+  TestimonialsSection,
+  VideoSection,
+} from "@/components/additional-sections";
 
-// Hero Section with Carousel
+// Modern Hero Section
 const ModernHero = () => {
+  const [api, setApi] = useState();
+  // Auto-carousel with embla plugin
+  useEmblaCarouselAutoplay(api, {
+    delay: 5000,
+    stopOnInteraction: false,
+    stopOnMouseEnter: true,
+    playOnInit: true,
+  });
+
   const heroSlides = [
     {
-      title: "Transform Your Body",
-      subtitle: "Premium Supplements",
+      title: "Transform Your Fitness Journey",
+      subtitle: "Premium Quality Supplements",
       description:
-        "Discover high-quality fitness supplements designed to help you achieve your goals faster.",
+        "Discover scientifically-backed supplements that deliver real results. Lab-tested, certified, and trusted by athletes worldwide.",
       image: "/c3.jpg",
-      bgColor: "from-[#2E9692] to-[#1a6b68]",
-      textColor: "text-white",
+      cta: "Shop Now",
+      features: ["Lab Tested", "100% Authentic", "Fast Results"],
+      stats: { protein: "25g", purity: "99%", delivery: "24h" },
     },
     {
-      title: "Build Lean Muscle",
-      subtitle: "Protein Power",
+      title: "Build Lean Muscle Mass",
+      subtitle: "Protein Powerhouse",
       description:
-        "Get 25g of premium protein per serving with our scientifically formulated blends.",
+        "Get maximum muscle growth with our premium protein blends. Each serving delivers 25g of high-quality protein for optimal recovery.",
       image: "/c3.jpg",
-      bgColor: "from-[#D5DA2A] to-[#b8bd22]",
-      textColor: "text-gray-900",
+      cta: "Explore Proteins",
+      features: ["25g Protein", "Zero Sugar", "Bio-Available"],
+      stats: { protein: "25g", purity: "100%", delivery: "24h" },
     },
     {
-      title: "Boost Your Energy",
+      title: "Boost Your Performance",
       subtitle: "Pre-Workout Excellence",
       description:
-        "Unleash your potential with our explosive pre-workout formulas for maximum performance.",
+        "Unleash your potential with explosive energy formulas. Enhanced focus, increased endurance, and zero crash guaranteed.",
       image: "/c3.jpg",
-      bgColor: "from-purple-600 to-purple-800",
-      textColor: "text-white",
+      cta: "Get Energized",
+      features: ["Instant Energy", "Focus Boost", "No Crash"],
+      stats: { energy: "8h", focus: "100%", delivery: "24h" },
     },
   ];
 
   return (
-    <section className="relative min-h-screen overflow-hidden">
-      <Carousel className="w-full h-screen">
+    <section className="relative min-h-screen bg-gray-50 overflow-hidden p-10 md:p-0">
+      <Carousel setApi={setApi} className="w-full md:h-screen">
         <CarouselContent>
           {heroSlides.map((slide, index) => (
-            <CarouselItem key={index} className="min-h-screen">
-              <div
-                className={`relative min-h-screen bg-gradient-to-br ${slide.bgColor} flex items-center justify-center overflow-hidden`}
-              >
-                {/* Dynamic Background Pattern */}
+            <CarouselItem key={index} className="md:min-h-screen ">
+              <div className="relative md:min-h-screen bg-white flex items-center justify-center  max-w-7xl mx-auto">
+                {/* Background Pattern */}
                 <div className="absolute inset-0 overflow-hidden">
-                  <div className="absolute -top-20 -right-20 w-80 h-80 bg-white/10 rounded-full blur-3xl animate-pulse"></div>
-                  <div className="absolute -bottom-20 -left-20 w-80 h-80 bg-white/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
-                  <div className="absolute top-1/3 right-1/3 w-60 h-60 bg-white/5 rounded-full blur-2xl animate-float"></div>
-
-                  {/* Floating Elements */}
-                  <div className="absolute top-20 left-20 w-4 h-4 bg-white/30 rounded-full animate-bounce"></div>
-                  <div className="absolute bottom-32 right-32 w-3 h-3 bg-white/40 rounded-full animate-bounce delay-500"></div>
-                  <div className="absolute top-1/2 left-10 w-2 h-2 bg-white/20 rounded-full animate-pulse"></div>
-                  <div className="absolute bottom-1/4 left-1/3 w-5 h-5 bg-white/25 rounded-full animate-ping"></div>
-
-                  {/* Geometric Shapes */}
-                  <div className="absolute top-1/4 right-1/4 w-16 h-16 border-2 border-white/20 rotate-45 animate-spin-slow"></div>
-                  <div className="absolute bottom-1/3 left-1/4 w-12 h-12 border border-white/30 rounded-full animate-pulse delay-700"></div>
+                  <div className="absolute top-20 right-20 w-72 h-72 bg-primary/5 rounded-full blur-3xl"></div>
+                  <div className="absolute bottom-20 left-20 w-80 h-80 bg-primary/10 rounded-full blur-3xl"></div>
+                  <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-primary/5 rounded-full blur-3xl"></div>
                 </div>
 
                 <div className="container mx-auto px-4 relative z-10">
@@ -95,56 +106,76 @@ const ModernHero = () => {
                       initial={{ opacity: 0, x: -50 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ duration: 0.8, delay: index * 0.2 }}
-                      className={`${slide.textColor} space-y-8`}
+                      className="space-y-8"
                     >
+                      {/* Badge */}
+                      <div className="inline-flex items-center bg-primary text-primary-foreground px-4 py-2 rounded-full text-sm font-medium">
+                        <Trophy className="h-4 w-4 mr-2" />
+                        #1 Trusted Brand
+                      </div>
+
+                      {/* Main Content */}
                       <div>
-                        <h1 className="text-5xl md:text-7xl font-black leading-tight mb-4">
+                        <h1 className="text-4xl md:text-6xl font-bold text-gray-900 leading-tight mb-4">
                           {slide.title}
                         </h1>
-                        <h2 className="text-3xl md:text-4xl font-bold mb-6 opacity-90">
+                        <h2 className="text-2xl md:text-3xl font-semibold text-primary mb-6">
                           {slide.subtitle}
                         </h2>
-                        <p className="text-xl md:text-2xl opacity-80 max-w-xl leading-relaxed">
+                        <p className="text-lg text-gray-600 max-w-xl leading-relaxed">
                           {slide.description}
                         </p>
                       </div>
 
+                      {/* CTAs */}
                       <div className="flex flex-col sm:flex-row gap-4">
                         <Link href="/products">
                           <Button
                             size="lg"
-                            className="bg-white/20 backdrop-blur-sm border-2 border-white/30 text-white hover:bg-white/30 px-8 py-4 text-lg font-bold rounded-full shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300"
+                            className="bg-primary text-primary-foreground hover:bg-primary/90 px-8 py-4 text-lg font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
                           >
-                            Shop Now
-                            <ArrowRight className="ml-2 h-6 w-6" />
-                          </Button>
-                        </Link>
-                        <Link href="/about">
-                          <Button
-                            variant="outline"
-                            size="lg"
-                            className="border-2 border-white/50 text-white hover:bg-white/10 px-8 py-4 text-lg font-bold rounded-full backdrop-blur-sm transition-all duration-300"
-                          >
-                            Learn More
+                            {slide.cta}
+                            <ArrowRight className="ml-2 h-5 w-5" />
                           </Button>
                         </Link>
                       </div>
 
-                      {/* Stats */}
-                      <div className="grid grid-cols-3 gap-6 pt-8">
+                      {/* Features */}
+                      <div className="flex flex-wrap gap-3">
+                        {slide.features.map((feature, featureIndex) => (
+                          <div
+                            key={featureIndex}
+                            className="flex items-center bg-gray-100 rounded-full px-4 py-2 text-sm font-medium text-gray-700"
+                          >
+                            <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
+                            {feature}
+                          </div>
+                        ))}
+                      </div>
+
+                      {/* Quick Stats */}
+                      <div className="grid grid-cols-3 gap-6 pt-4">
                         <div className="text-center">
-                          <div className="text-3xl font-black mb-2">25g</div>
-                          <div className="text-sm opacity-80">
-                            Premium Protein
+                          <div className="text-2xl font-bold text-primary mb-1">
+                            {slide.stats.protein || slide.stats.energy || "25g"}
+                          </div>
+                          <div className="text-sm text-gray-600">
+                            {slide.stats.protein ? "Protein" : "Energy Boost"}
                           </div>
                         </div>
                         <div className="text-center">
-                          <div className="text-3xl font-black mb-2">100%</div>
-                          <div className="text-sm opacity-80">Natural</div>
+                          <div className="text-2xl font-bold text-primary mb-1">
+                            {slide.stats.purity || slide.stats.focus || "100%"}
+                          </div>
+                          <div className="text-sm text-gray-600">
+                            {slide.stats.purity ? "Pure" : "Focus"}
+                          </div>
                         </div>
                         <div className="text-center">
-                          <div className="text-3xl font-black mb-2">24/7</div>
-                          <div className="text-sm opacity-80">Support</div>
+                          <div className="text-2xl font-bold text-primary mb-1">
+                            {slide.stats.delivery}
+                          </div>
+                          <div className="text-sm text-gray-600">Delivery</div>
                         </div>
                       </div>
                     </motion.div>
@@ -157,22 +188,45 @@ const ModernHero = () => {
                       className="relative"
                     >
                       <div className="relative w-full h-96 lg:h-[500px]">
-                        <div className="absolute inset-0 bg-white/10 rounded-3xl backdrop-blur-sm border border-white/20 shadow-2xl">
+                        <div className="absolute inset-0 bg-gray-100 rounded-xl shadow-2xl overflow-hidden">
                           <Image
-                            src={slide.image}
+                            src={slide.image || "/placeholder.svg"}
                             alt="Fitness Supplement"
                             fill
-                            className="object-cover rounded-3xl"
+                            className="object-cover"
                             sizes="(max-width: 768px) 100vw, 50vw"
                           />
                         </div>
 
-                        {/* Floating Badge */}
-                        <div className="absolute -top-4 -right-4 bg-white/20 backdrop-blur-sm border border-white/30 rounded-2xl p-4 shadow-xl">
-                          <div className="text-center">
-                            <Trophy className="h-8 w-8 text-white mx-auto mb-2" />
-                            <div className="text-white font-bold text-sm">
-                              Premium Quality
+                        {/* Floating Cards */}
+                        <div className="absolute -top-4 -right-4 bg-white rounded-xl p-4 shadow-xl border border-gray-100">
+                          <div className="flex items-center gap-2">
+                            <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
+                              <Trophy className="h-4 w-4 text-primary-foreground" />
+                            </div>
+                            <div>
+                              <div className="text-sm font-semibold text-gray-900">
+                                Premium
+                              </div>
+                              <div className="text-xs text-gray-600">
+                                Quality
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="absolute -bottom-4 -left-4 bg-white rounded-xl p-4 shadow-xl border border-gray-100">
+                          <div className="flex items-center gap-2">
+                            <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
+                              <CheckCircle className="h-4 w-4 text-white" />
+                            </div>
+                            <div>
+                              <div className="text-sm font-semibold text-gray-900">
+                                Lab
+                              </div>
+                              <div className="text-xs text-gray-600">
+                                Tested
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -184,126 +238,254 @@ const ModernHero = () => {
             </CarouselItem>
           ))}
         </CarouselContent>
-        <CarouselPrevious className="left-4 bg-white/20 backdrop-blur-sm border-white/30 text-white hover:bg-white/30" />
-        <CarouselNext className="right-4 bg-white/20 backdrop-blur-sm border-white/30 text-white hover:bg-white/30" />
+        <CarouselPrevious className="left-4 bg-white/90 backdrop-blur-sm border-2 border-gray-200 text-gray-700 hover:bg-primary hover:text-primary-foreground hover:border-primary" />
+        <CarouselNext className="right-4 bg-white/90 backdrop-blur-sm border-2 border-gray-200 text-gray-700 hover:bg-primary hover:text-primary-foreground hover:border-primary" />
       </Carousel>
-    </section>
-  );
-};
 
-// Announcement Bar
-const AnnouncementBar = () => {
-  const announcements = [
-    {
-      icon: <Truck className="h-4 w-4" />,
-      text: "FREE SHIPPING ON ORDERS ₹999+",
-    },
-    { icon: <Gift className="h-4 w-4" />, text: "FREE SHAKER WITH PROTEIN" },
-    { icon: <Zap className="h-4 w-4" />, text: "USE CODE FIT10 FOR 10% OFF" },
-  ];
-
-  return (
-    <div className="bg-gray-900 py-2">
-      <div className="container mx-auto px-4">
-        <div className="flex justify-center">
-          <div className="flex items-center space-x-6 text-white text-sm">
-            {announcements.map((item, index) => (
-              <div key={index} className="flex items-center space-x-2">
-                {item.icon}
-                <span className="hidden sm:inline">{item.text}</span>
-              </div>
-            ))}
+      {/* Trust Indicators */}
+      <div className="absolute bottom-0 left-0 right-0 bg-white/95 backdrop-blur-sm border-t border-gray-200">
+        <div className="container mx-auto px-4 py-4">
+          <div className="flex justify-center items-center gap-8 text-sm text-gray-600">
+            <div className="flex items-center gap-2">
+              <Shield className="h-4 w-4 text-primary" />
+              <span>100% Authentic</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Truck className="h-4 w-4 text-primary" />
+              <span>Free Shipping ₹999+</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Award className="h-4 w-4 text-primary" />
+              <span>Lab Tested</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Clock className="h-4 w-4 text-primary" />
+              <span>24/7 Support</span>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 
 // Categories Section
-const CategoriesSection = () => {
-  const categories = [
-    {
-      name: "Protein Powder",
-      icon: "💪",
-      description: "Build lean muscle",
-      color: "from-blue-500 to-blue-600",
-    },
-    {
-      name: "Pre-Workout",
-      icon: "⚡",
-      description: "Energy & Focus",
-      color: "from-red-500 to-red-600",
-    },
-    {
-      name: "Weight Loss",
-      icon: "🔥",
-      description: "Burn fat fast",
-      color: "from-orange-500 to-orange-600",
-    },
-    {
-      name: "Vitamins",
-      icon: "🌟",
-      description: "Complete nutrition",
-      color: "from-green-500 to-green-600",
-    },
-    {
-      name: "Mass Gainers",
-      icon: "💯",
-      description: "Gain weight healthy",
-      color: "from-purple-500 to-purple-600",
-    },
-    {
-      name: "Recovery",
-      icon: "🧘",
-      description: "Post-workout care",
-      color: "from-teal-500 to-teal-600",
-    },
-  ];
+const CategoriesSection = ({
+  categories = [],
+  isLoading = false,
+  error = null,
+}) => {
+  const [api, setApi] = useState();
+  useEmblaCarouselAutoplay(api, {
+    delay: 4000,
+    stopOnInteraction: true,
+    stopOnMouseEnter: true,
+    playOnInit: categories.length > 2,
+  });
 
-  return (
-    <section className="py-16 bg-white">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            Shop by Category
-          </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Find the perfect supplements for your fitness goals
-          </p>
-        </div>
+  const CategorySkeleton = () => (
+    <div className="flex-[0_0_280px] md:flex-[0_0_240px] lg:flex-[0_0_200px]">
+      <div className="bg-white rounded-xl p-4 shadow-lg border border-gray-100 animate-pulse h-full">
+        <div className="aspect-square bg-gray-200 rounded-xl mb-4"></div>
+        <div className="h-5 bg-gray-200 rounded mb-2"></div>
+        <div className="h-3 bg-gray-200 rounded w-2/3 mb-2"></div>
+        <div className="h-3 bg-gray-200 rounded w-1/2"></div>
+      </div>
+    </div>
+  );
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
-          {categories.map((category, index) => (
-            <Link
-              href={`/products?category=${category.name}`}
-              key={index}
+  if (isLoading) {
+    return (
+      <section className="py-20 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <motion.h2
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              viewport={{ once: true }}
-              className="group cursor-pointer"
+              className="text-4xl md:text-5xl font-bold text-gray-900 mb-6"
             >
-              <div className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-all duration-300 border border-gray-100 group-hover:scale-105 group-hover:border-[#2E9692]/20 text-center">
-                <div className="text-4xl mb-3 group-hover:scale-110 transition-transform duration-300">
-                  {category.icon}
-                </div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-1 group-hover:text-[#2E9692] transition-colors">
-                  {category.name}
-                </h3>
-                <p className="text-sm text-gray-600 mb-2">
-                  {category.description}
-                </p>
-              </div>
-            </Link>
-          ))}
+              Shop by Category
+            </motion.h2>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              className="text-xl text-gray-600 max-w-3xl mx-auto"
+            >
+              Find the perfect supplements for your fitness goals
+            </motion.p>
+          </div>
+          <div className="flex gap-6 overflow-hidden">
+            {[...Array(6)].map((_, index) => (
+              <CategorySkeleton key={index} />
+            ))}
+          </div>
         </div>
+      </section>
+    );
+  }
+
+  if (error) {
+    return (
+      <section className="py-20 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <div className="text-center">
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+              Shop by Category
+            </h2>
+            <div className="bg-red-50 border border-red-200 rounded-xl p-8 max-w-md mx-auto">
+              <p className="text-red-600 mb-4">Failed to load categories</p>
+              <button
+                onClick={() => window.location.reload()}
+                className="bg-primary text-primary-foreground hover:bg-primary/90 px-6 py-3 rounded-xl font-medium transition-colors"
+              >
+                Try Again
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (categories.length === 0) {
+    return (
+      <section className="py-20 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <div className="text-center">
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+              Shop by Category
+            </h2>
+            <p className="text-gray-500">No categories available</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  return (
+    <section className="py-20 bg-gray-50">
+      <div className="container mx-auto px-4">
+        <div className="text-center mb-16">
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            className="text-4xl md:text-5xl font-bold text-gray-900 mb-6"
+          >
+            Shop by Category
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="text-xl text-gray-600 max-w-3xl mx-auto"
+          >
+            Find the perfect supplements for your fitness goals
+          </motion.p>
+        </div>
+
+        <div className="relative">
+          <Carousel
+            setApi={setApi}
+            className="w-full"
+            opts={{
+              align: "start",
+              loop: true,
+              breakpoints: {
+                "(max-width: 768px)": {
+                  slidesToScroll: 1,
+                  containScroll: "trimSnaps",
+                },
+                "(min-width: 769px)": {
+                  slidesToScroll: 2,
+                  containScroll: "trimSnaps",
+                },
+                "(min-width: 1024px)": {
+                  slidesToScroll: 3,
+                  containScroll: "trimSnaps",
+                },
+              },
+            }}
+          >
+            <CarouselContent className="-ml-4">
+              {categories.map((category, index) => (
+                <CarouselItem
+                  key={category.id}
+                  className="pl-4 basis-full sm:basis-1/2 md:basis-1/3 lg:basis-1/4 xl:basis-1/5"
+                >
+                  <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                    viewport={{ once: true }}
+                    className="group cursor-pointer h-full"
+                  >
+                    <Link href={`/category/${category.slug}`}>
+                      <div className="bg-white rounded-xl p-4 shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-100 group-hover:scale-[1.02] group-hover:border-primary/30 overflow-hidden h-full relative">
+                        <div className="relative aspect-square bg-gray-50 rounded-xl mb-4 overflow-hidden">
+                          <Image
+                            src={category.image || "/c3.jpg"}
+                            alt={category.name}
+                            fill
+                            className="object-cover group-hover:scale-110 transition-transform duration-700"
+                            sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                          <div className="absolute top-3 right-3 bg-primary text-primary-foreground text-xs font-bold px-3 py-1.5 rounded-full shadow-lg">
+                            {category._count?.products || 0} items
+                          </div>
+                        </div>
+
+                        <div className="text-center space-y-3">
+                          <h3 className="text-lg font-bold text-gray-900 group-hover:text-primary transition-colors duration-300 line-clamp-1">
+                            {category.name}
+                          </h3>
+                          {category.description && (
+                            <p className="text-sm text-gray-600 line-clamp-2 leading-relaxed">
+                              {category.description}
+                            </p>
+                          )}
+                          <div className="pt-2 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+                            <span className="inline-flex items-center text-sm text-primary-foreground bg-primary px-4 py-2 rounded-full font-medium shadow-lg">
+                              Shop Now
+                              <ArrowRight className="ml-1 h-3 w-3" />
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </Link>
+                  </motion.div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            {categories.length > 3 && (
+              <>
+                <CarouselPrevious className="hidden md:flex -left-4 bg-white/90 backdrop-blur-sm border-2 border-primary/20 text-primary hover:bg-primary hover:text-primary-foreground shadow-xl" />
+                <CarouselNext className="hidden md:flex -right-4 bg-white/90 backdrop-blur-sm border-2 border-primary/20 text-primary hover:bg-primary hover:text-primary-foreground shadow-xl" />
+              </>
+            )}
+          </Carousel>
+        </div>
+
+        {categories.length > 0 && (
+          <div className="text-center mt-16">
+            <Link href="/categories">
+              <Button
+                size="lg"
+                className="bg-primary text-primary-foreground hover:bg-primary/90 px-12 py-4 rounded-xl font-bold shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 text-lg"
+              >
+                View All Categories
+                <ArrowRight className="ml-3 h-6 w-6" />
+              </Button>
+            </Link>
+          </div>
+        )}
       </div>
     </section>
   );
 };
 
-// Featured Products
+// Featured Products Section
 const FeaturedProducts = ({
   products = [],
   isLoading = false,
@@ -311,6 +493,103 @@ const FeaturedProducts = ({
 }) => {
   const [quickViewProduct, setQuickViewProduct] = useState(null);
   const [quickViewOpen, setQuickViewOpen] = useState(false);
+  const { user, isAuthenticated } = useAuth();
+  const router = useRouter();
+
+  // Wishlist state management
+  const [wishlistItems, setWishlistItems] = useState([]);
+  const [wishlistLoading, setWishlistLoading] = useState({});
+
+  // Check wishlist status for all products
+  useEffect(() => {
+    const checkWishlistStatus = async () => {
+      if (!isAuthenticated || products.length === 0) return;
+
+      try {
+        const response = await fetchApi("/users/wishlist", {
+          credentials: "include",
+        });
+        const items = response.data.wishlistItems || [];
+        setWishlistItems(items);
+      } catch (error) {
+        console.error("Failed to check wishlist status:", error);
+      }
+    };
+
+    checkWishlistStatus();
+  }, [isAuthenticated, products]);
+
+  // Handle add to wishlist
+  const handleAddToWishlist = async (product) => {
+    if (!isAuthenticated) {
+      router.push(`/login?redirect=/`);
+      return;
+    }
+
+    const productId = product.id;
+    setWishlistLoading((prev) => ({ ...prev, [productId]: true }));
+
+    try {
+      const isInWishlist = wishlistItems.some(
+        (item) => item.productId === productId
+      );
+
+      if (isInWishlist) {
+        // Remove from wishlist
+        const wishlistItem = wishlistItems.find(
+          (item) => item.productId === productId
+        );
+        if (wishlistItem) {
+          await fetchApi(`/users/wishlist/${wishlistItem.id}`, {
+            method: "DELETE",
+            credentials: "include",
+          });
+          setWishlistItems((prev) =>
+            prev.filter((item) => item.productId !== productId)
+          );
+          toast.success(`${product.name} removed from wishlist!`);
+        }
+      } else {
+        // Add to wishlist
+        const response = await fetchApi("/users/wishlist", {
+          method: "POST",
+          credentials: "include",
+          body: JSON.stringify({ productId }),
+        });
+        setWishlistItems((prev) => [...prev, response.data]);
+        toast.success(`${product.name} added to wishlist!`);
+      }
+    } catch (error) {
+      console.error("Error updating wishlist:", error);
+      toast.error("Failed to update wishlist");
+    } finally {
+      setWishlistLoading((prev) => ({ ...prev, [productId]: false }));
+    }
+  };
+
+  // Check if product is in wishlist
+  const isInWishlist = (productId) => {
+    return wishlistItems.some((item) => item.productId === productId);
+  };
+
+  const ProductSkeleton = () => (
+    <div className="bg-white rounded-xl p-4 shadow-md animate-pulse border border-gray-100">
+      <div className="aspect-square bg-gray-200 rounded-xl mb-4"></div>
+      <div className="space-y-3">
+        <div className="flex space-x-1 mb-2">
+          {[...Array(5)].map((_, i) => (
+            <div key={i} className="h-3 w-3 bg-gray-200 rounded"></div>
+          ))}
+        </div>
+        <div className="h-4 bg-gray-200 rounded w-3/4"></div>
+        <div className="h-3 bg-gray-200 rounded w-1/2"></div>
+        <div className="flex space-x-2 mt-3">
+          <div className="h-8 bg-gray-200 rounded-xl flex-1"></div>
+          <div className="h-8 w-8 bg-gray-200 rounded-xl"></div>
+        </div>
+      </div>
+    </div>
+  );
 
   if (isLoading) {
     return (
@@ -350,33 +629,57 @@ const FeaturedProducts = ({
             viewport={{ once: true }}
             className="group"
           >
-            <div className="bg-white rounded-xl p-4 shadow-md hover:shadow-lg transition-all duration-300 border border-gray-100 hover:border-[#2E9692]/20">
-              <Link href={`/products/${product.slug || ""}`}>
-                <div className="relative aspect-square bg-gray-50 rounded-lg mb-4 overflow-hidden">
+            <div className="bg-white rounded-xl p-5 shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-100 hover:border-primary/30 group-hover:scale-[1.02] relative overflow-hidden">
+              <Link
+                href={`/products/${product.slug || ""}`}
+                className="relative z-10"
+              >
+                <div className="relative aspect-square bg-gray-50 rounded-xl mb-4 overflow-hidden">
                   <Image
-                    src={product.image || "/product-placeholder.jpg"}
+                    src={product.image || "/c3.jpg"}
                     alt={product.name || "Product"}
                     fill
-                    className="object-contain p-3 group-hover:scale-110 transition-transform duration-500"
+                    className="object-cover p-4 group-hover:scale-110 transition-transform duration-700"
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
                   />
                   {product.hasSale && (
-                    <div className="absolute top-2 left-2 z-10">
-                      <div className="bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">
+                    <div className="absolute top-3 left-3 z-10">
+                      <div className="bg-red-500 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg">
                         SALE
                       </div>
                     </div>
                   )}
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      handleAddToWishlist(product);
+                    }}
+                    disabled={wishlistLoading[product.id]}
+                    className={`absolute top-3 right-3 z-10 w-8 h-8 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg transition-all duration-300 group/heart ${
+                      isInWishlist(product.id)
+                        ? "bg-red-50 text-red-500"
+                        : "bg-white/90 text-gray-600 hover:bg-red-50 hover:text-red-500"
+                    } ${wishlistLoading[product.id] ? "animate-pulse" : ""}`}
+                  >
+                    <Heart
+                      className={`h-4 w-4 transition-all duration-300 ${
+                        isInWishlist(product.id)
+                          ? "fill-red-500"
+                          : "group-hover/heart:fill-red-500"
+                      }`}
+                    />
+                  </button>
                 </div>
               </Link>
 
-              <div className="space-y-2">
-                <div className="flex items-center gap-1">
+              <div className="space-y-3 relative z-10">
+                <div className="flex items-center gap-2">
                   <div className="flex text-yellow-400">
                     {[...Array(5)].map((_, i) => (
                       <Star
                         key={i}
-                        className="h-3 w-3"
+                        className="h-3.5 w-3.5"
                         fill={
                           i < Math.round(product.avgRating || 0)
                             ? "currentColor"
@@ -385,8 +688,8 @@ const FeaturedProducts = ({
                       />
                     ))}
                   </div>
-                  <span className="text-[10px] sm:text-xs text-gray-500">
-                    ({product.reviewCount || 0})
+                  <span className="text-xs text-gray-500 font-medium">
+                    ({product.reviewCount || 0} reviews)
                   </span>
                 </div>
 
@@ -394,42 +697,58 @@ const FeaturedProducts = ({
                   href={`/products/${product.slug || ""}`}
                   className="block"
                 >
-                  <h3 className="font-medium text-gray-900 hover:text-[#2E9692] transition-colors line-clamp-2 text-sm">
+                  <h3 className="font-bold text-gray-900 hover:text-primary transition-colors line-clamp-2 text-base leading-tight">
                     {product.name || "Product"}
                   </h3>
                 </Link>
 
                 <div className="flex items-center justify-between">
                   <div className="flex items-baseline gap-2">
-                    <span className="text-lg font-bold text-[#2E9692]">
+                    <span className="text-xl font-bold text-primary">
                       ₹{product.basePrice || 0}
                     </span>
                     {product.hasSale && (
-                      <span className="text-xs sm:text-sm text-gray-500 line-through">
+                      <span className="text-sm text-gray-500 line-through">
                         ₹{product.regularPrice || 0}
                       </span>
                     )}
                   </div>
+                  {product.hasSale && (
+                    <div className="bg-green-100 text-green-800 text-xs font-bold px-2 py-1 rounded-full">
+                      {Math.round(
+                        ((product.regularPrice - product.basePrice) /
+                          product.regularPrice) *
+                          100
+                      )}
+                      % OFF
+                    </div>
+                  )}
                 </div>
 
-                <div className="flex gap-2 pt-2">
-                  <Button
-                    size="sm"
-                    className="flex-1 bg-[#2E9692] hover:bg-[#2E9692]/90 text-white rounded-lg text-xs"
+                <div className="flex gap-3 pt-2">
+                  <Link
+                    href={`/products/${product.slug || ""}`}
+                    className="flex-1"
                   >
-                    Add to Cart
-                  </Button>
+                    <Button
+                      size="sm"
+                      className="w-full bg-primary text-primary-foreground hover:bg-primary/90 rounded-xl font-semibold shadow-lg hover:shadow-xl transform hover:scale-[1.02] transition-all duration-300"
+                    >
+                      <ShoppingCart className="h-3.5 w-3.5 mr-2" />
+                      Shop Now
+                    </Button>
+                  </Link>
                   <Button
                     variant="outline"
                     size="sm"
-                    className="border-[#2E9692] text-[#2E9692] hover:bg-[#2E9692] hover:text-white rounded-lg"
+                    className="border-2 border-primary/20 text-primary hover:bg-primary hover:text-primary-foreground rounded-xl shadow-md hover:shadow-lg transition-all duration-300 bg-transparent"
                     onClick={(e) => {
                       e.preventDefault();
                       setQuickViewProduct(product);
                       setQuickViewOpen(true);
                     }}
                   >
-                    <Eye className="h-3 w-3" />
+                    <Eye className="h-3.5 w-3.5" />
                   </Button>
                 </div>
               </div>
@@ -442,7 +761,7 @@ const FeaturedProducts = ({
         <Link href="/products">
           <Button
             size="lg"
-            className="bg-gradient-to-r from-[#2E9692] to-[#D5DA2A] hover:from-[#2E9692]/90 hover:to-[#D5DA2A]/90 text-white px-12 py-3 rounded-full font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+            className="bg-primary text-primary-foreground hover:bg-primary/90 px-12 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
           >
             View All Products
             <ArrowRight className="ml-2 h-5 w-5" />
@@ -485,18 +804,17 @@ const WhyChooseUsSection = () => {
   ];
 
   return (
-    <section className="py-16 bg-gray-50">
+    <section className="py-16 bg-white">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
             Why Choose Genuine Vitals
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            We're committed to providing you with the best supplements and
+            We&apos;re committed to providing you with the best supplements and
             service
           </p>
         </div>
-
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {features.map((feature, index) => (
             <motion.div
@@ -507,8 +825,8 @@ const WhyChooseUsSection = () => {
               viewport={{ once: true }}
               className="text-center group"
             >
-              <div className="bg-gradient-to-br from-[#2E9692]/10 to-[#D5DA2A]/10 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
-                <div className="text-[#2E9692]">{feature.icon}</div>
+              <div className="bg-primary/10 w-16 h-16 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
+                <div className="text-primary">{feature.icon}</div>
               </div>
               <h3 className="text-xl font-semibold text-gray-900 mb-3">
                 {feature.title}
@@ -550,7 +868,7 @@ const StatsSection = () => {
   ];
 
   return (
-    <section className="py-16 bg-gradient-to-r from-[#2E9692] to-[#D5DA2A]">
+    <section className="py-16 bg-primary text-primary-foreground">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
           {stats.map((stat, index) => (
@@ -560,107 +878,14 @@ const StatsSection = () => {
               whileInView={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
               viewport={{ once: true }}
-              className="text-white"
             >
-              <div className="flex justify-center mb-3 text-white/80">
+              <div className="flex justify-center mb-3 opacity-80">
                 {stat.icon}
               </div>
               <div className="text-3xl md:text-4xl font-bold mb-2">
                 {stat.number}
               </div>
               <div className="text-sm font-medium opacity-90">{stat.label}</div>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-};
-
-// Testimonials Section
-const TestimonialsSection = () => {
-  const testimonials = [
-    {
-      name: "Ravi Sharma",
-      role: "Fitness Enthusiast",
-      quote:
-        "Amazing quality supplements! Saw results within 2 weeks of using their protein powder.",
-      rating: 5,
-      location: "Mumbai",
-    },
-    {
-      name: "Priya Patel",
-      role: "Yoga Instructor",
-      quote:
-        "Clean ingredients and great taste. I recommend these to all my students.",
-      rating: 5,
-      location: "Delhi",
-    },
-    {
-      name: "Arjun Singh",
-      role: "Professional Athlete",
-      quote:
-        "The pre-workout gives me incredible energy. Perfect for intense training sessions.",
-      rating: 5,
-      location: "Bangalore",
-    },
-  ];
-
-  return (
-    <section className="py-16 bg-white">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            What Our Customers Say
-          </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Real stories from real people who achieved their fitness goals
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {testimonials.map((testimonial, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.2 }}
-              viewport={{ once: true }}
-              className="group"
-            >
-              <div className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 h-full border border-gray-100 group-hover:border-[#2E9692]/20">
-                <div className="flex items-center gap-1 mb-4">
-                  {[...Array(5)].map((_, i) => (
-                    <Star
-                      key={i}
-                      className={`h-4 w-4 ${
-                        i < testimonial.rating
-                          ? "text-[#D5DA2A] fill-[#D5DA2A]"
-                          : "text-gray-300"
-                      }`}
-                    />
-                  ))}
-                </div>
-
-                <p className="text-gray-700 mb-6 leading-relaxed">
-                  "{testimonial.quote}"
-                </p>
-
-                <div className="flex items-center">
-                  <div className="w-12 h-12 bg-gradient-to-r from-[#2E9692] to-[#D5DA2A] rounded-full flex items-center justify-center text-white font-bold">
-                    {testimonial.name.charAt(0)}
-                  </div>
-                  <div className="ml-3">
-                    <h4 className="font-semibold text-gray-900">
-                      {testimonial.name}
-                    </h4>
-                    <p className="text-sm text-gray-600">{testimonial.role}</p>
-                    <p className="text-sm text-[#2E9692] font-medium">
-                      {testimonial.location}
-                    </p>
-                  </div>
-                </div>
-              </div>
             </motion.div>
           ))}
         </div>
@@ -693,7 +918,6 @@ const NewsletterSection = () => {
           <p className="text-lg text-gray-600 mb-8">
             Get the latest fitness tips, product launches, and exclusive offers
           </p>
-
           <form
             onSubmit={handleSubscribe}
             className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto"
@@ -703,16 +927,16 @@ const NewsletterSection = () => {
               placeholder="Enter your email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="flex-1 px-4 py-3 rounded-lg border border-gray-300 focus:border-[#2E9692] focus:outline-none"
+              className="flex-1 px-4 py-3 rounded-xl border border-gray-300 focus:border-primary focus:outline-none"
               required
             />
             <Button
               type="submit"
-              className={`px-6 py-3 rounded-lg font-medium transition-all duration-300 ${
+              className={`px-6 py-3 rounded-xl font-medium transition-all duration-300 ${
                 isSubscribed
                   ? "bg-green-500 hover:bg-green-600"
-                  : "bg-gradient-to-r from-[#2E9692] to-[#D5DA2A] hover:from-[#2E9692]/90 hover:to-[#D5DA2A]/90"
-              } text-white shadow-lg hover:shadow-xl transform hover:scale-105`}
+                  : "bg-primary text-primary-foreground hover:bg-primary/90"
+              } shadow-lg hover:shadow-xl transform hover:scale-105`}
             >
               {isSubscribed ? "Subscribed!" : "Subscribe"}
             </Button>
@@ -723,44 +947,43 @@ const NewsletterSection = () => {
   );
 };
 
-// Product Skeleton
-const ProductSkeleton = () => (
-  <div className="bg-white rounded-xl p-4 shadow-md animate-pulse border border-gray-100">
-    <div className="aspect-square bg-gray-200 rounded-lg mb-4"></div>
-    <div className="space-y-3">
-      <div className="flex space-x-1 mb-2">
-        {[...Array(5)].map((_, i) => (
-          <div key={i} className="h-3 w-3 bg-gray-200 rounded"></div>
-        ))}
-      </div>
-      <div className="h-4 bg-gray-200 rounded w-3/4"></div>
-      <div className="h-3 bg-gray-200 rounded w-1/2"></div>
-      <div className="flex space-x-2 mt-3">
-        <div className="h-8 bg-gray-200 rounded-lg flex-1"></div>
-        <div className="h-8 w-8 bg-gray-200 rounded-lg"></div>
-      </div>
-    </div>
-  </div>
-);
-
 // Main Home Component
 export default function Home() {
   const [featuredProducts, setFeaturedProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [productsLoading, setProductsLoading] = useState(true);
+  const [categoriesLoading, setCategoriesLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [categoriesError, setCategoriesError] = useState(null);
+  const [newProducts, setNewProducts] = useState([]);
+  const [newProductsLoading, setNewProductsLoading] = useState(true);
+  const [newProductsError, setNewProductsError] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const productsRes = await fetchApi(
-          "/public/products?featured=true&limit=8"
-        );
+        const [productsRes, categoriesRes, newProductsRes] = await Promise.all([
+          fetchApi("/public/products?featured=true&limit=8"),
+          fetchApi("/public/categories"),
+          fetchApi("/public/products?new=true&limit=4"),
+        ]);
+
         setFeaturedProducts(productsRes?.data?.products || []);
+        setCategories(categoriesRes?.data?.categories || []);
+        setNewProducts(newProductsRes?.data?.products || []);
       } catch (err) {
         console.error("Error fetching data:", err);
-        setError(err?.message || "Failed to fetch data");
+        if (err.message.includes("categories")) {
+          setCategoriesError(err?.message || "Failed to fetch categories");
+        } else if (err.message.includes("new")) {
+          setNewProductsError(err?.message || "Failed to fetch new products");
+        } else {
+          setError(err?.message || "Failed to fetch data");
+        }
       } finally {
         setProductsLoading(false);
+        setCategoriesLoading(false);
+        setNewProductsLoading(false); // This was missing!
       }
     };
 
@@ -768,18 +991,17 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="min-h-screen">
-      {/* Hero Section */}
+    <div className="md:min-h-screen">
       <ModernHero />
+      <CategoriesSection
+        categories={categories}
+        isLoading={categoriesLoading}
+        error={categoriesError}
+      />
 
-      {/* Announcement Bar */}
-      <AnnouncementBar />
+      <VideoSection />
 
-      {/* Categories Section */}
-      <CategoriesSection />
-
-      {/* Featured Products Section */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-20 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
@@ -798,17 +1020,38 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Why Choose Us Section */}
+      <CTASection />
+
+      <section className="py-20 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="inline-flex items-center bg-primary text-primary-foreground px-4 py-2 rounded-full text-sm font-medium mb-6"
+            >
+              <Zap className="h-4 w-4 mr-2" />
+              Just Launched
+            </motion.div>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              New Products
+            </h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Discover our latest supplements and cutting-edge formulations
+            </p>
+          </div>
+          <FeaturedProducts
+            products={newProducts}
+            isLoading={newProductsLoading}
+            error={newProductsError}
+          />
+        </div>
+      </section>
+
       <WhyChooseUsSection />
-
-      {/* Stats Section */}
       <StatsSection />
-
-      {/* Testimonials Section */}
       <TestimonialsSection />
-
-      {/* Newsletter Section */}
-      <NewsletterSection />
     </div>
   );
 }

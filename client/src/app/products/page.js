@@ -52,12 +52,6 @@ function ProductsContent() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showFilters, setShowFilters] = useState(false);
-  const [filtersHeight, setFiltersHeight] = useState("auto");
-  const [selectedFilters, setSelectedFilters] = useState({
-    categories: [],
-    sortBy: "featured",
-    priceRange: [0, 10000],
-  });
   const [pagination, setPagination] = useState({
     page: 1,
     pages: 1,
@@ -289,8 +283,6 @@ function ProductsContent() {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="newest">Newest First</SelectItem>
-                  <SelectItem value="price_asc">Price: Low to High</SelectItem>
-                  <SelectItem value="price_desc">Price: High to Low</SelectItem>
                   <SelectItem value="name_asc">Name A-Z</SelectItem>
                   <SelectItem value="name_desc">Name Z-A</SelectItem>
                 </SelectContent>
@@ -325,34 +317,6 @@ function ProductsContent() {
                     ))}
                   </SelectContent>
                 </Select>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Min Price
-                </label>
-                <Input
-                  type="number"
-                  placeholder="0"
-                  value={filters.minPrice}
-                  onChange={(e) =>
-                    setFilters((f) => ({ ...f, minPrice: e.target.value }))
-                  }
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Max Price
-                </label>
-                <Input
-                  type="number"
-                  placeholder="10000"
-                  value={filters.maxPrice}
-                  onChange={(e) =>
-                    setFilters((f) => ({ ...f, maxPrice: e.target.value }))
-                  }
-                />
               </div>
 
               <div className="sm:col-span-2 lg:col-span-1 flex items-end">

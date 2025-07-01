@@ -56,9 +56,24 @@ export default function ProductQuickView({ product, open, onOpenChange }) {
 
     if (product) {
       // Set initial image when product changes
-      setImgSrc(product.image || "/product-placeholder.jpg");
+      setImgSrc(product.image || "/c3.jpg");
     }
   }, [product, open]);
+
+  // Update image when variant changes
+  useEffect(() => {
+    if (
+      selectedVariant &&
+      selectedVariant.images &&
+      selectedVariant.images.length > 0
+    ) {
+      const primaryImage = selectedVariant.images.find((img) => img.isPrimary);
+      const imageUrl = primaryImage
+        ? primaryImage.url
+        : selectedVariant.images[0].url;
+      setImgSrc(imageUrl);
+    }
+  }, [selectedVariant]);
 
   // Fetch product details when product changes
   useEffect(() => {
@@ -78,8 +93,8 @@ export default function ProductQuickView({ product, open, onOpenChange }) {
           if (productData.images && productData.images.length > 0) {
             setImgSrc(
               productData.images[0].url ||
-              productData.image ||
-              "/product-placeholder.jpg"
+                productData.image ||
+                "/product-placeholder.jpg"
             );
           }
 
@@ -415,7 +430,10 @@ export default function ProductQuickView({ product, open, onOpenChange }) {
         <DialogHeader>
           <DialogTitle className="text-2xl font-bold">
             {displayProduct?.slug ? (
-              <Link href={`/products/${displayProduct.slug}`} className="hover:text-primary">
+              <Link
+                href={`/products/${displayProduct.slug}`}
+                className="hover:text-primary"
+              >
                 {displayProduct.name}
               </Link>
             ) : (
@@ -446,8 +464,12 @@ export default function ProductQuickView({ product, open, onOpenChange }) {
               {getPriceDisplay()}
 
               {/* Stock Status */}
-              <div className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-${stockStatus.color}-100 text-${stockStatus.color}-800`}>
-                <div className={`w-2 h-2 mr-2 rounded-full bg-${stockStatus.color}-500`} />
+              <div
+                className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-${stockStatus.color}-100 text-${stockStatus.color}-800`}
+              >
+                <div
+                  className={`w-2 h-2 mr-2 rounded-full bg-${stockStatus.color}-500`}
+                />
                 {stockStatus.text}
                 {selectedVariant && selectedVariant.quantity > 0 && (
                   <span className="ml-1 text-gray-500">
@@ -456,64 +478,82 @@ export default function ProductQuickView({ product, open, onOpenChange }) {
                 )}
               </div>
 
-              <p className="text-gray-600 text-sm leading-relaxed">{product.description}</p>
+              <p className="text-gray-600 text-sm leading-relaxed">
+                {product.description}
+              </p>
             </div>
 
             {/* Variant Selection */}
-            {productDetails?.flavorOptions && productDetails.flavorOptions.length > 0 && (
-              <div className="space-y-3">
-                <label className="text-sm font-medium">Flavor</label>
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-                  {productDetails.flavorOptions.map((flavor) => {
-                    const isAvailable = selectedWeight
-                      ? isCombinationAvailable(flavor.id, selectedWeight.id)
-                      : availableCombinations.some((combo) => combo.flavorId === flavor.id);
+            {productDetails?.flavorOptions &&
+              productDetails.flavorOptions.length > 0 && (
+                <div className="space-y-3">
+                  <label className="text-sm font-medium">Flavor</label>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                    {productDetails.flavorOptions.map((flavor) => {
+                      const isAvailable = selectedWeight
+                        ? isCombinationAvailable(flavor.id, selectedWeight.id)
+                        : availableCombinations.some(
+                            (combo) => combo.flavorId === flavor.id
+                          );
 
-                    return (
-                      <Button
-                        key={flavor.id}
-                        variant={selectedFlavor?.id === flavor.id ? "default" : "outline"}
-                        size="sm"
-                        onClick={() => handleFlavorChange(flavor)}
-                        disabled={!isAvailable}
-                        className={`rounded-lg justify-start h-auto py-3 ${!isAvailable ? "opacity-50" : ""
+                      return (
+                        <Button
+                          key={flavor.id}
+                          variant={
+                            selectedFlavor?.id === flavor.id
+                              ? "default"
+                              : "outline"
+                          }
+                          size="sm"
+                          onClick={() => handleFlavorChange(flavor)}
+                          disabled={!isAvailable}
+                          className={`rounded-lg justify-start h-auto py-3 ${
+                            !isAvailable ? "opacity-50" : ""
                           }`}
-                      >
-                        {flavor.name}
-                      </Button>
-                    );
-                  })}
+                        >
+                          {flavor.name}
+                        </Button>
+                      );
+                    })}
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
 
             {/* Weight Selection */}
-            {productDetails?.weightOptions && productDetails.weightOptions.length > 0 && (
-              <div className="space-y-3">
-                <label className="text-sm font-medium">Weight</label>
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-                  {productDetails.weightOptions.map((weight) => {
-                    const isAvailable = selectedFlavor
-                      ? isCombinationAvailable(selectedFlavor.id, weight.id)
-                      : availableCombinations.some((combo) => combo.weightId === weight.id);
+            {productDetails?.weightOptions &&
+              productDetails.weightOptions.length > 0 && (
+                <div className="space-y-3">
+                  <label className="text-sm font-medium">Weight</label>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                    {productDetails.weightOptions.map((weight) => {
+                      const isAvailable = selectedFlavor
+                        ? isCombinationAvailable(selectedFlavor.id, weight.id)
+                        : availableCombinations.some(
+                            (combo) => combo.weightId === weight.id
+                          );
 
-                    return (
-                      <Button
-                        key={weight.id}
-                        variant={selectedWeight?.id === weight.id ? "default" : "outline"}
-                        size="sm"
-                        onClick={() => handleWeightChange(weight)}
-                        disabled={!isAvailable}
-                        className={`rounded-lg justify-start h-auto py-3 ${!isAvailable ? "opacity-50" : ""
+                      return (
+                        <Button
+                          key={weight.id}
+                          variant={
+                            selectedWeight?.id === weight.id
+                              ? "default"
+                              : "outline"
+                          }
+                          size="sm"
+                          onClick={() => handleWeightChange(weight)}
+                          disabled={!isAvailable}
+                          className={`rounded-lg justify-start h-auto py-3 ${
+                            !isAvailable ? "opacity-50" : ""
                           }`}
-                      >
-                        {weight.value} {weight.unit}
-                      </Button>
-                    );
-                  })}
+                        >
+                          {weight.value} {weight.unit}
+                        </Button>
+                      );
+                    })}
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
 
             {/* Quantity Selector */}
             <div className="space-y-3">
@@ -524,7 +564,11 @@ export default function ProductQuickView({ product, open, onOpenChange }) {
                     variant="ghost"
                     size="icon"
                     onClick={() => handleQuantityChange(-1)}
-                    disabled={quantity <= 1 || !selectedVariant || selectedVariant.quantity < 1}
+                    disabled={
+                      quantity <= 1 ||
+                      !selectedVariant ||
+                      selectedVariant.quantity < 1
+                    }
                     className="h-10 rounded-l-lg border-r hover:bg-gray-50"
                   >
                     <Minus className="h-4 w-4" />
@@ -585,7 +629,9 @@ export default function ProductQuickView({ product, open, onOpenChange }) {
               ) : (
                 <div className="flex items-center justify-center space-x-2">
                   <ShoppingCart className="h-5 w-5" />
-                  <span>{selectedVariant ? "Add to Cart" : "Select Options"}</span>
+                  <span>
+                    {selectedVariant ? "Add to Cart" : "Select Options"}
+                  </span>
                 </div>
               )}
             </motion.button>

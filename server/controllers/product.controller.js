@@ -20,6 +20,18 @@ export const getAllProducts = asyncHandler(async (req, res) => {
     featured,
   } = req.query;
 
+  // Map sort parameters to actual database fields
+  const sortMapping = {
+    newest: "createdAt",
+    oldest: "createdAt",
+    name: "name",
+    price: "createdAt", // We'll handle price sorting differently since it's in variants
+    featured: "featured",
+  };
+
+  const mappedSort = sortMapping[sort] || "createdAt";
+  const mappedOrder = sort === "oldest" ? "asc" : order;
+
   // Build filter conditions
   const whereConditions = {
     isActive: true,
@@ -163,7 +175,7 @@ export const getAllProducts = asyncHandler(async (req, res) => {
       },
     },
     orderBy: {
-      [sort]: order,
+      [mappedSort]: mappedOrder,
     },
     skip: (parseInt(page) - 1) * parseInt(limit),
     take: parseInt(limit),
@@ -607,4 +619,149 @@ export const getMaxPrice = asyncHandler(async (req, res) => {
     .json(
       new ApiResponsive(200, { maxPrice }, "Maximum price fetched successfully")
     );
+});
+
+// Get new products (latest products based on creation date)
+export const getNewProducts = asyncHandler(async (req, res) => {
+  const { limit = 8 } = req.query;
+
+  // Get the latest products (created in last 30 days or just newest)
+  const products = await prisma.product.findMany({
+    where: {
+      isActive: true,
+    },
+    include: {
+      categories: {
+        include: {
+          category: true,
+        },
+      },
+      images: {
+        where: { isPrimary: true },
+        take: 1,
+      },
+      variants: {
+        where: { isActive: true },
+        include: {
+          flavor: true,
+          weight: true,
+          images: {
+            orderBy: { order: "asc" },
+          },
+        },
+        orderBy: { price: "asc" },
+      },
+      _count: {
+        select: {
+          reviews: {
+            where: {
+              status: "APPROVED",
+            },
+          },
+        },
+      },
+    },
+    orderBy: {
+      createdAt: "desc", // Sort by newest first
+    },
+    take: parseInt(limit),
+  });
+
+  // Format products for response (same formatting as getAllProducts)
+  const formattedProducts = products.map((product) => {
+    // Get primary category (first in the list)
+    const primaryCategory =
+      product.categories.length > 0 ? product.categories[0].category : null;
+
+    // Get image with fallback logic
+    let imageUrl = null;
+
+    // Priority 1: Product images
+    if (product.images && product.images.length > 0) {
+      const primaryImage = product.images.find((img) => img.isPrimary);
+      imageUrl = primaryImage ? primaryImage.url : product.images[0].url;
+    }
+    // Priority 2: Any variant images
+    else if (product.variants && product.variants.length > 0) {
+      const variantWithImages = product.variants.find(
+        (variant) => variant.images && variant.images.length > 0
+      );
+      if (variantWithImages) {
+        const primaryImage = variantWithImages.images.find(
+          (img) => img.isPrimary
+        );
+        imageUrl = primaryImage
+          ? primaryImage.url
+          : variantWithImages.images[0].url;
+      }
+    }
+
+    // Get price from lowest price variant
+    const lowestPriceVariant =
+      product.variants.length > 0 ? product.variants[0] : null;
+    const basePrice = lowestPriceVariant
+      ? parseFloat(lowestPriceVariant.salePrice || lowestPriceVariant.price)
+      : null;
+    const regularPrice = lowestPriceVariant
+      ? parseFloat(lowestPriceVariant.price)
+      : null;
+    const hasSale = lowestPriceVariant && lowestPriceVariant.salePrice !== null;
+
+    // Calculate average rating
+    const totalRatings = product.variants.reduce((sum, variant) => {
+      return sum + (variant.avgRating || 0);
+    }, 0);
+    const avgRating =
+      product.variants.length > 0 ? totalRatings / product.variants.length : 0;
+
+    return {
+      id: product.id,
+      name: product.name,
+      slug: product.slug,
+      description: product.description,
+      image: imageUrl ? getFileUrl(imageUrl) : null,
+      category: primaryCategory,
+      basePrice,
+      regularPrice,
+      hasSale,
+      avgRating,
+      reviewCount: product._count.reviews,
+      isNew: true, // Mark as new product
+      createdAt: product.createdAt,
+      variants: product.variants.map((variant) => ({
+        id: variant.id,
+        sku: variant.sku,
+        price: parseFloat(variant.price),
+        salePrice: variant.salePrice ? parseFloat(variant.salePrice) : null,
+        stock: variant.stock,
+        flavor: variant.flavor
+          ? {
+              ...variant.flavor,
+              image: variant.flavor.image
+                ? getFileUrl(variant.flavor.image)
+                : null,
+            }
+          : null,
+        weight: variant.weight,
+        images: variant.images
+          ? variant.images.map((image) => ({
+              ...image,
+              url: getFileUrl(image.url),
+            }))
+          : [],
+      })),
+    };
+  });
+
+  res.status(200).json(
+    new ApiResponsive(
+      200,
+      {
+        products: formattedProducts,
+        total: formattedProducts.length,
+        isNew: true,
+      },
+      "New products fetched successfully"
+    )
+  );
 });

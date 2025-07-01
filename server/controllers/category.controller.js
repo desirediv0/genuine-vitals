@@ -50,6 +50,18 @@ export const getProductsByCategory = asyncHandler(async (req, res) => {
     order = "desc",
   } = req.query;
 
+  // Map sort parameters to actual database fields
+  const sortMapping = {
+    newest: "createdAt",
+    oldest: "createdAt",
+    name: "name",
+    price: "createdAt",
+    featured: "featured",
+  };
+
+  const mappedSort = sortMapping[sort] || "createdAt";
+  const mappedOrder = sort === "oldest" ? "asc" : order;
+
   // Find the category by slug
   const category = await prisma.category.findUnique({
     where: { slug },
@@ -118,7 +130,7 @@ export const getProductsByCategory = asyncHandler(async (req, res) => {
       },
     },
     orderBy: {
-      [sort]: order,
+      [mappedSort]: mappedOrder,
     },
     skip: (parseInt(page) - 1) * parseInt(limit),
     take: parseInt(limit),
