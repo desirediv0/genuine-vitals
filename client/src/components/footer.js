@@ -186,7 +186,7 @@ export function Footer() {
               <MapPin className="h-5 w-5 text-[#2E9692]" />
               <div>
                 <h4 className="font-medium text-gray-900 text-sm">Address</h4>
-                <p className="text-gray-600 text-sm">Mumbai, Maharashtra</p>
+                <p className="text-gray-600 text-sm">89/2 sector 39 gurugram haryana</p>
               </div>
             </div>
             <div className="flex items-center justify-center space-x-3">

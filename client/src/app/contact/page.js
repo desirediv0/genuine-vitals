@@ -129,13 +129,12 @@ export default function ContactPage() {
               </div>
               {status.message && (
                 <div
-                  className={`p-4 rounded-lg ${
-                    status.type === "success"
+                  className={`p-4 rounded-lg ${status.type === "success"
                       ? "bg-green-50 text-green-700"
                       : status.type === "error"
-                      ? "bg-red-50 text-red-700"
-                      : "bg-blue-50 text-blue-700"
-                  }`}
+                        ? "bg-red-50 text-red-700"
+                        : "bg-blue-50 text-blue-700"
+                    }`}
                 >
                   <div className="flex items-center gap-2">
                     {status.type === "success" ? (
@@ -192,11 +191,7 @@ export default function ContactPage() {
                   <div>
                     <h3 className="font-medium text-gray-900">Address</h3>
                     <p className="text-gray-600">
-                      123 Business Street
-                      <br />
-                      Suite 100
-                      <br />
-                      New York, NY 10001
+                      89/2 sector 39 gurugram haryana
                     </p>
                   </div>
                 </div>
