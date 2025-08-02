@@ -4,7 +4,7 @@ export const getVerificationTemplate = (verificationLink) => `
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Verify Your Email - GenuineNutrition</title>
+    <title>Verify Your Email - Genuine Vitals</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -23,7 +23,7 @@ export const getVerificationTemplate = (verificationLink) => `
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
         }
         .header {
-            background: linear-gradient(135deg, #2563eb, #1e40af);
+            background: linear-gradient(135deg, #2E948A, #1a6b63);
             color: #ffffff;
             text-align: center;
             padding: 40px;
@@ -54,7 +54,7 @@ export const getVerificationTemplate = (verificationLink) => `
         .button {
             display: inline-block;
             padding: 15px 35px;
-            background-color: #2563eb;
+            background-color: #2E948A;
             color: #ffffff !important;
             text-decoration: none;
             border-radius: 50px;
@@ -79,7 +79,7 @@ export const getVerificationTemplate = (verificationLink) => `
             content: '✓';
             position: absolute;
             left: 0;
-            color: #2563eb;
+            color: #2E948A;
             font-weight: bold;
         }
         .footer {
@@ -94,17 +94,17 @@ export const getVerificationTemplate = (verificationLink) => `
 <body>
     <div class="container">
         <div class="header">
-            <h1>Welcome to GenuineNutrition</h1>
+            <h1>Welcome to Genuine Vitals</h1>
         </div>
         <div class="content">
             <h2>Verify Your Email</h2>
             <p>Dear Valued Customer,</p>
-            <p>Welcome to GenuineNutrition - your trusted source for premium quality supplements. Please verify your email address to access your account:</p>
+            <p>Welcome to Genuine Vitals - your trusted source for premium quality supplements. Please verify your email address to access your account:</p>
             <div class="button-container">
                 <a href="${verificationLink}" class="button">Verify Email Now</a>
             </div>
             <p>If you can't click the button, copy and paste this link in your browser: <br>${verificationLink}</p>
-            <p>If you didn't create an account with GenuineNutrition, please disregard this email.</p>
+            <p>If you didn't create an account with Genuine Vitals, please disregard this email.</p>
             
             <div class="features">
                 <h3>What you can do after verification:</h3>
@@ -115,7 +115,7 @@ export const getVerificationTemplate = (verificationLink) => `
             </div>
         </div>
         <div class="footer">
-            © ${new Date().getFullYear()} GenuineNutrition | Premium Health Supplements<br>
+            © ${new Date().getFullYear()} Genuine Vitals | Premium Health Supplements<br>
             This is an automated message. Please do not reply to this email.
         </div>
     </div>
@@ -129,7 +129,7 @@ export const getDeleteTemplate = (deletionLink) => `
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Account Deletion Request - BeingGenuineNutrition</title>
+    <title>Account Deletion Request - Genuine Vitals</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -148,7 +148,7 @@ export const getDeleteTemplate = (deletionLink) => `
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
         }
         .header {
-            background: linear-gradient(135deg, #000000, #333333);
+            background: linear-gradient(135deg, #2E948A, #1a6b63);
             color: #ffffff;
             text-align: center;
             padding: 40px;
@@ -175,7 +175,7 @@ export const getDeleteTemplate = (deletionLink) => `
         .button {
             display: inline-block;
             padding: 15px 35px;
-            background: linear-gradient(135deg, #000000, #333333);
+            background: linear-gradient(135deg, #2E948A, #1a6b63);
             color: #ffffff;
             text-decoration: none;
             border-radius: 50px;
@@ -215,7 +215,7 @@ export const getDeleteTemplate = (deletionLink) => `
             content: '➤';
             position: absolute;
             left: 0;
-            color: #000000;
+            color: #2E948A;
         }
         .footer {
             text-align: center;
@@ -234,7 +234,7 @@ export const getDeleteTemplate = (deletionLink) => `
         <div class="content">
             <h2>Account Deletion Request</h2>
             <p>Dear Valued Customer,</p>
-            <p>We've received a request to delete your BeingGenuineNutrition account. Before proceeding, we want to ensure this is your intended action, as it will affect your access to premium supplements, order history, and fitness tracking.</p>
+            <p>We've received a request to delete your Genuine Vitals account. Before proceeding, we want to ensure this is your intended action, as it will affect your access to premium supplements, order history, and fitness tracking.</p>
             <p>If you're certain about deleting your account, please click the button below:</p>
             <a href="${deletionLink}" class="button">Confirm Account Deletion</a>
             <div class="warning">
@@ -252,10 +252,10 @@ export const getDeleteTemplate = (deletionLink) => `
                     Contact our support team for assistance
                 </div>
             </div>
-            <p>If you didn't request this deletion, please contact our support team immediately at support@beinggenuinenutrition.com.</p>
+            <p>If you didn't request this deletion, please contact our support team immediately at support@genuinevitals.com.</p>
         </div>
         <div class="footer">
-            © ${new Date().getFullYear()} BeingGenuineNutrition | Premium Supplements for Your Fitness Journey<br>
+            © ${new Date().getFullYear()} Genuine Vitals | Premium Supplements for Your Fitness Journey<br>
             This is an automated message. Please do not reply to this email.
         </div>
     </div>
@@ -269,7 +269,7 @@ export const getResetTemplate = (resetLink) => `
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reset Your Password - GenuineNutrition</title>
+    <title>Reset Your Password - Genuine Vitals</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -288,7 +288,7 @@ export const getResetTemplate = (resetLink) => `
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
         }
         .header {
-            background: linear-gradient(135deg, #2563eb, #1e40af);
+            background: linear-gradient(135deg, #2E948A, #1a6b63);
             color: #ffffff;
             text-align: center;
             padding: 40px;
@@ -315,7 +315,7 @@ export const getResetTemplate = (resetLink) => `
         .button {
             display: inline-block;
             padding: 15px 35px;
-            background: linear-gradient(135deg, #2563eb, #1e40af);
+            background: linear-gradient(135deg, #2E948A, #1a6b63);
             color: #ffffff;
             text-decoration: none;
             border-radius: 50px;
@@ -346,13 +346,13 @@ export const getResetTemplate = (resetLink) => `
         <div class="content">
             <h2>Password Reset Request</h2>
             <p>Dear Valued Customer,</p>
-            <p>We received a request to reset the password for your GenuineNutrition account. Click the button below to create a new password:</p>
+            <p>We received a request to reset the password for your Genuine Vitals account. Click the button below to create a new password:</p>
             <a href="${resetLink}" class="button">Reset Password</a>
-            <p>If you didn't request this password reset, please contact our support team immediately at support@beinggenuinenutrition</p>
+            <p>If you didn't request this password reset, please contact our support team immediately at support@genuinevitals.com</p>
             <p>This link will expire in 15 minutes for security reasons.</p>
         </div>
         <div class="footer">
-            © ${new Date().getFullYear()} GenuineNutrition | Premium Health Supplements<br>
+            © ${new Date().getFullYear()} Genuine Vitals | Premium Health Supplements<br>
             This is an automated message. Please do not reply to this email.
         </div>
     </div>
@@ -366,7 +366,7 @@ export const getFeeReceiptTemplate = (data) => `
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Payment Receipt - BeingGenuineNutrition</title>
+    <title>Payment Receipt - Genuine Vitals</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -385,7 +385,7 @@ export const getFeeReceiptTemplate = (data) => `
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
         }
         .header {
-            background: linear-gradient(135deg, #000000, #333333);
+            background: linear-gradient(135deg, #2E948A, #1a6b63);
             color: #ffffff;
             text-align: center;
             padding: 40px;
@@ -418,7 +418,7 @@ export const getFeeReceiptTemplate = (data) => `
         .button {
             display: inline-block;
             padding: 15px 35px;
-            background: linear-gradient(135deg, #000000, #333333);
+            background: linear-gradient(135deg, #2E948A, #1a6b63);
             color: #ffffff;
             text-decoration: none;
             border-radius: 50px;
@@ -460,7 +460,7 @@ export const getFeeReceiptTemplate = (data) => `
             <p>Please find your receipt attached to this email. We look forward to supporting your fitness journey with our premium supplements.</p>
         </div>
         <div class="footer">
-            © ${new Date().getFullYear()} BeingGenuineNutrition | Premium Supplements for Your Fitness Journey<br>
+            © ${new Date().getFullYear()} Genuine Vitals | Premium Supplements for Your Fitness Journey<br>
             This is an automated message. Please do not reply.
         </div>
     </div>
@@ -474,7 +474,7 @@ export const getFeeNotificationTemplate = (data) => `
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>New Subscription - BeingGenuineNutrition</title>
+    <title>New Subscription - Genuine Vitals</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -491,7 +491,7 @@ export const getFeeNotificationTemplate = (data) => `
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
         }
         .header {
-            background: linear-gradient(135deg, #000000, #333333);
+            background: linear-gradient(135deg, #2E948A, #1a6b63);
             color: #ffffff;
             text-align: center;
             padding: 30px;
@@ -514,13 +514,13 @@ export const getFeeNotificationTemplate = (data) => `
             border-bottom: 1px solid #eee;
         }
         .important {
-            color: #000000;
+            color: #2E948A;
             font-weight: bold;
         }
         .btn {
             display: inline-block;
             padding: 12px 25px;
-            background: linear-gradient(135deg, #000000, #333333);
+            background: linear-gradient(135deg, #2E948A, #1a6b63);
             color: #ffffff;
             text-decoration: none;
             border-radius: 5px;
@@ -574,7 +574,7 @@ export const getFeeNotificationTemplate = (data) => `
             }/account/subscriptions" class="btn">View Subscription Details</a>
         </div>
         <div class="footer">
-            <p>© ${new Date().getFullYear()} BeingGenuineNutrition | Premium Supplements for Your Fitness Journey</p>
+            <p>© ${new Date().getFullYear()} Genuine Vitals | Premium Supplements for Your Fitness Journey</p>
             <p>This is an automated message. Please do not reply to this email.</p>
         </div>
     </div>
@@ -588,7 +588,7 @@ export const getPaymentSuccessTemplate = (data) => `
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Payment Successful - BeingGenuineNutrition</title>
+    <title>Payment Successful - Genuine Vitals</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -607,7 +607,7 @@ export const getPaymentSuccessTemplate = (data) => `
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
         }
         .header {
-            background: linear-gradient(135deg, #000000, #333333);
+            background: linear-gradient(135deg, #2E948A, #1a6b63);
             color: #ffffff;
             text-align: center;
             padding: 40px;
@@ -637,7 +637,7 @@ export const getPaymentSuccessTemplate = (data) => `
         }
         .amount {
             font-size: 24px;
-            color: #000000;
+            color: #2E948A;
             font-weight: bold;
         }
         .footer {
@@ -689,11 +689,11 @@ export const getPaymentSuccessTemplate = (data) => `
             </div>
 
             <p>Your payment receipt has been attached to this email for your records.</p>
-            <p>Thank you for choosing BeingGenuineNutrition! We look forward to supporting your fitness journey with our premium supplements.</p>
+            <p>Thank you for choosing Genuine Vitals! We look forward to supporting your fitness journey with our premium supplements.</p>
         </div>
         <div class="footer">
-            <p>© ${new Date().getFullYear()} BeingGenuineNutrition | Premium Supplements for Your Fitness Journey</p>
-            <p>For any queries, please contact our support team at support@beinggenuinenutrition.com</p>
+            <p>© ${new Date().getFullYear()} Genuine Vitals | Premium Supplements for Your Fitness Journey</p>
+            <p>For any queries, please contact our support team at support@genuinevitals.com</p>
         </div>
     </div>
 </body>
@@ -706,7 +706,7 @@ export const getPaymentFailureTemplate = (data) => `
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Payment Failed - BeingGenuineNutrition</title>
+    <title>Payment Failed - Genuine Vitals</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -725,7 +725,7 @@ export const getPaymentFailureTemplate = (data) => `
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
         }
         .header {
-            background: linear-gradient(135deg, #000000, #333333);
+            background: linear-gradient(135deg, #2E948A, #1a6b63);
             color: #ffffff;
             text-align: center;
             padding: 40px;
@@ -746,7 +746,7 @@ export const getPaymentFailureTemplate = (data) => `
         }
         .retry-button {
             display: inline-block;
-            background: #000000;
+            background: #2E948A;
             color: white;
             padding: 12px 25px;
             text-decoration: none;
@@ -799,8 +799,8 @@ export const getPaymentFailureTemplate = (data) => `
             </a>
         </div>
         <div class="footer">
-            <p>© ${new Date().getFullYear()} BeingGenuineNutrition | Premium Supplements for Your Fitness Journey</p>
-            <p>Need help? Contact our support team at support@beinggenuinenutrition.com</p>
+            <p>© ${new Date().getFullYear()} Genuine Vitals | Premium Supplements for Your Fitness Journey</p>
+            <p>Need help? Contact our support team at support@genuinevitals.com</p>
         </div>
     </div>
 </body>
@@ -822,10 +822,10 @@ export const getFeeUpdateTemplate = ({
     <style>
         body { font-family: Arial, sans-serif; line-height: 1.6; }
         .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-        .header { background: #000000; color: white; padding: 20px; text-align: center; }
+        .header { background: #2E948A; color: white; padding: 20px; text-align: center; }
         .content { padding: 20px; background: #f9fafb; }
         .footer { text-align: center; padding: 20px; color: #666; }
-        .amount { font-size: 18px; font-weight: bold; color: #000000; }
+        .amount { font-size: 18px; font-weight: bold; color: #2E948A; }
         .details { margin: 20px 0; padding: 15px; background: white; border-radius: 5px; }
     </style>
 </head>
@@ -848,7 +848,7 @@ export const getFeeUpdateTemplate = ({
             <p>If you have any questions about this update, please contact our support team.</p>
         </div>
         <div class="footer">
-            <p>BeingGenuineNutrition | Premium Supplements for Your Fitness Journey</p>
+            <p>Genuine Vitals | Premium Supplements for Your Fitness Journey</p>
             <small>This is an automated message, please do not reply.</small>
         </div>
     </div>
@@ -862,7 +862,7 @@ export const getCertificateGeneratedTemplate = (data) => `
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Order Shipped - BeingGenuineNutrition</title>
+    <title>Order Shipped - Genuine Vitals</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -881,7 +881,7 @@ export const getCertificateGeneratedTemplate = (data) => `
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
         }
         .header {
-            background: linear-gradient(135deg, #000000, #333333);
+            background: linear-gradient(135deg, #2E948A, #1a6b63);
             color: #ffffff;
             text-align: center;
             padding: 40px;
@@ -922,7 +922,7 @@ export const getCertificateGeneratedTemplate = (data) => `
         .button {
             display: inline-block;
             padding: 15px 35px;
-            background: linear-gradient(135deg, #000000, #333333);
+            background: linear-gradient(135deg, #2E948A, #1a6b63);
             color: #ffffff;
             text-decoration: none;
             border-radius: 50px;
@@ -955,7 +955,7 @@ export const getCertificateGeneratedTemplate = (data) => `
             <h2>Premium Supplements on the Way</h2>
             <p>Dear ${data.userName},</p>
             <p>Great news! Your order has been shipped and is on its way to you:</p>
-            <h3 style="color: #000000;">${data.courseName}</h3>
+            <h3 style="color: #2E948A;">${data.courseName}</h3>
             
             <div class="shipping-info">
                 <p><strong>Your premium supplements are now in transit!</strong></p>
@@ -971,10 +971,10 @@ export const getCertificateGeneratedTemplate = (data) => `
                 }/account/orders" class="button">Track Order</a>
             </center>
 
-            <p>Thank you for choosing BeingGenuineNutrition. We're committed to supporting your fitness goals with the highest quality supplements!</p>
+            <p>Thank you for choosing Genuine Vitals. We're committed to supporting your fitness goals with the highest quality supplements!</p>
         </div>
         <div class="footer">
-            © ${new Date().getFullYear()} BeingGenuineNutrition | Premium Supplements for Your Fitness Journey<br>
+            © ${new Date().getFullYear()} Genuine Vitals | Premium Supplements for Your Fitness Journey<br>
             This is an automated message. Please do not reply to this email.
         </div>
     </div>
@@ -988,7 +988,7 @@ export const getContactFormTemplate = (data) => `
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>New Contact Form Submission - BeingGenuineNutrition</title>
+    <title>New Contact Form Submission - Genuine Vitals</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -1007,7 +1007,7 @@ export const getContactFormTemplate = (data) => `
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
         }
         .header {
-            background: linear-gradient(135deg, #000000, #333333);
+            background: linear-gradient(135deg, #2E948A, #1a6b63);
             color: #ffffff;
             text-align: center;
             padding: 30px;
@@ -1085,7 +1085,7 @@ export const getContactFormTemplate = (data) => `
             <p>Please respond to this inquiry about our premium supplements at your earliest convenience.</p>
         </div>
         <div class="footer">
-            © ${new Date().getFullYear()} BeingGenuineNutrition | Premium Supplements for Your Fitness Journey<br>
+            © ${new Date().getFullYear()} Genuine Vitals | Premium Supplements for Your Fitness Journey<br>
             This is an automated message from your website contact form.
         </div>
     </div>
@@ -1099,7 +1099,7 @@ export const getOrderConfirmationTemplate = (data) => `
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Order Confirmation - BeingGenuineNutrition</title>
+    <title>Order Confirmation - Genuine Vitals</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -1118,7 +1118,7 @@ export const getOrderConfirmationTemplate = (data) => `
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
         }
         .header {
-            background: linear-gradient(135deg, #2563eb, #1e40af);
+            background: linear-gradient(135deg, #2E948A, #1a6b63);
             color: #ffffff;
             text-align: center;
             padding: 30px;
@@ -1189,7 +1189,7 @@ export const getOrderConfirmationTemplate = (data) => `
         .button {
             display: inline-block;
             padding: 12px 25px;
-            background-color: #2563eb;
+            background-color: #2E948A;
             color: #ffffff !important;
             text-decoration: none;
             border-radius: 5px;
@@ -1287,8 +1287,8 @@ export const getOrderConfirmationTemplate = (data) => `
             }/account/orders</p>
         </div>
         <div class="footer">
-            © ${new Date().getFullYear()} BeingGenuineNutrition | Premium Health Supplements<br>
-            Questions? Contact our customer support at support@beinggenuinenutrition
+            © ${new Date().getFullYear()} Genuine Vitals | Premium Health Supplements<br>
+            Questions? Contact our customer support at support@genuinevitals.com
         </div>
     </div>
 </body>
