@@ -178,10 +178,6 @@ const CategoriesSection = ({
                   slidesToScroll: 5,
                   containScroll: "trimSnaps",
                 },
-                "(min-width: 1280px)": {
-                  slidesToScroll: 6,
-                  containScroll: "trimSnaps",
-                },
               },
             }}
           >
@@ -189,7 +185,7 @@ const CategoriesSection = ({
               {categories.map((category, index) => (
                 <CarouselItem
                   key={category.id}
-                  className="pl-3 basis-[200px] sm:basis-[180px] md:basis-[160px] lg:basis-[140px] xl:basis-[130px]"
+                  className="pl-3 basis-[200px] sm:basis-[180px] md:basis-[160px] lg:basis-[140px] "
                 >
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
@@ -223,8 +219,8 @@ const CategoriesSection = ({
                               {category.description}
                             </p>
                           )}
-                          <div className="opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-1 group-hover:translate-y-0">
-                            <span className="inline-flex items-center text-xs text-primary-foreground bg-primary px-3 py-1.5 rounded-full font-medium shadow-sm">
+                          <div className=" transition-all duration-300 transform translate-y-1 group-hover:translate-y-0">
+                            <span className="flex items-center text-xs text-primary-foreground bg-primary px-3 py-1.5 rounded-full font-medium shadow-sm text-nowrap">
                               Shop Now
                               <ArrowRight className="ml-1 h-3 w-3" />
                             </span>
