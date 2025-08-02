@@ -8,7 +8,7 @@ export default function TestimonialsSection() {
   const testimonials = [
     {
       name: "Ravi Sharma",
-      role: "Fitness Enthusiast",
+      role: "genuine nutrition",
       avatar: "RS",
       quote:
         "I've tried many supplements, but GenuineVitals products have truly made a difference in my training and recovery.",

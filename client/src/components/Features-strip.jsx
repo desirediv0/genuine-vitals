@@ -192,7 +192,7 @@ export default function FeaturesSection() {
           <div className="flex items-center gap-2 px-6 py-3 rounded-full bg-[#F47C20] border border-white/20">
             <Shield className="h-5 w-5 text-white" />
             <span className="text-sm text-white font-medium">
-              Trusted by 10,000+ fitness enthusiasts
+              Trusted by 10,000+ genuine nutrition
             </span>
           </div>
         </motion.div>

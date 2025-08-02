@@ -35,7 +35,7 @@ const CTASection = () => {
       badge: "Flash Sale",
       headline: "Buy 2 Get 1 FREE on All Proteins",
       description:
-        "Stock up on your favorite protein powders and save big. Perfect for serious fitness enthusiasts!",
+        "Stock up on your favorite protein powders and save big. Perfect for serious genuine nutrition!",
       cta: "Shop Proteins Now",
       icon: <Gift className="h-6 w-6" />,
       gradient: "from-purple-500 via-green-500 to-cyan-500",

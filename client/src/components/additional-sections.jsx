@@ -29,7 +29,7 @@ const TestimonialsSection = () => {
     {
       id: 1,
       name: "Rahul Sharma",
-      role: "Fitness Enthusiast",
+      role: "genuine nutrition",
       image: "/placeholder.png",
       rating: 5,
       text: "Genuine Vitals ne meri fitness journey ko completely transform kar diya! 3 months mein 8kg muscle gain kiya hai.",
