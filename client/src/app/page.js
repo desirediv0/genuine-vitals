@@ -34,10 +34,7 @@ import { toast } from "sonner";
 import useEmblaCarouselAutoplay from "@/hooks/use-embla-carousel-autoplay";
 import CTASection from "@/components/cta-section";
 import { useRouter } from "next/navigation";
-import {
-  TestimonialsSection,
-  VideoSection,
-} from "@/components/additional-sections";
+import { TestimonialsSection } from "@/components/additional-sections";
 import HeroCarousel from "@/components/HeroCarousel";
 
 // Categories Section
@@ -773,8 +770,6 @@ export default function Home() {
         isLoading={categoriesLoading}
         error={categoriesError}
       />
-
-      <VideoSection />
 
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4">
