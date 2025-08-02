@@ -148,11 +148,11 @@ const CTASection = () => {
               transition={{ duration: 0.8, delay: 0.4 }}
               className="text-xl text-gray-600 leading-relaxed max-w-4xl mx-auto mb-8"
             >
-              Discover Genuine Vitals' comprehensive range of scientifically
-              formulated vitamins and minerals designed to support your overall
-              health, energy, and vitality. Our premium supplements are crafted
-              with the finest ingredients and backed by rigorous quality
-              standards.
+              Discover Genuine Vitals&apos; comprehensive range of
+              scientifically formulated vitamins and minerals designed to
+              support your overall health, energy, and vitality. Our premium
+              supplements are crafted with the finest ingredients and backed by
+              rigorous quality standards.
             </motion.p>
           </motion.div>
 
