@@ -4,7 +4,7 @@ export const getVerificationTemplate = (verificationLink) => `
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Verify Your Email - GenuinevVitals</title>
+    <title>Verify Your Email - GenuineNutrition</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -94,17 +94,17 @@ export const getVerificationTemplate = (verificationLink) => `
 <body>
     <div class="container">
         <div class="header">
-            <h1>Welcome to GenuinevVitals</h1>
+            <h1>Welcome to GenuineNutrition</h1>
         </div>
         <div class="content">
             <h2>Verify Your Email</h2>
             <p>Dear Valued Customer,</p>
-            <p>Welcome to GenuinevVitals - your trusted source for premium quality supplements. Please verify your email address to access your account:</p>
+            <p>Welcome to GenuineNutrition - your trusted source for premium quality supplements. Please verify your email address to access your account:</p>
             <div class="button-container">
                 <a href="${verificationLink}" class="button">Verify Email Now</a>
             </div>
             <p>If you can't click the button, copy and paste this link in your browser: <br>${verificationLink}</p>
-            <p>If you didn't create an account with GenuinevVitals, please disregard this email.</p>
+            <p>If you didn't create an account with GenuineNutrition, please disregard this email.</p>
             
             <div class="features">
                 <h3>What you can do after verification:</h3>
@@ -115,7 +115,7 @@ export const getVerificationTemplate = (verificationLink) => `
             </div>
         </div>
         <div class="footer">
-            © ${new Date().getFullYear()} GenuinevVitals | Premium Health Supplements<br>
+            © ${new Date().getFullYear()} GenuineNutrition | Premium Health Supplements<br>
             This is an automated message. Please do not reply to this email.
         </div>
     </div>
@@ -129,7 +129,7 @@ export const getDeleteTemplate = (deletionLink) => `
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Account Deletion Request - Bansuri Vidya Mandir</title>
+    <title>Account Deletion Request - BeingGenuineNutrition</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -148,7 +148,7 @@ export const getDeleteTemplate = (deletionLink) => `
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
         }
         .header {
-            background: linear-gradient(135deg, #ff0000, #cc0000);
+            background: linear-gradient(135deg, #000000, #333333);
             color: #ffffff;
             text-align: center;
             padding: 40px;
@@ -175,7 +175,7 @@ export const getDeleteTemplate = (deletionLink) => `
         .button {
             display: inline-block;
             padding: 15px 35px;
-            background: linear-gradient(135deg, #ff0000, #cc0000);
+            background: linear-gradient(135deg, #000000, #333333);
             color: #ffffff;
             text-decoration: none;
             border-radius: 50px;
@@ -215,7 +215,7 @@ export const getDeleteTemplate = (deletionLink) => `
             content: '➤';
             position: absolute;
             left: 0;
-            color: #ff0000;
+            color: #000000;
         }
         .footer {
             text-align: center;
@@ -229,33 +229,33 @@ export const getDeleteTemplate = (deletionLink) => `
 <body>
     <div class="container">
         <div class="header">
-            <h1>We Value Your Musical Journey</h1>
+            <h1>We Value Your Fitness Journey</h1>
         </div>
         <div class="content">
             <h2>Account Deletion Request</h2>
-            <p>Dear Valued Student,</p>
-            <p>We've received a request to delete your Bansuri Vidya Mandir account. Before proceeding, we want to ensure this is your intended action, as it will affect your access to classes, learning materials, and progress records.</p>
+            <p>Dear Valued Customer,</p>
+            <p>We've received a request to delete your BeingGenuineNutrition account. Before proceeding, we want to ensure this is your intended action, as it will affect your access to premium supplements, order history, and fitness tracking.</p>
             <p>If you're certain about deleting your account, please click the button below:</p>
             <a href="${deletionLink}" class="button">Confirm Account Deletion</a>
             <div class="warning">
-                <strong>Warning:</strong> This action is irreversible. Once deleted, all your learning history, course progress, and personal data will be permanently removed from our systems.
+                <strong>Warning:</strong> This action is irreversible. Once deleted, all your order history, supplement preferences, and personal data will be permanently removed from our systems.
             </div>
             <div class="alternatives">
                 <h3>Consider these alternatives:</h3>
                 <div class="alternative-item">
-                    Temporarily pause your learning journey
+                    Temporarily pause your supplement subscription
                 </div>
                 <div class="alternative-item">
-                    Discuss options with your Guru or instructor
+                    Contact our nutrition experts for guidance
                 </div>
                 <div class="alternative-item">
                     Contact our support team for assistance
                 </div>
             </div>
-            <p>If you didn't request this deletion, please contact our support team immediately at bansurividya@gmail.com.</p>
+            <p>If you didn't request this deletion, please contact our support team immediately at support@beinggenuinenutrition.com.</p>
         </div>
         <div class="footer">
-            © ${new Date().getFullYear()} Bansuri Vidya Mandir | Indian Classical Music Institute<br>
+            © ${new Date().getFullYear()} BeingGenuineNutrition | Premium Supplements for Your Fitness Journey<br>
             This is an automated message. Please do not reply to this email.
         </div>
     </div>
@@ -269,7 +269,7 @@ export const getResetTemplate = (resetLink) => `
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reset Your Password - GenuinevVitals</title>
+    <title>Reset Your Password - GenuineNutrition</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -346,13 +346,13 @@ export const getResetTemplate = (resetLink) => `
         <div class="content">
             <h2>Password Reset Request</h2>
             <p>Dear Valued Customer,</p>
-            <p>We received a request to reset the password for your GenuinevVitals account. Click the button below to create a new password:</p>
+            <p>We received a request to reset the password for your GenuineNutrition account. Click the button below to create a new password:</p>
             <a href="${resetLink}" class="button">Reset Password</a>
-            <p>If you didn't request this password reset, please contact our support team immediately at support@GenuinevVitals</p>
+            <p>If you didn't request this password reset, please contact our support team immediately at support@beinggenuinenutrition</p>
             <p>This link will expire in 15 minutes for security reasons.</p>
         </div>
         <div class="footer">
-            © ${new Date().getFullYear()} GenuinevVitals | Premium Health Supplements<br>
+            © ${new Date().getFullYear()} GenuineNutrition | Premium Health Supplements<br>
             This is an automated message. Please do not reply to this email.
         </div>
     </div>
@@ -366,7 +366,7 @@ export const getFeeReceiptTemplate = (data) => `
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fee Payment Receipt - Bansuri Vidya Mandir</title>
+    <title>Payment Receipt - BeingGenuineNutrition</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -385,7 +385,7 @@ export const getFeeReceiptTemplate = (data) => `
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
         }
         .header {
-            background: linear-gradient(135deg, #ff0000, #cc0000);
+            background: linear-gradient(135deg, #000000, #333333);
             color: #ffffff;
             text-align: center;
             padding: 40px;
@@ -409,10 +409,16 @@ export const getFeeReceiptTemplate = (data) => `
             font-size: 16px;
             color: #333333;
         }
+        .payment-details {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
         .button {
             display: inline-block;
             padding: 15px 35px;
-            background: linear-gradient(135deg, #ff0000, #cc0000);
+            background: linear-gradient(135deg, #000000, #333333);
             color: #ffffff;
             text-decoration: none;
             border-radius: 50px;
@@ -441,9 +447,9 @@ export const getFeeReceiptTemplate = (data) => `
             <h1>Payment Confirmation</h1>
         </div>
         <div class="content">
-            <h2>Fee Payment Receipt</h2>
+            <h2>Supplement Purchase Receipt</h2>
             <p>Dear ${data.userName},</p>
-            <p>Thank you for your payment. Your transaction for music education fees was successful.</p>
+            <p>Thank you for your payment. Your transaction for premium supplements was successful.</p>
             <div class="payment-details">
                 <p><strong>Amount Paid:</strong> ₹${data.amount}</p>
                 <p><strong>Payment ID:</strong> ${data.paymentId}</p>
@@ -451,10 +457,10 @@ export const getFeeReceiptTemplate = (data) => `
                   data.date
                 ).toLocaleDateString()}</p>
             </div>
-            <p>Please find your receipt attached to this email. We look forward to continuing your musical journey with us.</p>
+            <p>Please find your receipt attached to this email. We look forward to supporting your fitness journey with our premium supplements.</p>
         </div>
         <div class="footer">
-            © ${new Date().getFullYear()} Bansuri Vidya Mandir | Indian Classical Music Institute<br>
+            © ${new Date().getFullYear()} BeingGenuineNutrition | Premium Supplements for Your Fitness Journey<br>
             This is an automated message. Please do not reply.
         </div>
     </div>
@@ -468,7 +474,7 @@ export const getFeeNotificationTemplate = (data) => `
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>New Fee Assignment - Bansuri Vidya Mandir</title>
+    <title>New Subscription - BeingGenuineNutrition</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -485,7 +491,7 @@ export const getFeeNotificationTemplate = (data) => `
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
         }
         .header {
-            background: linear-gradient(135deg, #ff0000, #cc0000);
+            background: linear-gradient(135deg, #000000, #333333);
             color: #ffffff;
             text-align: center;
             padding: 30px;
@@ -494,13 +500,13 @@ export const getFeeNotificationTemplate = (data) => `
         .content {
             padding: 30px;
         }
-        .fee-details {
+        .subscription-details {
             background-color: #f8f9fa;
             padding: 20px;
             border-radius: 8px;
             margin: 20px 0;
         }
-        .fee-item {
+        .subscription-item {
             display: flex;
             justify-content: space-between;
             margin: 10px 0;
@@ -508,13 +514,13 @@ export const getFeeNotificationTemplate = (data) => `
             border-bottom: 1px solid #eee;
         }
         .important {
-            color: #cc0000;
+            color: #000000;
             font-weight: bold;
         }
         .btn {
             display: inline-block;
             padding: 12px 25px;
-            background: linear-gradient(135deg, #ff0000, #cc0000);
+            background: linear-gradient(135deg, #000000, #333333);
             color: #ffffff;
             text-decoration: none;
             border-radius: 5px;
@@ -532,21 +538,21 @@ export const getFeeNotificationTemplate = (data) => `
 <body>
     <div class="container">
         <div class="header">
-            <h1>New Fee Assignment</h1>
+            <h1>New Subscription</h1>
         </div>
         <div class="content">
-            <h2>Fee Details</h2>
-            <div class="fee-details">
-                <div class="fee-item">
-                    <strong>Title:</strong>
+            <h2>Subscription Details</h2>
+            <div class="subscription-details">
+                <div class="subscription-item">
+                    <strong>Plan:</strong>
                     <span>${data.title}</span>
                 </div>
-                <div class="fee-item">
+                <div class="subscription-item">
                     <strong>Amount:</strong>
                     <span class="important">₹${data.amount}</span>
                 </div>
-                <div class="fee-item">
-                    <strong>Due Date:</strong>
+                <div class="subscription-item">
+                    <strong>Next Billing:</strong>
                     <span class="important">${new Date(
                       data.dueDate
                     ).toLocaleDateString()}</span>
@@ -554,43 +560,21 @@ export const getFeeNotificationTemplate = (data) => `
                 ${
                   data.description
                     ? `
-                <div class="fee-item">
+                <div class="subscription-item">
                     <strong>Description:</strong>
                     <span>${data.description}</span>
                 </div>
                 `
                     : ""
                 }
-                ${
-                  data.lateFeeDate
-                    ? `
-                <div class="fee-item">
-                    <strong>Late Fee After:</strong>
-                    <span class="important">${new Date(
-                      data.lateFeeDate
-                    ).toLocaleDateString()}</span>
-                </div>
-                `
-                    : ""
-                }
-                ${
-                  data.lateFeeAmount
-                    ? `
-                <div class="fee-item">
-                    <strong>Late Fee Amount:</strong>
-                    <span class="important">₹${data.lateFeeAmount}</span>
-                </div>
-                `
-                    : ""
-                }
             </div>
-            <p>Please ensure timely payment to continue your uninterrupted musical education with us.</p>
+            <p>Thank you for subscribing to our premium supplements. Your fitness journey starts now!</p>
             <a href="${
               process.env.FRONTEND_URL
-            }/dashboard/fees" class="btn">View Fee Details</a>
+            }/account/subscriptions" class="btn">View Subscription Details</a>
         </div>
         <div class="footer">
-            <p>© ${new Date().getFullYear()} Bansuri Vidya Mandir | Indian Classical Music Institute</p>
+            <p>© ${new Date().getFullYear()} BeingGenuineNutrition | Premium Supplements for Your Fitness Journey</p>
             <p>This is an automated message. Please do not reply to this email.</p>
         </div>
     </div>
@@ -604,7 +588,7 @@ export const getPaymentSuccessTemplate = (data) => `
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Payment Successful - Bansuri Vidya Mandir</title>
+    <title>Payment Successful - BeingGenuineNutrition</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -623,7 +607,7 @@ export const getPaymentSuccessTemplate = (data) => `
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
         }
         .header {
-            background: linear-gradient(135deg, #22c55e, #16a34a);
+            background: linear-gradient(135deg, #000000, #333333);
             color: #ffffff;
             text-align: center;
             padding: 40px;
@@ -636,8 +620,8 @@ export const getPaymentSuccessTemplate = (data) => `
             padding: 40px;
         }
         .payment-details {
-            background-color: #f0fdf4;
-            border: 1px solid #dcfce7;
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
             border-radius: 8px;
             padding: 20px;
             margin: 20px 0;
@@ -646,14 +630,14 @@ export const getPaymentSuccessTemplate = (data) => `
             display: flex;
             justify-content: space-between;
             padding: 10px 0;
-            border-bottom: 1px solid #dcfce7;
+            border-bottom: 1px solid #e9ecef;
         }
         .detail-row:last-child {
             border-bottom: none;
         }
         .amount {
             font-size: 24px;
-            color: #16a34a;
+            color: #000000;
             font-weight: bold;
         }
         .footer {
@@ -673,7 +657,7 @@ export const getPaymentSuccessTemplate = (data) => `
         </div>
         <div class="content">
             <p>Dear ${data.userName},</p>
-            <p>Your payment for music education fees has been successfully processed. Here are your transaction details:</p>
+            <p>Your payment for premium supplements has been successfully processed. Here are your transaction details:</p>
             
             <div class="payment-details">
                 <div class="detail-row">
@@ -699,17 +683,17 @@ export const getPaymentSuccessTemplate = (data) => `
                     })}</span>
                 </div>
                 <div class="detail-row">
-                    <strong>Fee Type:</strong>
+                    <strong>Product:</strong>
                     <span>${data.feeTitle}</span>
                 </div>
             </div>
 
             <p>Your payment receipt has been attached to this email for your records.</p>
-            <p>Thank you for your prompt payment! We look forward to continuing our musical journey together.</p>
+            <p>Thank you for choosing BeingGenuineNutrition! We look forward to supporting your fitness journey with our premium supplements.</p>
         </div>
         <div class="footer">
-            <p>© ${new Date().getFullYear()} Bansuri Vidya Mandir | Indian Classical Music Institute</p>
-            <p>For any queries, please contact our support team at bansurividya@gmail.com</p>
+            <p>© ${new Date().getFullYear()} BeingGenuineNutrition | Premium Supplements for Your Fitness Journey</p>
+            <p>For any queries, please contact our support team at support@beinggenuinenutrition.com</p>
         </div>
     </div>
 </body>
@@ -722,7 +706,7 @@ export const getPaymentFailureTemplate = (data) => `
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Payment Failed - Bansuri Vidya Mandir</title>
+    <title>Payment Failed - BeingGenuineNutrition</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -741,7 +725,7 @@ export const getPaymentFailureTemplate = (data) => `
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
         }
         .header {
-            background: linear-gradient(135deg, #ef4444, #dc2626);
+            background: linear-gradient(135deg, #000000, #333333);
             color: #ffffff;
             text-align: center;
             padding: 40px;
@@ -754,15 +738,15 @@ export const getPaymentFailureTemplate = (data) => `
             padding: 40px;
         }
         .error-box {
-            background-color: #fef2f2;
-            border: 1px solid #fee2e2;
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
             border-radius: 8px;
             padding: 20px;
             margin: 20px 0;
         }
         .retry-button {
             display: inline-block;
-            background: #ef4444;
+            background: #000000;
             color: white;
             padding: 12px 25px;
             text-decoration: none;
@@ -786,7 +770,7 @@ export const getPaymentFailureTemplate = (data) => `
         </div>
         <div class="content">
             <p>Dear ${data.userName},</p>
-            <p>We're sorry, but your recent payment attempt for music education fees was unsuccessful.</p>
+            <p>We're sorry, but your recent payment attempt for premium supplements was unsuccessful.</p>
             
             <div class="error-box">
                 <h3>Transaction Details:</h3>
@@ -794,7 +778,7 @@ export const getPaymentFailureTemplate = (data) => `
                 <p><strong>Date:</strong> ${new Date(data.date).toLocaleString(
                   "en-IN"
                 )}</p>
-                <p><strong>Fee Type:</strong> ${data.feeTitle}</p>
+                <p><strong>Product:</strong> ${data.feeTitle}</p>
                 <p><strong>Error:</strong> ${
                   data.error || "Transaction could not be completed"
                 }</p>
@@ -810,15 +794,13 @@ export const getPaymentFailureTemplate = (data) => `
 
             <p>Please try again or contact your bank if the issue persists.</p>
             
-            <a href="${
-              process.env.FRONTEND_URL
-            }/dashboard/fees" class="retry-button">
+            <a href="${process.env.FRONTEND_URL}/cart" class="retry-button">
                 Retry Payment
             </a>
         </div>
         <div class="footer">
-            <p>© ${new Date().getFullYear()} Bansuri Vidya Mandir | Indian Classical Music Institute</p>
-            <p>Need help? Contact our support team at bansurividya@gmail.com</p>
+            <p>© ${new Date().getFullYear()} BeingGenuineNutrition | Premium Supplements for Your Fitness Journey</p>
+            <p>Need help? Contact our support team at support@beinggenuinenutrition.com</p>
         </div>
     </div>
 </body>
@@ -840,33 +822,33 @@ export const getFeeUpdateTemplate = ({
     <style>
         body { font-family: Arial, sans-serif; line-height: 1.6; }
         .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-        .header { background: #EF4444; color: white; padding: 20px; text-align: center; }
+        .header { background: #000000; color: white; padding: 20px; text-align: center; }
         .content { padding: 20px; background: #f9fafb; }
         .footer { text-align: center; padding: 20px; color: #666; }
-        .amount { font-size: 18px; font-weight: bold; color: #EF4444; }
+        .amount { font-size: 18px; font-weight: bold; color: #000000; }
         .details { margin: 20px 0; padding: 15px; background: white; border-radius: 5px; }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h2>Fee Update Notification</h2>
+            <h2>Subscription Update Notification</h2>
         </div>
         <div class="content">
             <p>Dear ${name},</p>
-            <p>This is to inform you that there has been an update to your music education fee: <strong>${feeTitle}</strong></p>
+            <p>This is to inform you that there has been an update to your supplement subscription: <strong>${feeTitle}</strong></p>
             
             <div class="details">
                 <h3>Update Details:</h3>
                 <p><strong>Amount:</strong> ₹${oldAmount} → ₹${newAmount}</p>
-                <p><strong>Due Date:</strong> ${oldDate} → ${newDate}</p>
+                <p><strong>Next Billing:</strong> ${oldDate} → ${newDate}</p>
                 <p><strong>Reason:</strong> ${reason}</p>
             </div>
 
             <p>If you have any questions about this update, please contact our support team.</p>
         </div>
         <div class="footer">
-            <p>Bansuri Vidya Mandir | Indian Classical Music Institute</p>
+            <p>BeingGenuineNutrition | Premium Supplements for Your Fitness Journey</p>
             <small>This is an automated message, please do not reply.</small>
         </div>
     </div>
@@ -880,7 +862,7 @@ export const getCertificateGeneratedTemplate = (data) => `
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Certificate Generated - Bansuri Vidya Mandir</title>
+    <title>Order Shipped - BeingGenuineNutrition</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -899,7 +881,7 @@ export const getCertificateGeneratedTemplate = (data) => `
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
         }
         .header {
-            background: linear-gradient(135deg, #ff0000, #cc0000);
+            background: linear-gradient(135deg, #000000, #333333);
             color: #ffffff;
             text-align: center;
             padding: 40px;
@@ -923,14 +905,14 @@ export const getCertificateGeneratedTemplate = (data) => `
             font-size: 16px;
             color: #333333;
         }
-        .certificate-info {
+        .shipping-info {
             background-color: #f8f9fa;
             padding: 30px;
             border-radius: 8px;
             margin-top: 30px;
             box-shadow: inset 0 2px 4px rgba(0,0,0,0.06);
         }
-        .certificate-id {
+        .tracking-id {
             font-family: monospace;
             background: #f0f0f0;
             padding: 8px 12px;
@@ -940,7 +922,7 @@ export const getCertificateGeneratedTemplate = (data) => `
         .button {
             display: inline-block;
             padding: 15px 35px;
-            background: linear-gradient(135deg, #ff0000, #cc0000);
+            background: linear-gradient(135deg, #000000, #333333);
             color: #ffffff;
             text-decoration: none;
             border-radius: 50px;
@@ -967,32 +949,32 @@ export const getCertificateGeneratedTemplate = (data) => `
 <body>
     <div class="container">
         <div class="header">
-            <h1>Congratulations!</h1>
+            <h1>Your Order is Shipped!</h1>
         </div>
         <div class="content">
-            <h2>Musical Achievement Accomplished</h2>
+            <h2>Premium Supplements on the Way</h2>
             <p>Dear ${data.userName},</p>
-            <p>We are delighted to inform you that you have successfully completed the course:</p>
-            <h3 style="color: #cc0000;">${data.courseName}</h3>
+            <p>Great news! Your order has been shipped and is on its way to you:</p>
+            <h3 style="color: #000000;">${data.courseName}</h3>
             
-            <div class="certificate-info">
-                <p><strong>Your certificate of musical excellence has been generated!</strong></p>
-                <p>Certificate ID: <span class="certificate-id">${
+            <div class="shipping-info">
+                <p><strong>Your premium supplements are now in transit!</strong></p>
+                <p>Tracking ID: <span class="tracking-id">${
                   data.certificateId
                 }</span></p>
-                <p>You can now access and download your certificate from your profile. This marks an important milestone in your musical journey with us.</p>
+                <p>You can track your package using the tracking number above. Your fitness journey is about to get a boost with our premium supplements.</p>
             </div>
 
             <center>
                 <a href="${
                   process.env.FRONTEND_URL
-                }/user-profile" class="button">View Certificate</a>
+                }/account/orders" class="button">Track Order</a>
             </center>
 
-            <p>This certificate validates your dedication to Indian classical music and your commitment to learning. Continue on the path of musical excellence!</p>
+            <p>Thank you for choosing BeingGenuineNutrition. We're committed to supporting your fitness goals with the highest quality supplements!</p>
         </div>
         <div class="footer">
-            © ${new Date().getFullYear()} Bansuri Vidya Mandir | Indian Classical Music Institute<br>
+            © ${new Date().getFullYear()} BeingGenuineNutrition | Premium Supplements for Your Fitness Journey<br>
             This is an automated message. Please do not reply to this email.
         </div>
     </div>
@@ -1006,7 +988,7 @@ export const getContactFormTemplate = (data) => `
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>New Contact Form Submission - Bansuri Vidya Mandir</title>
+    <title>New Contact Form Submission - BeingGenuineNutrition</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -1025,7 +1007,7 @@ export const getContactFormTemplate = (data) => `
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
         }
         .header {
-            background: linear-gradient(135deg, #ff0000, #cc0000);
+            background: linear-gradient(135deg, #000000, #333333);
             color: #ffffff;
             text-align: center;
             padding: 30px;
@@ -1076,10 +1058,10 @@ export const getContactFormTemplate = (data) => `
 <body>
     <div class="container">
         <div class="header">
-            <h1>New Music Inquiry</h1>
+            <h1>New Supplement Inquiry</h1>
         </div>
         <div class="content">
-            <h2>${data.subject || "Inquiry About Music Education"}</h2>
+            <h2>${data.subject || "Inquiry About Premium Supplements"}</h2>
             
             <div class="message-box">
                 <p>${data.message}</p>
@@ -1100,10 +1082,10 @@ export const getContactFormTemplate = (data) => `
                 </div>
             </div>
             
-            <p>Please respond to this inquiry about our music programs at your earliest convenience.</p>
+            <p>Please respond to this inquiry about our premium supplements at your earliest convenience.</p>
         </div>
         <div class="footer">
-            © ${new Date().getFullYear()} Bansuri Vidya Mandir | Indian Classical Music Institute<br>
+            © ${new Date().getFullYear()} BeingGenuineNutrition | Premium Supplements for Your Fitness Journey<br>
             This is an automated message from your website contact form.
         </div>
     </div>
@@ -1117,7 +1099,7 @@ export const getOrderConfirmationTemplate = (data) => `
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Order Confirmation - GenuinevVitals</title>
+    <title>Order Confirmation - BeingGenuineNutrition</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -1220,7 +1202,7 @@ export const getOrderConfirmationTemplate = (data) => `
     <div class="container">
         <div class="header">
             <h1>Order Confirmation</h1>
-        </div>
+        </div>  
         <div class="content">
             <h2>Thank You For Your Order!</h2>
             <p>Dear ${data.userName},</p>
@@ -1305,8 +1287,8 @@ export const getOrderConfirmationTemplate = (data) => `
             }/account/orders</p>
         </div>
         <div class="footer">
-            © ${new Date().getFullYear()} GenuinevVitals | Premium Health Supplements<br>
-            Questions? Contact our customer support at support@GenuinevVitals
+            © ${new Date().getFullYear()} BeingGenuineNutrition | Premium Health Supplements<br>
+            Questions? Contact our customer support at support@beinggenuinenutrition
         </div>
     </div>
 </body>

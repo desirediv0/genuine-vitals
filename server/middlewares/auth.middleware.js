@@ -12,6 +12,7 @@ export const verifyJWTToken = asyncHandler(async (req, res, next) => {
       req.query?.accessToken;
 
     if (!token) {
+      console.log("Authentication failed: No token provided");
       throw new ApiError(401, "Authentication required");
     }
 
@@ -31,6 +32,7 @@ export const verifyJWTToken = asyncHandler(async (req, res, next) => {
     });
 
     if (!user) {
+      console.log("Authentication failed: User not found for token");
       throw new ApiError(401, "Invalid token or user not found");
     }
 
@@ -43,6 +45,8 @@ export const verifyJWTToken = asyncHandler(async (req, res, next) => {
       throw new ApiError(401, "Invalid token");
     } else if (error.name === "TokenExpiredError") {
       throw new ApiError(401, "Token expired");
+    } else if (error instanceof ApiError) {
+      throw error;
     }
     throw new ApiError(500, "Authentication error", [error.message]);
   }

@@ -18,19 +18,8 @@ export const getAllProducts = asyncHandler(async (req, res) => {
     minPrice,
     maxPrice,
     featured,
+    productType,
   } = req.query;
-
-  // Map sort parameters to actual database fields
-  const sortMapping = {
-    newest: "createdAt",
-    oldest: "createdAt",
-    name: "name",
-    price: "createdAt", // We'll handle price sorting differently since it's in variants
-    featured: "featured",
-  };
-
-  const mappedSort = sortMapping[sort] || "createdAt";
-  const mappedOrder = sort === "oldest" ? "asc" : order;
 
   // Build filter conditions
   const whereConditions = {
@@ -54,6 +43,12 @@ export const getAllProducts = asyncHandler(async (req, res) => {
     }),
     // Filter by featured
     ...(featured === "true" && { featured: true }),
+    // Filter by product type
+    ...(productType && {
+      productType: {
+        array_contains: [productType],
+      },
+    }),
     // Filter by price range via variants
     ...((minPrice || maxPrice) && {
       variants: {
@@ -139,6 +134,20 @@ export const getAllProducts = asyncHandler(async (req, res) => {
     where: whereConditions,
   });
 
+  // Map sort parameter to actual database field
+  const sortMapping = {
+    newest: "createdAt",
+    oldest: "createdAt",
+    updated: "updatedAt",
+    name: "name",
+    price: "name", // Price sorting is handled differently via variants
+    featured: "featured",
+    ourProduct: "ourProduct",
+  };
+
+  const actualSortField = sortMapping[sort] || "createdAt";
+  const actualOrder = sort === "oldest" ? "asc" : order;
+
   // Get products with pagination, sorting
   const products = await prisma.product.findMany({
     where: whereConditions,
@@ -174,9 +183,7 @@ export const getAllProducts = asyncHandler(async (req, res) => {
         },
       },
     },
-    orderBy: {
-      [mappedSort]: mappedOrder,
-    },
+    orderBy: [{ [actualSortField]: actualOrder }],
     skip: (parseInt(page) - 1) * parseInt(limit),
     take: parseInt(limit),
   });
@@ -621,15 +628,48 @@ export const getMaxPrice = asyncHandler(async (req, res) => {
     );
 });
 
-// Get new products (latest products based on creation date)
-export const getNewProducts = asyncHandler(async (req, res) => {
-  const { limit = 8 } = req.query;
+// Get products by type (featured, bestseller, trending, new, etc.)
+export const getProductsByType = asyncHandler(async (req, res) => {
+  const { productType } = req.params;
+  const {
+    page = 1,
+    limit = 10,
+    sort = "createdAt",
+    order = "desc",
+  } = req.query;
 
-  // Get the latest products (created in last 30 days or just newest)
-  const products = await prisma.product.findMany({
-    where: {
-      isActive: true,
+  const skip = (parseInt(page) - 1) * parseInt(limit);
+
+  // Build filter conditions for product type
+  const filterConditions = {
+    isActive: true,
+    productType: {
+      array_contains: [productType],
     },
+  };
+
+  // Map sort parameter to actual database field
+  const sortMapping = {
+    newest: "createdAt",
+    oldest: "createdAt",
+    updated: "updatedAt",
+    name: "name",
+    price: "name", // Price sorting is handled differently via variants
+    featured: "featured",
+    ourProduct: "ourProduct",
+  };
+
+  const actualSortField = sortMapping[sort] || "createdAt";
+  const actualOrder = sort === "oldest" ? "asc" : order;
+
+  // Get total count for pagination
+  const totalProducts = await prisma.product.count({
+    where: filterConditions,
+  });
+
+  // Get products with sorting
+  const products = await prisma.product.findMany({
+    where: filterConditions,
     include: {
       categories: {
         include: {
@@ -658,18 +698,18 @@ export const getNewProducts = asyncHandler(async (req, res) => {
               status: "APPROVED",
             },
           },
+          variants: true,
         },
       },
     },
-    orderBy: {
-      createdAt: "desc", // Sort by newest first
-    },
+    orderBy: [{ [actualSortField]: actualOrder }],
+    skip,
     take: parseInt(limit),
   });
 
-  // Format products for response (same formatting as getAllProducts)
+  // Format the response data
   const formattedProducts = products.map((product) => {
-    // Get primary category (first in the list)
+    // Get primary category
     const primaryCategory =
       product.categories.length > 0 ? product.categories[0].category : null;
 
@@ -696,53 +736,23 @@ export const getNewProducts = asyncHandler(async (req, res) => {
       }
     }
 
-    // Get price from lowest price variant
-    const lowestPriceVariant =
-      product.variants.length > 0 ? product.variants[0] : null;
-    const basePrice = lowestPriceVariant
-      ? parseFloat(lowestPriceVariant.salePrice || lowestPriceVariant.price)
-      : null;
-    const regularPrice = lowestPriceVariant
-      ? parseFloat(lowestPriceVariant.price)
-      : null;
-    const hasSale = lowestPriceVariant && lowestPriceVariant.salePrice !== null;
-
-    // Calculate average rating
-    const totalRatings = product.variants.reduce((sum, variant) => {
-      return sum + (variant.avgRating || 0);
-    }, 0);
-    const avgRating =
-      product.variants.length > 0 ? totalRatings / product.variants.length : 0;
-
     return {
       id: product.id,
       name: product.name,
       slug: product.slug,
+      featured: product.featured,
       description: product.description,
+      category: primaryCategory
+        ? {
+            id: primaryCategory.id,
+            name: primaryCategory.name,
+            slug: primaryCategory.slug,
+          }
+        : null,
       image: imageUrl ? getFileUrl(imageUrl) : null,
-      category: primaryCategory,
-      basePrice,
-      regularPrice,
-      hasSale,
-      avgRating,
-      reviewCount: product._count.reviews,
-      isNew: true, // Mark as new product
-      createdAt: product.createdAt,
+      // Add variants for frontend fallback
       variants: product.variants.map((variant) => ({
-        id: variant.id,
-        sku: variant.sku,
-        price: parseFloat(variant.price),
-        salePrice: variant.salePrice ? parseFloat(variant.salePrice) : null,
-        stock: variant.stock,
-        flavor: variant.flavor
-          ? {
-              ...variant.flavor,
-              image: variant.flavor.image
-                ? getFileUrl(variant.flavor.image)
-                : null,
-            }
-          : null,
-        weight: variant.weight,
+        ...variant,
         images: variant.images
           ? variant.images.map((image) => ({
               ...image,
@@ -750,6 +760,20 @@ export const getNewProducts = asyncHandler(async (req, res) => {
             }))
           : [],
       })),
+      basePrice:
+        product.variants.length > 0
+          ? parseFloat(
+              product.variants[0].salePrice || product.variants[0].price
+            )
+          : null,
+      hasSale:
+        product.variants.length > 0 && product.variants[0].salePrice !== null,
+      regularPrice:
+        product.variants.length > 0
+          ? parseFloat(product.variants[0].price)
+          : null,
+      flavors: product._count.variants,
+      reviewCount: product._count.reviews,
     };
   });
 
@@ -758,10 +782,14 @@ export const getNewProducts = asyncHandler(async (req, res) => {
       200,
       {
         products: formattedProducts,
-        total: formattedProducts.length,
-        isNew: true,
+        pagination: {
+          total: totalProducts,
+          page: parseInt(page),
+          limit: parseInt(limit),
+          pages: Math.ceil(totalProducts / parseInt(limit)),
+        },
       },
-      "New products fetched successfully"
+      `${productType} products fetched successfully`
     )
   );
 });

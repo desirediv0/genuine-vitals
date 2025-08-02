@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { ErrorDialog } from "@/components/ErrorDialog";
+import { useDebounce } from "@/utils/debounce";
 
 export default function WeightsPage() {
   const { id } = useParams();
@@ -52,12 +53,17 @@ function WeightsList() {
     description: "",
   });
 
+  // Search state
+  const [search, setSearch] = useState("");
+  const debouncedSearch = useDebounce(search, 500);
+
   // Fetch weights
   useEffect(() => {
     const fetchWeights = async () => {
       try {
         setIsLoading(true);
-        const response = await weights.getWeights();
+        const params = debouncedSearch ? { search: debouncedSearch } : {};
+        const response = await weights.getWeights(params);
 
         if (response.data.success) {
           setWeightsList(response.data.data?.weights || []);
@@ -73,7 +79,7 @@ function WeightsList() {
     };
 
     fetchWeights();
-  }, []);
+  }, [debouncedSearch]);
 
   // Handle weight deletion confirmation
   const confirmDeleteWeight = (weightId: string, weightName: string) => {
@@ -121,7 +127,7 @@ function WeightsList() {
       } else {
         toast.error(
           error.response?.data?.message ||
-            "An error occurred while deleting the weight"
+          "An error occurred while deleting the weight"
         );
       }
     }
@@ -170,26 +176,26 @@ function WeightsList() {
         secondaryAction={
           errorDialogContent.title === "Weight in Use"
             ? {
-                label: "Force Delete",
-                onClick: () => {
-                  setIsErrorDialogOpen(false);
-                  // Extract weightId and weightName from current context
-                  const weightToDelete = weightsList.find((w) =>
-                    errorDialogContent.description.includes(w.value.toString())
+              label: "Force Delete",
+              onClick: () => {
+                setIsErrorDialogOpen(false);
+                // Extract weightId and weightName from current context
+                const weightToDelete = weightsList.find((w) =>
+                  errorDialogContent.description.includes(w.value.toString())
+                );
+                if (weightToDelete) {
+                  handleDeleteWeight(
+                    weightToDelete.id,
+                    `${weightToDelete.value} ${weightToDelete.unit}`,
+                    true
                   );
-                  if (weightToDelete) {
-                    handleDeleteWeight(
-                      weightToDelete.id,
-                      `${weightToDelete.value} ${weightToDelete.unit}`,
-                      true
-                    );
-                  }
-                },
-              }
+                }
+              },
+            }
             : {
-                label: "View Products",
-                onClick: () => navigate("/products"),
-              }
+              label: "View Products",
+              onClick: () => navigate("/products"),
+            }
         }
       />
 
@@ -202,6 +208,16 @@ function WeightsList() {
             Add Weight
           </Link>
         </Button>
+      </div>
+
+      {/* Search Input */}
+      <div className="max-w-xs mb-2">
+        <Input
+          type="text"
+          placeholder="Search weights..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
       </div>
 
       {/* Weights List */}
@@ -300,6 +316,13 @@ function WeightForm({
     { value: "mg", label: "Milligrams (mg)" },
     { value: "lb", label: "Pounds (lb)" },
     { value: "oz", label: "Ounces (oz)" },
+    { value: "ml", label: "Milliliters (ml)" },
+    { value: "cl", label: "Centiliters (cl)" },
+    { value: "l", label: "Liters (L)" },
+    { value: "pcs", label: "Pieces (pcs)" },
+    { value: "tabs", label: "Tabs (tabs)" },
+    { value: "capsules", label: "Capsules (capsules)" },
+    { value: "servings", label: "Servings (servings)" },
   ];
 
   // Fetch weight details if in edit mode
@@ -309,7 +332,6 @@ function WeightForm({
         try {
           setIsFetching(true);
           const response = await weights.getWeightById(weightId);
-          console.log("Weight details response:", response); // Debug logging
 
           if (response.data.success) {
             const weightData = response.data.data?.weight;
@@ -376,7 +398,7 @@ function WeightForm({
       } else {
         setError(
           response.data.message ||
-            `Failed to ${mode === "create" ? "create" : "update"} weight`
+          `Failed to ${mode === "create" ? "create" : "update"} weight`
         );
       }
     } catch (error: any) {
@@ -435,7 +457,7 @@ function WeightForm({
                 id="value"
                 name="value"
                 type="number"
-                step="0.01"
+
                 min="0"
                 placeholder="e.g., 50, 100, 250"
                 value={formData.value}
