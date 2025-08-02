@@ -779,8 +779,7 @@ export default function Home() {
               Featured Products
             </h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Discover our most popular supplements trusted by fitness
-              enthusiasts
+              Discover our most popular supplements trusted by genuine nutrition
             </p>
           </div>
           <FeaturedProducts
