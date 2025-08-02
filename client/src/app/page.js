@@ -559,7 +559,8 @@ const WhyChooseUsSection = () => {
     },
     {
       title: "Fast Delivery",
-      description: "Free shipping on orders above ₹999 across India",
+      description:
+        "Scratch card reward on every order above ₹999 – try your luck! ",
       icon: <Truck className="h-8 w-8" />,
     },
     {

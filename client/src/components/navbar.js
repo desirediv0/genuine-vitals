@@ -51,7 +51,7 @@ export function Navbar() {
     },
     {
       icon: <Truck className="h-4 w-4" />,
-      text: "FREE SHIPPING on orders above ₹999",
+      text: "Scratch card reward on every order above ₹999 – try your luck!",
     },
     {
       icon: <Gift className="h-4 w-4" />,
