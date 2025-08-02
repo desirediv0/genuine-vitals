@@ -17,10 +17,8 @@ import {
   Users,
   Award,
   Clock,
-  Trophy,
   Heart,
   ShoppingCart,
-  CheckCircle,
 } from "lucide-react";
 import {
   Carousel,
@@ -40,234 +38,7 @@ import {
   TestimonialsSection,
   VideoSection,
 } from "@/components/additional-sections";
-
-// Modern Hero Section
-const ModernHero = () => {
-  const [api, setApi] = useState();
-  // Auto-carousel with embla plugin
-  useEmblaCarouselAutoplay(api, {
-    delay: 5000,
-    stopOnInteraction: false,
-    stopOnMouseEnter: true,
-    playOnInit: true,
-  });
-
-  const heroSlides = [
-    {
-      title: "Transform Your Fitness Journey",
-      subtitle: "Premium Quality Supplements",
-      description:
-        "Discover scientifically-backed supplements that deliver real results. Lab-tested, certified, and trusted by athletes worldwide.",
-      image: "/c3.jpg",
-      cta: "Shop Now",
-      features: ["Lab Tested", "100% Authentic", "Fast Results"],
-      stats: { protein: "25g", purity: "99%", delivery: "24h" },
-    },
-    {
-      title: "Build Lean Muscle Mass",
-      subtitle: "Protein Powerhouse",
-      description:
-        "Get maximum muscle growth with our premium protein blends. Each serving delivers 25g of high-quality protein for optimal recovery.",
-      image: "/c3.jpg",
-      cta: "Explore Proteins",
-      features: ["25g Protein", "Zero Sugar", "Bio-Available"],
-      stats: { protein: "25g", purity: "100%", delivery: "24h" },
-    },
-    {
-      title: "Boost Your Performance",
-      subtitle: "Pre-Workout Excellence",
-      description:
-        "Unleash your potential with explosive energy formulas. Enhanced focus, increased endurance, and zero crash guaranteed.",
-      image: "/c3.jpg",
-      cta: "Get Energized",
-      features: ["Instant Energy", "Focus Boost", "No Crash"],
-      stats: { energy: "8h", focus: "100%", delivery: "24h" },
-    },
-  ];
-
-  return (
-    <section className="relative min-h-screen bg-gray-50 overflow-hidden p-5 md:p-0">
-      <Carousel setApi={setApi} className="w-full md:h-screen">
-        <CarouselContent>
-          {heroSlides.map((slide, index) => (
-            <CarouselItem key={index} className="md:min-h-screen ">
-              <div className="relative md:min-h-screen bg-white flex items-center justify-center  max-w-7xl mx-auto">
-                {/* Background Pattern */}
-                <div className="absolute inset-0 overflow-hidden">
-                  <div className="absolute top-20 right-20 w-72 h-72 bg-primary/5 rounded-full blur-3xl"></div>
-                  <div className="absolute bottom-20 left-20 w-80 h-80 bg-primary/10 rounded-full blur-3xl"></div>
-                  <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-primary/5 rounded-full blur-3xl"></div>
-                </div>
-
-                <div className="container mx-auto px-4 relative z-10">
-                  <div className="grid lg:grid-cols-2 gap-12 items-center">
-                    {/* Content Side */}
-                    <motion.div
-                      initial={{ opacity: 0, x: -50 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.8, delay: index * 0.2 }}
-                      className="space-y-8"
-                    >
-                      {/* Badge */}
-                      <div className="inline-flex items-center bg-primary text-primary-foreground px-4 py-2 rounded-full text-sm font-medium">
-                        <Trophy className="h-4 w-4 mr-2" />
-                        #1 Trusted Brand
-                      </div>
-
-                      {/* Main Content */}
-                      <div>
-                        <h1 className="text-4xl md:text-6xl font-bold text-gray-900 leading-tight mb-4">
-                          {slide.title}
-                        </h1>
-                        <h2 className="text-2xl md:text-3xl font-semibold text-primary mb-6">
-                          {slide.subtitle}
-                        </h2>
-                        <p className="text-lg text-gray-600 max-w-xl leading-relaxed">
-                          {slide.description}
-                        </p>
-                      </div>
-
-                      {/* CTAs */}
-                      <div className="flex flex-col sm:flex-row gap-4">
-                        <Link href="/products">
-                          <Button
-                            size="lg"
-                            className="bg-primary text-primary-foreground hover:bg-primary/90 px-8 py-4 text-lg font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
-                          >
-                            {slide.cta}
-                            <ArrowRight className="ml-2 h-5 w-5" />
-                          </Button>
-                        </Link>
-                      </div>
-
-                      {/* Features */}
-                      <div className="flex flex-wrap gap-3">
-                        {slide.features.map((feature, featureIndex) => (
-                          <div
-                            key={featureIndex}
-                            className="flex items-center bg-gray-100 rounded-full px-4 py-2 text-sm font-medium text-gray-700"
-                          >
-                            <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
-                            {feature}
-                          </div>
-                        ))}
-                      </div>
-
-                      {/* Quick Stats */}
-                      <div className="grid grid-cols-3 gap-6 pt-4">
-                        <div className="text-center">
-                          <div className="text-2xl font-bold text-primary mb-1">
-                            {slide.stats.protein || slide.stats.energy || "25g"}
-                          </div>
-                          <div className="text-sm text-gray-600">
-                            {slide.stats.protein ? "Protein" : "Energy Boost"}
-                          </div>
-                        </div>
-                        <div className="text-center">
-                          <div className="text-2xl font-bold text-primary mb-1">
-                            {slide.stats.purity || slide.stats.focus || "100%"}
-                          </div>
-                          <div className="text-sm text-gray-600">
-                            {slide.stats.purity ? "Pure" : "Focus"}
-                          </div>
-                        </div>
-                        <div className="text-center">
-                          <div className="text-2xl font-bold text-primary mb-1">
-                            {slide.stats.delivery}
-                          </div>
-                          <div className="text-sm text-gray-600">Delivery</div>
-                        </div>
-                      </div>
-                    </motion.div>
-
-                    {/* Image Side */}
-                    <motion.div
-                      initial={{ opacity: 0, x: 50 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.8, delay: index * 0.2 + 0.3 }}
-                      className="relative"
-                    >
-                      <div className="relative w-full h-96 lg:h-[500px]">
-                        <div className="absolute inset-0 bg-gray-100 rounded-xl shadow-2xl overflow-hidden">
-                          <Image
-                            src={slide.image || "/placeholder.svg"}
-                            alt="Fitness Supplement"
-                            fill
-                            className="object-cover"
-                            sizes="(max-width: 768px) 100vw, 50vw"
-                          />
-                        </div>
-
-                        {/* Floating Cards */}
-                        <div className="absolute -top-4 -right-4 bg-white rounded-xl p-4 shadow-xl border border-gray-100">
-                          <div className="flex items-center gap-2">
-                            <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
-                              <Trophy className="h-4 w-4 text-primary-foreground" />
-                            </div>
-                            <div>
-                              <div className="text-sm font-semibold text-gray-900">
-                                Premium
-                              </div>
-                              <div className="text-xs text-gray-600">
-                                Quality
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div className=" md:block hidden absolute -bottom-4 -left-4 bg-white rounded-xl p-4 shadow-xl border border-gray-100">
-                          <div className="flex items-center gap-2">
-                            <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
-                              <CheckCircle className="h-4 w-4 text-white" />
-                            </div>
-                            <div>
-                              <div className="text-sm font-semibold text-gray-900">
-                                Lab
-                              </div>
-                              <div className="text-xs text-gray-600">
-                                Tested
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </motion.div>
-                  </div>
-                </div>
-              </div>
-            </CarouselItem>
-          ))}
-        </CarouselContent>
-        <CarouselPrevious className="left-4 bg-white/90 backdrop-blur-sm border-2 border-gray-200 text-gray-700 hover:bg-primary hover:text-primary-foreground hover:border-primary" />
-        <CarouselNext className="right-4 bg-white/90 backdrop-blur-sm border-2 border-gray-200 text-gray-700 hover:bg-primary hover:text-primary-foreground hover:border-primary" />
-      </Carousel>
-
-      {/* Trust Indicators */}
-      <div className="absolute bottom-0 left-0 right-0 bg-white/95 backdrop-blur-sm border-t border-gray-200">
-        <div className="container mx-auto px-4 py-4">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-sm text-gray-600">
-            <div className="flex items-center gap-2">
-              <Shield className="h-4 w-4 text-primary" />
-              <span>100% Authentic</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Truck className="h-4 w-4 text-primary" />
-              <span>Free Shipping ₹999+</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Award className="h-4 w-4 text-primary" />
-              <span>Lab Tested</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Clock className="h-4 w-4 text-primary" />
-              <span>24/7 Support</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-};
+import HeroCarousel from "@/components/HeroCarousel";
 
 // Categories Section
 const CategoriesSection = ({
@@ -992,7 +763,8 @@ export default function Home() {
 
   return (
     <div className="md:min-h-screen">
-      <ModernHero />
+      <HeroCarousel />
+
       <CategoriesSection
         categories={categories}
         isLoading={categoriesLoading}
