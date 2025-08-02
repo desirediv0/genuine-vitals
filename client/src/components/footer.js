@@ -41,7 +41,8 @@ export function Footer() {
     {
       icon: <Truck className="h-5 w-5" />,
       title: "Free Shipping",
-      description: "On orders above ₹999",
+      description:
+        "Scratch card reward on every order above ₹999 – try your luck!",
     },
     {
       icon: <Shield className="h-5 w-5" />,
@@ -186,7 +187,9 @@ export function Footer() {
               <MapPin className="h-5 w-5 text-[#2E9692]" />
               <div>
                 <h4 className="font-medium text-gray-900 text-sm">Address</h4>
-                <p className="text-gray-600 text-sm">89/2 sector 39 gurugram haryana</p>
+                <p className="text-gray-600 text-sm">
+                  89/2 sector 39 gurugram haryana
+                </p>
               </div>
             </div>
             <div className="flex items-center justify-center space-x-3">

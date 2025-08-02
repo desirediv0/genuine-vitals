@@ -69,7 +69,7 @@ const TestimonialsSection = () => {
             className="inline-flex items-center bg-primary text-primary-foreground px-4 py-2 rounded-full text-sm font-medium mb-6"
           >
             <Users className="h-4 w-4 mr-2" />
-            50,000+ Happy Customers
+            Happy Customers
           </motion.div>
           <motion.h2
             initial={{ opacity: 0, y: 20 }}

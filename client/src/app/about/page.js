@@ -19,13 +19,6 @@ export default function AboutPage() {
   const [content, setContent] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  const stats = [
-    { label: "Happy Customers", value: "10K+" },
-    { label: "Products Sold", value: "50K+" },
-    { label: "Team Members", value: "50+" },
-    { label: "Years Experience", value: "10+" },
-  ];
-
   const values = [
     {
       icon: <Heart className="h-6 w-6" />,
@@ -98,26 +91,6 @@ export default function AboutPage() {
               satisfaction.
             </p>
           </div>
-        </div>
-      </div>
-
-      {/* Stats Section */}
-      <div className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-          {stats.map((stat, index) => (
-            <motion.div
-              key={stat.label}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="bg-white rounded-2xl shadow-lg p-6 text-center"
-            >
-              <div className="text-3xl font-bold text-primary mb-2">
-                {stat.value}
-              </div>
-              <div className="text-gray-600">{stat.label}</div>
-            </motion.div>
-          ))}
         </div>
       </div>
 

@@ -22,14 +22,10 @@ import {
   User,
   X,
   Truck,
-  Gift,
-  Zap,
   Package,
-  Clock,
   ArrowRight,
 } from "lucide-react";
 import { logo } from "@/assets";
-import { motion } from "framer-motion";
 
 export function Navbar() {
   const { user, isAuthenticated, logout } = useAuth();
@@ -55,21 +51,10 @@ export function Navbar() {
       icon: <Truck className="h-4 w-4" />,
       text: "Scratch card reward on every order above ₹999 – try your luck!",
     },
-    {
-      icon: <Gift className="h-4 w-4" />,
-      text: "FREE SHAKER with every protein purchase",
-    },
-    {
-      icon: <Zap className="h-4 w-4" />,
-      text: "Use code FIT10 for 10% OFF on first order",
-    },
+
     {
       icon: <Package className="h-4 w-4" />,
       text: "100% Authentic supplements guaranteed",
-    },
-    {
-      icon: <Clock className="h-4 w-4" />,
-      text: "Same day dispatch for orders before 2 PM",
     },
   ];
 
@@ -197,7 +182,7 @@ export function Navbar() {
                       : "opacity-0 translate-y-full"
                   }`}
                 >
-                  <div className="flex items-center space-x-2 text-sm font-medium">
+                  <div className="flex items-center space-x-2 text-sm font-medium capitalize">
                     {announcement.icon}
                     <span>{announcement.text}</span>
                   </div>

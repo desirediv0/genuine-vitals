@@ -614,111 +614,6 @@ const WhyChooseUsSection = () => {
   );
 };
 
-// Stats Section
-const StatsSection = () => {
-  const stats = [
-    {
-      number: "50K+",
-      label: "Happy Customers",
-      icon: <Users className="h-6 w-6" />,
-    },
-    {
-      number: "100+",
-      label: "Premium Products",
-      icon: <Award className="h-6 w-6" />,
-    },
-    {
-      number: "500+",
-      label: "Cities Delivered",
-      icon: <MapPin className="h-6 w-6" />,
-    },
-    {
-      number: "24/7",
-      label: "Customer Support",
-      icon: <Clock className="h-6 w-6" />,
-    },
-  ];
-
-  return (
-    <section className="py-16 bg-primary text-primary-foreground">
-      <div className="container mx-auto px-4">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-          {stats.map((stat, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, scale: 0.5 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              viewport={{ once: true }}
-            >
-              <div className="flex justify-center mb-3 opacity-80">
-                {stat.icon}
-              </div>
-              <div className="text-3xl md:text-4xl font-bold mb-2">
-                {stat.number}
-              </div>
-              <div className="text-sm font-medium opacity-90">{stat.label}</div>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-};
-
-// Newsletter Section
-const NewsletterSection = () => {
-  const [email, setEmail] = useState("");
-  const [isSubscribed, setIsSubscribed] = useState(false);
-
-  const handleSubscribe = (e) => {
-    e.preventDefault();
-    if (email) {
-      setIsSubscribed(true);
-      setEmail("");
-      setTimeout(() => setIsSubscribed(false), 3000);
-    }
-  };
-
-  return (
-    <section className="py-16 bg-gray-50">
-      <div className="container mx-auto px-4">
-        <div className="max-w-3xl mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            Stay Updated
-          </h2>
-          <p className="text-lg text-gray-600 mb-8">
-            Get the latest fitness tips, product launches, and exclusive offers
-          </p>
-          <form
-            onSubmit={handleSubscribe}
-            className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto"
-          >
-            <input
-              type="email"
-              placeholder="Enter your email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="flex-1 px-4 py-3 rounded-xl border border-gray-300 focus:border-primary focus:outline-none"
-              required
-            />
-            <Button
-              type="submit"
-              className={`px-6 py-3 rounded-xl font-medium transition-all duration-300 ${
-                isSubscribed
-                  ? "bg-green-500 hover:bg-green-600"
-                  : "bg-primary text-primary-foreground hover:bg-primary/90"
-              } shadow-lg hover:shadow-xl transform hover:scale-105`}
-            >
-              {isSubscribed ? "Subscribed!" : "Subscribe"}
-            </Button>
-          </form>
-        </div>
-      </div>
-    </section>
-  );
-};
-
 // Main Home Component
 export default function Home() {
   const [featuredProducts, setFeaturedProducts] = useState([]);
@@ -820,7 +715,7 @@ export default function Home() {
       </section>
 
       <WhyChooseUsSection />
-      <StatsSection />
+
       <TestimonialsSection />
     </div>
   );
