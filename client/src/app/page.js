@@ -55,11 +55,10 @@ const CategoriesSection = ({
   });
 
   const CategorySkeleton = () => (
-    <div className="flex-[0_0_280px] md:flex-[0_0_240px] lg:flex-[0_0_200px]">
-      <div className="bg-white rounded-xl p-4 shadow-lg border border-gray-100 animate-pulse h-full">
-        <div className="aspect-square bg-gray-200 rounded-xl mb-4"></div>
-        <div className="h-5 bg-gray-200 rounded mb-2"></div>
-        <div className="h-3 bg-gray-200 rounded w-2/3 mb-2"></div>
+    <div className="flex-[0_0_200px] md:flex-[0_0_180px] lg:flex-[0_0_160px]">
+      <div className="bg-white rounded-lg p-3 shadow-md border border-gray-100 animate-pulse h-full">
+        <div className="aspect-square bg-gray-200 rounded-lg mb-3"></div>
+        <div className="h-4 bg-gray-200 rounded mb-2"></div>
         <div className="h-3 bg-gray-200 rounded w-1/2"></div>
       </div>
     </div>
@@ -86,8 +85,8 @@ const CategoriesSection = ({
               Find the perfect supplements for your fitness goals
             </motion.p>
           </div>
-          <div className="flex gap-6 overflow-hidden">
-            {[...Array(6)].map((_, index) => (
+          <div className="flex gap-4 overflow-hidden">
+            {[...Array(8)].map((_, index) => (
               <CategorySkeleton key={index} />
             ))}
           </div>
@@ -163,61 +162,69 @@ const CategoriesSection = ({
               align: "start",
               loop: true,
               breakpoints: {
-                "(max-width: 768px)": {
-                  slidesToScroll: 1,
-                  containScroll: "trimSnaps",
-                },
-                "(min-width: 769px)": {
+                "(max-width: 640px)": {
                   slidesToScroll: 2,
                   containScroll: "trimSnaps",
                 },
-                "(min-width: 1024px)": {
+                "(min-width: 641px)": {
                   slidesToScroll: 3,
+                  containScroll: "trimSnaps",
+                },
+                "(min-width: 768px)": {
+                  slidesToScroll: 4,
+                  containScroll: "trimSnaps",
+                },
+                "(min-width: 1024px)": {
+                  slidesToScroll: 5,
+                  containScroll: "trimSnaps",
+                },
+                "(min-width: 1280px)": {
+                  slidesToScroll: 6,
                   containScroll: "trimSnaps",
                 },
               },
             }}
           >
-            <CarouselContent className="-ml-4">
+            <CarouselContent className="-ml-3">
               {categories.map((category, index) => (
                 <CarouselItem
                   key={category.id}
-                  className="pl-4 basis-full sm:basis-1/2 md:basis-1/3 lg:basis-1/4 xl:basis-1/5"
+                  className="pl-3 basis-[200px] sm:basis-[180px] md:basis-[160px] lg:basis-[140px] xl:basis-[130px]"
                 >
                   <motion.div
-                    initial={{ opacity: 0, y: 30 }}
+                    initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                    transition={{ duration: 0.4, delay: index * 0.05 }}
                     viewport={{ once: true }}
                     className="group cursor-pointer h-full"
                   >
                     <Link href={`/category/${category.slug}`}>
-                      <div className="bg-white rounded-xl p-4 shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-100 group-hover:scale-[1.02] group-hover:border-primary/30 overflow-hidden h-full relative">
-                        <div className="relative aspect-square bg-gray-50 rounded-xl mb-4 overflow-hidden">
+                      <div className="bg-white rounded-lg p-3 shadow-md hover:shadow-lg transition-all duration-300 border border-gray-100 group-hover:scale-[1.03] group-hover:border-primary/20 overflow-hidden h-full relative">
+                        <div className="relative aspect-square bg-gray-50 rounded-lg mb-3 overflow-hidden">
                           <Image
                             src={category.image || "/c3.jpg"}
                             alt={category.name}
                             fill
-                            className="object-cover group-hover:scale-110 transition-transform duration-700"
-                            sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                            className="object-cover group-hover:scale-105 transition-transform duration-500"
+                            sizes="(max-width: 640px) 200px, (max-width: 768px) 180px, (max-width: 1024px) 160px, 140px"
                           />
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                          <div className="absolute top-3 right-3 bg-primary text-primary-foreground text-xs font-bold px-3 py-1.5 rounded-full shadow-lg">
-                            {category._count?.products || 0} items
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                          <div className="absolute top-2 right-2 bg-primary text-primary-foreground text-xs font-semibold px-2 py-1 rounded-full shadow-sm">
+                            {category._count?.products || 0}
                           </div>
                         </div>
 
-                        <div className="text-center space-y-3">
-                          <h3 className="text-lg font-bold text-gray-900 group-hover:text-primary transition-colors duration-300 line-clamp-1">
+                        <div className="text-center space-y-2">
+                          <h3 className="text-sm font-semibold text-gray-900 group-hover:text-primary transition-colors duration-300 line-clamp-1">
                             {category.name}
                           </h3>
                           {category.description && (
-                            <p className="text-sm text-gray-600 line-clamp-2 leading-relaxed">
+                            <p className="text-xs text-gray-600 line-clamp-2 leading-relaxed">
                               {category.description}
                             </p>
                           )}
-                          <div className="pt-2 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
-                            <span className="inline-flex items-center text-sm text-primary-foreground bg-primary px-4 py-2 rounded-full font-medium shadow-lg">
+                          <div className=" transition-all duration-300 transform translate-y-1 group-hover:translate-y-0">
+                            <span className="inline-flex items-center text-xs text-primary-foreground bg-primary px-3 py-1.5 rounded-full font-medium shadow-sm">
                               Shop Now
                               <ArrowRight className="ml-1 h-3 w-3" />
                             </span>
@@ -229,10 +236,10 @@ const CategoriesSection = ({
                 </CarouselItem>
               ))}
             </CarouselContent>
-            {categories.length > 3 && (
+            {categories.length > 4 && (
               <>
-                <CarouselPrevious className="hidden md:flex -left-4 bg-white/90 backdrop-blur-sm border-2 border-primary/20 text-primary hover:bg-primary hover:text-primary-foreground shadow-xl" />
-                <CarouselNext className="hidden md:flex -right-4 bg-white/90 backdrop-blur-sm border-2 border-primary/20 text-primary hover:bg-primary hover:text-primary-foreground shadow-xl" />
+                <CarouselPrevious className="hidden md:flex -left-3 bg-white/90 backdrop-blur-sm border border-primary/20 text-primary hover:bg-primary hover:text-primary-foreground shadow-lg" />
+                <CarouselNext className="hidden md:flex -right-3 bg-white/90 backdrop-blur-sm border border-primary/20 text-primary hover:bg-primary hover:text-primary-foreground shadow-lg" />
               </>
             )}
           </Carousel>
