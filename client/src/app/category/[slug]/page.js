@@ -345,7 +345,7 @@ export default function CategoryPage() {
                     className="block group"
                   >
                     <h3 className="font-medium text-gray-800 group-hover:text-primary transition-colors line-clamp-2">
-                      {product.name}
+                      {product.name || "Product"}
                     </h3>
                   </Link>
 
@@ -361,11 +361,13 @@ export default function CategoryPage() {
                         </span>
                       )}
                     </div>
-                    {product.hasVariants && (
-                      <span className="text-xs text-gray-500 px-2 py-1 bg-gray-100 rounded-full">
-                        {product.variants} options
-                      </span>
-                    )}
+                    {product.variants &&
+                      Array.isArray(product.variants) &&
+                      product.variants.length > 0 && (
+                        <span className="text-xs text-gray-500 px-2 py-1 bg-gray-100 rounded-full">
+                          {product.variants.length} options
+                        </span>
+                      )}
                   </div>
                 </div>
               </motion.div>
@@ -431,13 +433,13 @@ export default function CategoryPage() {
                           className="block group"
                         >
                           <h3 className="text-xl font-medium text-gray-800 group-hover:text-primary transition-colors">
-                            {product.name}
+                            {product.name || "Product"}
                           </h3>
                         </Link>
 
                         {/* Description */}
                         <p className="text-gray-600 mt-2 line-clamp-2">
-                          {product.description}
+                          {product.description || ""}
                         </p>
 
                         {/* Price */}
@@ -452,11 +454,13 @@ export default function CategoryPage() {
                               </span>
                             )}
                           </div>
-                          {product.hasVariants && (
-                            <span className="text-xs text-gray-500 px-2 py-1 bg-gray-100 rounded-full">
-                              {product.variants} options
-                            </span>
-                          )}
+                          {product.variants &&
+                            Array.isArray(product.variants) &&
+                            product.variants.length > 0 && (
+                              <span className="text-xs text-gray-500 px-2 py-1 bg-gray-100 rounded-full">
+                                {product.variants.length} options
+                              </span>
+                            )}
                         </div>
                       </div>
 

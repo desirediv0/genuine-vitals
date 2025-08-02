@@ -1,6 +1,7 @@
 import express from "express";
 import {
   getAllCategories,
+  getCategoryBySlug,
   getProductsByCategory,
 } from "../controllers/category.controller.js";
 import {
@@ -23,6 +24,7 @@ const router = express.Router();
 // Categories
 router.get("/categories", getAllCategories);
 router.get("/categories/:slug/products", getProductsByCategory);
+router.get("/categories/:slug", getCategoryBySlug);
 
 // Products
 router.get("/products", getAllProducts);

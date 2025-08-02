@@ -951,31 +951,12 @@ export default function ProductContent({ slug }) {
                 </Link>
               </div>
             )}
-
-            {product.tags && product.tags.length > 0 && (
-              <div className="flex">
-                <span className="font-medium w-32 text-gray-700">Tags:</span>
-                <div className="text-gray-600">
-                  {product.tags?.map((tag, index) => (
-                    <span key={index}>
-                      <Link
-                        href={`/products?tag=${tag}`}
-                        className="text-primary hover:underline"
-                      >
-                        {tag}
-                      </Link>
-                      {index < product.tags.length - 1 && ", "}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            )}
           </div>
         </div>
       </div>
 
       {/* Product Tabs */}
-      <div className="mb-16">
+      <div className="mb-16 mt-5">
         <div className="bg-white rounded-2xl p-2 shadow-lg border border-gray-200">
           <div className="flex overflow-x-auto gap-2">
             <button

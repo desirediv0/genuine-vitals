@@ -73,7 +73,7 @@ export const registerUser = asyncHandler(async (req, res, next) => {
   try {
     await sendEmail({
       email,
-      subject: "Verify Your Email - GenuineNutrition",
+      subject: "Verify Your Email - Genuine Vitals",
       html: getVerificationTemplate(verificationLink),
     });
 
@@ -343,7 +343,7 @@ export const forgotPassword = asyncHandler(async (req, res, next) => {
   try {
     await sendEmail({
       email,
-      subject: "Reset Your Password - GenuineNutrition",
+      subject: "Reset Your Password - Genuine Vitals",
       html: getResetTemplate(resetLink),
     });
 
@@ -1086,7 +1086,7 @@ export const requestAccountDeletion = asyncHandler(async (req, res, next) => {
   try {
     await sendEmail({
       email: user.email,
-      subject: "Confirm Account Deletion - GenuineNutrition",
+      subject: "Confirm Account Deletion - Genuine Vitals",
       html: getDeleteTemplate(deletionLink),
     });
 
@@ -1365,7 +1365,7 @@ export const resendVerificationEmail = asyncHandler(async (req, res, next) => {
   try {
     await sendEmail({
       email,
-      subject: "Verify Your Email - GenuineNutrition",
+      subject: "Verify Your Email - Genuine Vitals",
       html: getVerificationTemplate(verificationLink),
     });
 

@@ -223,7 +223,7 @@ const CategoriesSection = ({
                               {category.description}
                             </p>
                           )}
-                          <div className=" transition-all duration-300 transform translate-y-1 group-hover:translate-y-0">
+                          <div className="opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-1 group-hover:translate-y-0">
                             <span className="inline-flex items-center text-xs text-primary-foreground bg-primary px-3 py-1.5 rounded-full font-medium shadow-sm">
                               Shop Now
                               <ArrowRight className="ml-1 h-3 w-3" />

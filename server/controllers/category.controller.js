@@ -40,6 +40,42 @@ export const getAllCategories = asyncHandler(async (req, res) => {
     );
 });
 
+// Get category by slug
+export const getCategoryBySlug = asyncHandler(async (req, res) => {
+  const { slug } = req.params;
+
+  const category = await prisma.category.findUnique({
+    where: { slug },
+    include: {
+      _count: {
+        select: {
+          products: true,
+        },
+      },
+    },
+  });
+
+  if (!category) {
+    throw new ApiError(404, "Category not found");
+  }
+
+  // Format the response with image URL
+  const formattedCategory = {
+    ...category,
+    image: category.image ? getFileUrl(category.image) : null,
+  };
+
+  res
+    .status(200)
+    .json(
+      new ApiResponsive(
+        200,
+        { category: formattedCategory },
+        "Category fetched successfully"
+      )
+    );
+});
+
 // Get products by category
 export const getProductsByCategory = asyncHandler(async (req, res) => {
   const { slug } = req.params;

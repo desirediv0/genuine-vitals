@@ -11,6 +11,7 @@ import { AlertCircle, Eye, EyeOff, User, Mail, Lock } from "lucide-react";
 import { motion } from "framer-motion";
 import { useAuth } from "@/lib/auth-context";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 export default function RegisterPage() {
   const { register } = useAuth();
@@ -34,13 +35,17 @@ export default function RegisterPage() {
 
     // Validate passwords match
     if (formData.password !== formData.confirmPassword) {
-      setError("Passwords do not match");
+      const errorMsg = "Passwords do not match";
+      setError(errorMsg);
+      toast.error(errorMsg);
       return;
     }
 
     // Validate terms agreement
     if (!formData.agreeToTerms) {
-      setError("Please agree to the terms and conditions");
+      const errorMsg = "Please agree to the terms and conditions";
+      setError(errorMsg);
+      toast.error(errorMsg);
       return;
     }
 
@@ -48,17 +53,28 @@ export default function RegisterPage() {
 
     try {
       await register({
-        firstName: formData.firstName,
-        lastName: formData.lastName,
+        name: `${formData.firstName} ${formData.lastName}`,
         email: formData.email,
         password: formData.password,
       });
+
+      // Show success toast
+      toast.success(
+        "Registration successful! Please check your email to verify your account."
+      );
+
       // Set flag to indicate user just registered
       sessionStorage.setItem("justRegistered", "true");
-      // Redirect to login page
-      router.push("/login");
+
+      // Redirect to login page after a short delay
+      setTimeout(() => {
+        router.push("/login");
+      }, 2000);
     } catch (err) {
-      setError(err.message || "Registration failed. Please try again.");
+      const errorMessage =
+        err.message || "Registration failed. Please try again.";
+      setError(errorMessage);
+      toast.error(errorMessage);
     } finally {
       setLoading(false);
     }

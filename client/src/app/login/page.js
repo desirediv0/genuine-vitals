@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
@@ -11,6 +11,7 @@ import { AlertCircle, Eye, EyeOff, Mail, Lock } from "lucide-react";
 import { motion } from "framer-motion";
 import { useAuth } from "@/lib/auth-context";
 import { useRouter, useSearchParams } from "next/navigation";
+import { toast } from "sonner";
 
 export default function LoginPage() {
   const { login } = useAuth();
@@ -26,6 +27,19 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showRegistrationSuccess, setShowRegistrationSuccess] = useState(false);
+
+  // Check if user just registered
+  useEffect(() => {
+    const justRegistered = sessionStorage.getItem("justRegistered");
+    if (justRegistered === "true") {
+      setShowRegistrationSuccess(true);
+      toast.success(
+        "Registration successful! Please check your email to verify your account before logging in."
+      );
+      sessionStorage.removeItem("justRegistered");
+    }
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -34,12 +48,19 @@ export default function LoginPage() {
 
     try {
       await login(formData.email, formData.password);
+
+      // Show success toast
+      toast.success("Login successful! Welcome back!");
+
       // Set flag to indicate user just logged in
       sessionStorage.setItem("justLoggedIn", "true");
+
       // Redirect to return URL or home page
       router.push(returnUrl);
     } catch (err) {
-      setError(err.message || "Invalid email or password");
+      const errorMessage = err.message || "Invalid email or password";
+      setError(errorMessage);
+      toast.error(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -77,6 +98,19 @@ export default function LoginPage() {
               </Link>
             </p>
           </div>
+
+          {/* Success Message for Registration */}
+          {showRegistrationSuccess && (
+            <div className="mb-6 p-4 rounded-lg bg-green-50 text-green-700 flex items-center gap-2">
+              <div className="h-5 w-5 rounded-full bg-green-100 flex items-center justify-center">
+                <div className="h-2 w-2 rounded-full bg-green-600"></div>
+              </div>
+              <p className="text-sm">
+                Registration successful! Please check your email to verify your
+                account before logging in.
+              </p>
+            </div>
+          )}
 
           {/* Error Message */}
           {error && (
