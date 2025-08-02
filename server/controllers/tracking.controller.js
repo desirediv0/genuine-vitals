@@ -3,6 +3,7 @@ import { ApiError } from "../utils/ApiError.js";
 import { ApiResponsive } from "../utils/ApiResponsive.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import sendEmail from "../utils/sendEmail.js";
+import { getCertificateGeneratedTemplate } from "../email/temp/EmailTemplate.js";
 
 // Get tracking info by order ID (admin & user)
 export const getTrackingByOrderId = asyncHandler(async (req, res) => {
@@ -131,10 +132,16 @@ export const createTracking = asyncHandler(async (req, res) => {
   // Send shipping notification email to customer
   try {
     if (order.user && order.user.email) {
-      // Send email logic would go here
-      console.log(
-        `Shipping notification email would be sent to ${order.user.email}`
-      );
+      await sendEmail({
+        email: order.user.email,
+        subject: `Order Shipped - #${order.orderNumber}`,
+        html: getCertificateGeneratedTemplate({
+          userName: order.user.name || "Valued Customer",
+          courseName: `Order #${order.orderNumber}`,
+          certificateId: trackingNumber,
+        }),
+      });
+      console.log(`Shipping notification email sent to ${order.user.email}`);
     }
   } catch (error) {
     console.error("Failed to send shipping notification email:", error);

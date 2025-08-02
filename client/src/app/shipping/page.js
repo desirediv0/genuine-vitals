@@ -173,7 +173,7 @@ export default function ShippingPolicyPage() {
                 </p>
                 <p>
                   For any other shipping-related queries, please contact our
-                  customer support team at support@GenuineVitals.com or call us
+                  customer support team at support@genuinevitals.com or call us
                   at +91 98765 43210.
                 </p>
               </section>
