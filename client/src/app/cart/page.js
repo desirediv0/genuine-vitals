@@ -366,7 +366,7 @@ export default function CartPage() {
                   Guest Shopping Cart
                 </h2>
                 <p className="text-gray-700 mb-6 leading-relaxed text-lg">
-                  You're currently shopping as a guest. To complete your
+                  You&apos;re currently shopping as a guest. To complete your
                   purchase and save your cart items for future visits, please
                   log in to your account.
                 </p>
