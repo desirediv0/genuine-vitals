@@ -1,10 +1,8 @@
 "use client";
 
 import { useState, useEffect, Suspense } from "react";
-import Link from "next/link";
-import Image from "next/image";
 import { useSearchParams } from "next/navigation";
-import { fetchApi, formatCurrency } from "@/lib/utils";
+import { fetchApi } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -15,29 +13,26 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import {
-  Star,
   Filter,
   ChevronRight,
   Search,
-  Eye,
   Package,
-  CheckCircle,
   ChevronLeft,
 } from "lucide-react";
-import ProductQuickView from "@/components/ProductQuickView";
+import ProductCard from "@/components/ProductCard";
 import { motion } from "framer-motion";
 
 // Add ProductCardSkeleton component
 function ProductCardSkeleton() {
   return (
-    <div className="bg-white overflow-hidden shadow-md rounded-sm animate-pulse">
-      <div className="h-64  bg-gray-200"></div>
-      <div className="p-4">
-        <div className="flex justify-center mb-2">
-          <div className="h-4 w-24 bg-gray-200 rounded"></div>
+    <div className="bg-white overflow-hidden shadow-md rounded-lg animate-pulse">
+      <div className="h-40 bg-gray-200"></div>
+      <div className="p-3">
+        <div className="flex justify-center mb-1">
+          <div className="h-3 w-20 bg-gray-200 rounded"></div>
         </div>
-        <div className="h-4 w-full bg-gray-200 rounded mb-2"></div>
-        <div className="h-4 w-3/4 mx-auto bg-gray-200 rounded mb-4"></div>
+        <div className="h-3 w-full bg-gray-200 rounded mb-1"></div>
+        <div className="h-3 w-3/4 mx-auto bg-gray-200 rounded mb-2"></div>
         <div className="flex justify-center">
           <div className="h-6 w-16 bg-gray-200 rounded"></div>
         </div>
@@ -58,8 +53,6 @@ function ProductsContent() {
     total: 0,
     limit: 10,
   });
-  const [quickViewProduct, setQuickViewProduct] = useState(null);
-  const [quickViewOpen, setQuickViewOpen] = useState(false);
   const [filters, setFilters] = useState({
     category: searchParams.get("category") || "",
     search: searchParams.get("search") || "",
@@ -67,29 +60,6 @@ function ProductsContent() {
     maxPrice: searchParams.get("maxPrice") || "",
     sort: searchParams.get("sort") || "newest",
   });
-  const [statsLoading, setStatsLoading] = useState(true);
-  const [stats, setStats] = useState({
-    total: 0,
-    active: 0,
-    featured: 0,
-  });
-
-  // Fetch dashboard stats
-  useEffect(() => {
-    const fetchStats = async () => {
-      try {
-        const response = await fetchApi("/public/products/stats");
-        if (response.data) {
-          setStats(response.data);
-        }
-      } catch (error) {
-        console.error("Error fetching stats:", error);
-      } finally {
-        setStatsLoading(false);
-      }
-    };
-    fetchStats();
-  }, []);
 
   // Fetch data
   useEffect(() => {
@@ -126,122 +96,9 @@ function ProductsContent() {
     fetchData();
   }, [filters, pagination.page, pagination.limit]);
 
-  // Handle filter changes
-  const handleFilterChange = (key, value) => {
-    setPagination((prev) => ({ ...prev, page: 1 }));
-    setFilters((prev) => ({ ...prev, [key]: value }));
-  };
-
-  // Handle search
-  const handleSearch = (e) => {
-    e.preventDefault();
-    const formData = new FormData(e.target);
-    const searchQuery = formData.get("search");
-    handleFilterChange("search", searchQuery);
-  };
-
   return (
     <div className="w-full max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="flex flex-col gap-8">
-        {/* Hero Section */}
-        {/* <div>
-          <h1 className="text-4xl font-bold tracking-tight">Shop</h1>
-          <div className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            <div className="overflow-hidden rounded-lg bg-white shadow">
-              <div className="p-5">
-                {statsLoading ? (
-                  <div className="h-[72px] animate-pulse rounded bg-gray-100" />
-                ) : (
-                  <>
-                    <div className="flex items-center">
-                      <div className="flex-shrink-0">
-                        <Package
-                          className="h-6 w-6 text-gray-400"
-                          aria-hidden="true"
-                        />
-                      </div>
-                      <div className="ml-5 w-0 flex-1">
-                        <dl>
-                          <dt className="text-sm font-medium text-gray-500 truncate">
-                            Total Products
-                          </dt>
-                          <dd>
-                            <div className="text-lg font-medium text-gray-900">
-                              {stats.total}
-                            </div>
-                          </dd>
-                        </dl>
-                      </div>
-                    </div>
-                  </>
-                )}
-              </div>
-            </div>
-
-            <div className="overflow-hidden rounded-lg bg-white shadow">
-              <div className="p-5">
-                {statsLoading ? (
-                  <div className="h-[72px] animate-pulse rounded bg-gray-100" />
-                ) : (
-                  <>
-                    <div className="flex items-center">
-                      <div className="flex-shrink-0">
-                        <CheckCircle
-                          className="h-6 w-6 text-green-400"
-                          aria-hidden="true"
-                        />
-                      </div>
-                      <div className="ml-5 w-0 flex-1">
-                        <dl>
-                          <dt className="text-sm font-medium text-gray-500 truncate">
-                            Active Products
-                          </dt>
-                          <dd>
-                            <div className="text-lg font-medium text-gray-900">
-                              {stats.active}
-                            </div>
-                          </dd>
-                        </dl>
-                      </div>
-                    </div>
-                  </>
-                )}
-              </div>
-            </div>
-
-            <div className="overflow-hidden rounded-lg bg-white shadow">
-              <div className="p-5">
-                {statsLoading ? (
-                  <div className="h-[72px] animate-pulse rounded bg-gray-100" />
-                ) : (
-                  <>
-                    <div className="flex items-center">
-                      <div className="flex-shrink-0">
-                        <Star
-                          className="h-6 w-6 text-yellow-400"
-                          aria-hidden="true"
-                        />
-                      </div>
-                      <div className="ml-5 w-0 flex-1">
-                        <dl>
-                          <dt className="text-sm font-medium text-gray-500 truncate">
-                            Featured Products
-                          </dt>
-                          <dd>
-                            <div className="text-lg font-medium text-gray-900">
-                              {stats.featured}
-                            </div>
-                          </dd>
-                        </dl>
-                      </div>
-                    </div>
-                  </>
-                )}
-              </div>
-            </div>
-          </div>
-        </div> */}
-
         {/* Filters */}
         <div className="relative bg-white shadow-sm sm:rounded-lg border overflow-hidden">
           <div className="border-b border-gray-200 px-4 py-5 sm:px-6">
@@ -375,94 +232,8 @@ function ProductsContent() {
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: index * 0.1 }}
                     viewport={{ once: true }}
-                    className="group"
                   >
-                    <div className="relative bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
-                      <Link href={`/products/${product.slug}`}>
-                        <div className="relative aspect-square bg-gray-50">
-                          <Image
-                            src={product.image || "/product-placeholder.jpg"}
-                            alt={product.name}
-                            fill
-                            className="object-contain p-6 transform group-hover:scale-110 transition-transform duration-500"
-                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                          />
-                          {product.hasSale && (
-                            <div className="absolute top-4 left-4 z-10">
-                              <div className="bg-red-500 text-white text-xs font-bold px-3 py-1.5 rounded-full">
-                                SALE
-                              </div>
-                            </div>
-                          )}
-                        </div>
-                      </Link>
-
-                      {/* Quick Actions */}
-                      <div className="absolute top-4 right-4 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <Button
-                          variant="secondary"
-                          size="icon"
-                          className="h-9 w-9 rounded-full bg-white shadow-lg hover:scale-110 transition-transform"
-                          onClick={() => {
-                            setQuickViewProduct(product);
-                            setQuickViewOpen(true);
-                          }}
-                        >
-                          <Eye className="h-4 w-4" />
-                        </Button>
-                      </div>
-
-                      <div className="p-4">
-                        {/* Rating */}
-                        <div className="flex items-center gap-1.5 mb-3">
-                          <div className="flex text-yellow-400">
-                            {[...Array(5)].map((_, i) => (
-                              <Star
-                                key={i}
-                                className="h-4 w-4"
-                                fill={
-                                  i < Math.round(product.avgRating || 0)
-                                    ? "currentColor"
-                                    : "none"
-                                }
-                              />
-                            ))}
-                          </div>
-                          <span className="text-xs text-gray-500">
-                            ({product.reviewCount || 0})
-                          </span>
-                        </div>
-
-                        {/* Product Info */}
-                        <Link
-                          href={`/products/${product.slug}`}
-                          className="block group"
-                        >
-                          <h3 className="font-medium text-gray-800 group-hover:text-primary transition-colors line-clamp-2">
-                            {product.name}
-                          </h3>
-                        </Link>
-
-                        {/* Price */}
-                        <div className="mt-3 flex items-center justify-between">
-                          <div className="flex items-baseline gap-2">
-                            <span className="text-lg font-bold text-primary">
-                              {formatCurrency(product.basePrice)}
-                            </span>
-                            {product.hasSale && (
-                              <span className="text-sm text-gray-500 line-through">
-                                {formatCurrency(product.regularPrice)}
-                              </span>
-                            )}
-                          </div>
-                          {product.hasVariants && (
-                            <span className="text-xs text-gray-500 px-2 py-1 bg-gray-100 rounded-full">
-                              {product.variants} options
-                            </span>
-                          )}
-                        </div>
-                      </div>
-                    </div>
+                    <ProductCard product={product} />
                   </motion.div>
                 ))}
               </div>
@@ -551,14 +322,6 @@ function ProductsContent() {
           )}
         </div>
       </div>
-
-      {quickViewProduct && (
-        <ProductQuickView
-          product={quickViewProduct}
-          open={quickViewOpen}
-          onOpenChange={setQuickViewOpen}
-        />
-      )}
     </div>
   );
 }
@@ -569,7 +332,7 @@ export default function ProductsPage() {
       fallback={
         <div className="container mx-auto px-4 py-8">
           <div className="flex justify-center items-center h-64">
-            <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+            <div className="w-12 h-12 border-4 border-[#2E9692] border-t-transparent rounded-full animate-spin"></div>
           </div>
         </div>
       }

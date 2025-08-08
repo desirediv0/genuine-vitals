@@ -6,14 +6,7 @@ import { useAuth } from "@/lib/auth-context";
 import { toast } from "sonner";
 
 // Define private routes that require authentication
-const privateRoutes = [
-  "/account",
-  "/checkout",
-  "/wishlist",
-  "/shipping",
-  "/cart",
-  "/orders",
-];
+const privateRoutes = ["/account", "/checkout", "/wishlist", "/orders"];
 
 // Define auth routes that should redirect to dashboard if already logged in
 const authRoutes = [
@@ -29,16 +22,8 @@ export function RouteGuard({ children }) {
   const pathname = usePathname();
   const [authorized, setAuthorized] = useState(false);
   const [firstRun, setFirstRun] = useState(true);
-  const [mounted, setMounted] = useState(false);
-
-  // Ensure component is mounted before accessing browser APIs
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   useEffect(() => {
-    if (!mounted) return;
-
     // Authentication check
     const authCheck = () => {
       // Skip verification for verification endpoints and public pages
@@ -111,7 +96,7 @@ export function RouteGuard({ children }) {
       // While loading, consider the user authorized to avoid flashing screens
       setAuthorized(true);
     }
-  }, [isAuthenticated, loading, pathname, router, firstRun, mounted]);
+  }, [isAuthenticated, loading, pathname, router, firstRun]);
 
   // Always render children - no more loading or unauthorized screens
   return children;

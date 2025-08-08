@@ -8,6 +8,7 @@ import {
   getAllProducts,
   getProductBySlug,
   getProductVariant,
+  getProductVariantById,
   getAllFlavors,
   getAllWeights,
   getMaxPrice,
@@ -32,6 +33,7 @@ router.get("/products/max-price", getMaxPrice);
 router.get("/products/type/:productType", getProductsByType);
 router.get("/products/:slug", trackProductView, getProductBySlug);
 router.get("/product-variant", getProductVariant);
+router.get("/products/variants/:id", getProductVariantById);
 
 // Flavors and Weights
 router.get("/flavors", getAllFlavors);

@@ -11,8 +11,6 @@ import {
   AlertCircle,
   ChevronDown,
   ChevronUp,
-  Eye,
-  Heart,
   Package,
   ArrowLeft,
   Filter,
@@ -20,7 +18,7 @@ import {
   Grid,
   List,
 } from "lucide-react";
-import ProductQuickView from "@/components/ProductQuickView";
+import ProductCard from "@/components/ProductCard";
 import { motion, AnimatePresence } from "framer-motion";
 
 // Helper function to format image URLs correctly
@@ -36,8 +34,6 @@ export default function CategoryPage() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [quickViewProduct, setQuickViewProduct] = useState(null);
-  const [quickViewOpen, setQuickViewOpen] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
   const [viewMode, setViewMode] = useState("grid");
   const [filters, setFilters] = useState({
@@ -72,11 +68,6 @@ export default function CategoryPage() {
     fetchData();
   }, [params.slug, filters]);
 
-  const handleQuickView = (product) => {
-    setQuickViewProduct(product);
-    setQuickViewOpen(true);
-  };
-
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50">
@@ -85,13 +76,14 @@ export default function CategoryPage() {
             {[...Array(8)].map((_, index) => (
               <div
                 key={index}
-                className="bg-white rounded-2xl shadow-lg overflow-hidden animate-pulse"
+                className="bg-white rounded-lg shadow-lg overflow-hidden animate-pulse"
               >
-                <div className="aspect-square bg-gray-200" />
-                <div className="p-6">
-                  <div className="h-6 bg-gray-200 rounded w-3/4 mb-4" />
-                  <div className="h-4 bg-gray-200 rounded w-full mb-2" />
-                  <div className="h-4 bg-gray-200 rounded w-2/3" />
+                <div className="h-40 bg-gray-200" />
+                <div className="p-3">
+                  <div className="h-3 w-20 bg-gray-200 rounded mb-1" />
+                  <div className="h-3 w-full bg-gray-200 rounded mb-1" />
+                  <div className="h-3 w-3/4 bg-gray-200 rounded mb-2" />
+                  <div className="h-6 w-16 bg-gray-200 rounded" />
                 </div>
               </div>
             ))}
@@ -126,21 +118,21 @@ export default function CategoryPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
-      <div className="relative bg-gradient-to-r from-primary/10 to-primary/5 py-16">
+      <div className="relative bg-gradient-to-r from-[#2E9692]/10 to-[#2E9692]/5 py-16">
         <div className="container mx-auto px-4">
           <div className="flex items-center gap-2 text-sm text-gray-500 mb-4">
-            <Link href="/" className="hover:text-primary transition-colors">
+            <Link href="/" className="hover:text-[#2E9692] transition-colors">
               Home
             </Link>
             <ChevronDown className="h-4 w-4" />
             <Link
               href="/categories"
-              className="hover:text-primary transition-colors"
+              className="hover:text-[#2E9692] transition-colors"
             >
               Categories
             </Link>
             <ChevronDown className="h-4 w-4" />
-            <span className="text-primary">{category?.name}</span>
+            <span className="text-[#2E9692]">{category?.name}</span>
           </div>
 
           <div className="flex flex-col md:flex-row items-center gap-8">
@@ -193,7 +185,7 @@ export default function CategoryPage() {
               onChange={(e) =>
                 setFilters((prev) => ({ ...prev, sort: e.target.value }))
               }
-              className="px-3 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/20"
+              className="px-3 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#2E9692]/20"
             >
               <option value="newest">Newest</option>
               <option value="price_asc">Price: Low to High</option>
@@ -246,7 +238,7 @@ export default function CategoryPage() {
                             minPrice: e.target.value,
                           }))
                         }
-                        className="w-full px-3 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/20"
+                        className="w-full px-3 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#2E9692]/20"
                       />
                       <span className="text-gray-500">to</span>
                       <input
@@ -259,7 +251,7 @@ export default function CategoryPage() {
                             maxPrice: e.target.value,
                           }))
                         }
-                        className="w-full px-3 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/20"
+                        className="w-full px-3 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#2E9692]/20"
                       />
                     </div>
                   </div>
@@ -271,105 +263,15 @@ export default function CategoryPage() {
 
         {/* Products Grid/List */}
         {viewMode === "grid" ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
             {products.map((product, index) => (
               <motion.div
                 key={product.id}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="group bg-white rounded-2xl shadow-lg hover:shadow-xl overflow-hidden"
               >
-                <Link href={`/products/${product.slug}`}>
-                  <div className="relative aspect-square bg-gray-50">
-                    <Image
-                      src={product.image || "/product-placeholder.jpg"}
-                      alt={product.name}
-                      fill
-                      className="object-contain p-6 transform group-hover:scale-110 transition-transform duration-500"
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    />
-                    {product.hasSale && (
-                      <div className="absolute top-4 left-4 z-10">
-                        <div className="bg-red-500 text-white text-xs font-bold px-3 py-1.5 rounded-full">
-                          SALE
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                </Link>
-
-                {/* Quick Actions */}
-                <div className="absolute top-4 right-4 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                  <Button
-                    variant="secondary"
-                    size="icon"
-                    className="h-9 w-9 rounded-full bg-white shadow-lg hover:scale-110 transition-transform"
-                    onClick={() => handleQuickView(product)}
-                  >
-                    <Eye className="h-4 w-4" />
-                  </Button>
-                  <Button
-                    variant="secondary"
-                    size="icon"
-                    className="h-9 w-9 rounded-full bg-white shadow-lg hover:scale-110 transition-transform"
-                  >
-                    <Heart className="h-4 w-4" />
-                  </Button>
-                </div>
-
-                <div className="p-6">
-                  {/* Rating */}
-                  <div className="flex items-center gap-1.5 mb-3">
-                    <div className="flex text-yellow-400">
-                      {[...Array(5)].map((_, i) => (
-                        <Star
-                          key={i}
-                          className="h-4 w-4"
-                          fill={
-                            i < Math.round(product.avgRating || 0)
-                              ? "currentColor"
-                              : "none"
-                          }
-                        />
-                      ))}
-                    </div>
-                    <span className="text-xs text-gray-500">
-                      ({product.reviewCount || 0})
-                    </span>
-                  </div>
-
-                  {/* Product Info */}
-                  <Link
-                    href={`/products/${product.slug}`}
-                    className="block group"
-                  >
-                    <h3 className="font-medium text-gray-800 group-hover:text-primary transition-colors line-clamp-2">
-                      {product.name || "Product"}
-                    </h3>
-                  </Link>
-
-                  {/* Price */}
-                  <div className="mt-3 flex items-center justify-between">
-                    <div className="flex items-baseline gap-2">
-                      <span className="text-lg font-bold text-primary">
-                        {formatCurrency(product.basePrice)}
-                      </span>
-                      {product.hasSale && (
-                        <span className="text-sm text-gray-500 line-through">
-                          {formatCurrency(product.regularPrice)}
-                        </span>
-                      )}
-                    </div>
-                    {product.variants &&
-                      Array.isArray(product.variants) &&
-                      product.variants.length > 0 && (
-                        <span className="text-xs text-gray-500 px-2 py-1 bg-gray-100 rounded-full">
-                          {product.variants.length} options
-                        </span>
-                      )}
-                  </div>
-                </div>
+                <ProductCard product={product} />
               </motion.div>
             ))}
           </div>
@@ -432,7 +334,7 @@ export default function CategoryPage() {
                           href={`/products/${product.slug}`}
                           className="block group"
                         >
-                          <h3 className="text-xl font-medium text-gray-800 group-hover:text-primary transition-colors">
+                          <h3 className="text-xl font-medium text-gray-800 group-hover:text-[#2E9692] transition-colors">
                             {product.name || "Product"}
                           </h3>
                         </Link>
@@ -445,7 +347,7 @@ export default function CategoryPage() {
                         {/* Price */}
                         <div className="mt-4 flex items-center gap-4">
                           <div className="flex items-baseline gap-2">
-                            <span className="text-xl font-bold text-primary">
+                            <span className="text-xl font-bold text-[#2E9692]">
                               {formatCurrency(product.basePrice)}
                             </span>
                             {product.hasSale && (
@@ -462,25 +364,6 @@ export default function CategoryPage() {
                               </span>
                             )}
                         </div>
-                      </div>
-
-                      {/* Quick Actions */}
-                      <div className="flex flex-col gap-2">
-                        <Button
-                          variant="secondary"
-                          size="icon"
-                          className="h-9 w-9 rounded-full bg-white shadow-lg hover:scale-110 transition-transform"
-                          onClick={() => handleQuickView(product)}
-                        >
-                          <Eye className="h-4 w-4" />
-                        </Button>
-                        <Button
-                          variant="secondary"
-                          size="icon"
-                          className="h-9 w-9 rounded-full bg-white shadow-lg hover:scale-110 transition-transform"
-                        >
-                          <Heart className="h-4 w-4" />
-                        </Button>
                       </div>
                     </div>
                   </div>
@@ -511,15 +394,6 @@ export default function CategoryPage() {
           </div>
         )}
       </div>
-
-      {/* Quick View Modal */}
-      {quickViewProduct && (
-        <ProductQuickView
-          product={quickViewProduct}
-          open={quickViewOpen}
-          onOpenChange={setQuickViewOpen}
-        />
-      )}
     </div>
   );
 }

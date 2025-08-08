@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button";
 import {
   ArrowRight,
   Star,
-  Eye,
   Zap,
   Shield,
   Truck,
@@ -17,7 +16,6 @@ import {
   Users,
   Award,
   Clock,
-  Heart,
   ShoppingCart,
 } from "lucide-react";
 import {
@@ -28,7 +26,7 @@ import {
   CarouselNext,
 } from "@/components/ui/carousel";
 import { motion } from "framer-motion";
-import ProductQuickView from "@/components/ProductQuickView";
+import ProductCard from "@/components/ProductCard";
 import { useAuth } from "@/lib/auth-context";
 import { toast } from "sonner";
 import useEmblaCarouselAutoplay from "@/hooks/use-embla-carousel-autoplay";
@@ -262,109 +260,25 @@ const FeaturedProducts = ({
   isLoading = false,
   error = null,
 }) => {
-  const [quickViewProduct, setQuickViewProduct] = useState(null);
-  const [quickViewOpen, setQuickViewOpen] = useState(false);
-  const { user, isAuthenticated } = useAuth();
-  const router = useRouter();
-
-  // Wishlist state management
-  const [wishlistItems, setWishlistItems] = useState([]);
-  const [wishlistLoading, setWishlistLoading] = useState({});
-
-  // Check wishlist status for all products
-  useEffect(() => {
-    const checkWishlistStatus = async () => {
-      if (!isAuthenticated || products.length === 0) return;
-
-      try {
-        const response = await fetchApi("/users/wishlist", {
-          credentials: "include",
-        });
-        const items = response.data.wishlistItems || [];
-        setWishlistItems(items);
-      } catch (error) {
-        console.error("Failed to check wishlist status:", error);
-      }
-    };
-
-    checkWishlistStatus();
-  }, [isAuthenticated, products]);
-
-  // Handle add to wishlist
-  const handleAddToWishlist = async (product) => {
-    if (!isAuthenticated) {
-      router.push(`/login?redirect=/`);
-      return;
-    }
-
-    const productId = product.id;
-    setWishlistLoading((prev) => ({ ...prev, [productId]: true }));
-
-    try {
-      const isInWishlist = wishlistItems.some(
-        (item) => item.productId === productId
-      );
-
-      if (isInWishlist) {
-        // Remove from wishlist
-        const wishlistItem = wishlistItems.find(
-          (item) => item.productId === productId
-        );
-        if (wishlistItem) {
-          await fetchApi(`/users/wishlist/${wishlistItem.id}`, {
-            method: "DELETE",
-            credentials: "include",
-          });
-          setWishlistItems((prev) =>
-            prev.filter((item) => item.productId !== productId)
-          );
-          toast.success(`${product.name} removed from wishlist!`);
-        }
-      } else {
-        // Add to wishlist
-        const response = await fetchApi("/users/wishlist", {
-          method: "POST",
-          credentials: "include",
-          body: JSON.stringify({ productId }),
-        });
-        setWishlistItems((prev) => [...prev, response.data]);
-        toast.success(`${product.name} added to wishlist!`);
-      }
-    } catch (error) {
-      console.error("Error updating wishlist:", error);
-      toast.error("Failed to update wishlist");
-    } finally {
-      setWishlistLoading((prev) => ({ ...prev, [productId]: false }));
-    }
-  };
-
-  // Check if product is in wishlist
-  const isInWishlist = (productId) => {
-    return wishlistItems.some((item) => item.productId === productId);
-  };
-
   const ProductSkeleton = () => (
-    <div className="bg-white rounded-xl p-4 shadow-md animate-pulse border border-gray-100">
-      <div className="aspect-square bg-gray-200 rounded-xl mb-4"></div>
-      <div className="space-y-3">
-        <div className="flex space-x-1 mb-2">
+    <div className="bg-white rounded-lg p-3 shadow-md animate-pulse border border-gray-100">
+      <div className="h-40 bg-gray-200 rounded-lg mb-3"></div>
+      <div className="space-y-2">
+        <div className="flex space-x-1 mb-1">
           {[...Array(5)].map((_, i) => (
             <div key={i} className="h-3 w-3 bg-gray-200 rounded"></div>
           ))}
         </div>
-        <div className="h-4 bg-gray-200 rounded w-3/4"></div>
+        <div className="h-3 bg-gray-200 rounded w-3/4"></div>
         <div className="h-3 bg-gray-200 rounded w-1/2"></div>
-        <div className="flex space-x-2 mt-3">
-          <div className="h-8 bg-gray-200 rounded-xl flex-1"></div>
-          <div className="h-8 w-8 bg-gray-200 rounded-xl"></div>
-        </div>
+        <div className="h-6 bg-gray-200 rounded w-full"></div>
       </div>
     </div>
   );
 
   if (isLoading) {
     return (
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
         {[...Array(8)].map((_, index) => (
           <ProductSkeleton key={index} />
         ))}
@@ -390,7 +304,7 @@ const FeaturedProducts = ({
 
   return (
     <>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
         {products.map((product, index) => (
           <motion.div
             key={product.id || product.slug || index}
@@ -398,132 +312,8 @@ const FeaturedProducts = ({
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: index * 0.1 }}
             viewport={{ once: true }}
-            className="group"
           >
-            <div className="bg-white rounded-xl p-5 shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-100 hover:border-primary/30 group-hover:scale-[1.02] relative overflow-hidden">
-              <Link
-                href={`/products/${product.slug || ""}`}
-                className="relative z-10"
-              >
-                <div className="relative aspect-square bg-gray-50 rounded-xl mb-4 overflow-hidden">
-                  <Image
-                    src={product.image || "/c3.jpg"}
-                    alt={product.name || "Product"}
-                    fill
-                    className="object-cover p-4 group-hover:scale-110 transition-transform duration-700"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-                  />
-                  {product.hasSale && (
-                    <div className="absolute top-3 left-3 z-10">
-                      <div className="bg-red-500 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg">
-                        SALE
-                      </div>
-                    </div>
-                  )}
-                  <button
-                    onClick={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      handleAddToWishlist(product);
-                    }}
-                    disabled={wishlistLoading[product.id]}
-                    className={`absolute top-3 right-3 z-10 w-8 h-8 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg transition-all duration-300 group/heart ${
-                      isInWishlist(product.id)
-                        ? "bg-red-50 text-red-500"
-                        : "bg-white/90 text-gray-600 hover:bg-red-50 hover:text-red-500"
-                    } ${wishlistLoading[product.id] ? "animate-pulse" : ""}`}
-                  >
-                    <Heart
-                      className={`h-4 w-4 transition-all duration-300 ${
-                        isInWishlist(product.id)
-                          ? "fill-red-500"
-                          : "group-hover/heart:fill-red-500"
-                      }`}
-                    />
-                  </button>
-                </div>
-              </Link>
-
-              <div className="space-y-3 relative z-10">
-                <div className="flex items-center gap-2">
-                  <div className="flex text-yellow-400">
-                    {[...Array(5)].map((_, i) => (
-                      <Star
-                        key={i}
-                        className="h-3.5 w-3.5"
-                        fill={
-                          i < Math.round(product.avgRating || 0)
-                            ? "currentColor"
-                            : "none"
-                        }
-                      />
-                    ))}
-                  </div>
-                  <span className="text-xs text-gray-500 font-medium">
-                    ({product.reviewCount || 0} reviews)
-                  </span>
-                </div>
-
-                <Link
-                  href={`/products/${product.slug || ""}`}
-                  className="block"
-                >
-                  <h3 className="font-bold text-gray-900 hover:text-primary transition-colors line-clamp-2 text-base leading-tight">
-                    {product.name || "Product"}
-                  </h3>
-                </Link>
-
-                <div className="flex items-center justify-between">
-                  <div className="flex items-baseline gap-2">
-                    <span className="text-xl font-bold text-primary">
-                      ₹{product.basePrice || 0}
-                    </span>
-                    {product.hasSale && (
-                      <span className="text-sm text-gray-500 line-through">
-                        ₹{product.regularPrice || 0}
-                      </span>
-                    )}
-                  </div>
-                  {product.hasSale && (
-                    <div className="bg-green-100 text-green-800 text-xs font-bold px-2 py-1 rounded-full">
-                      {Math.round(
-                        ((product.regularPrice - product.basePrice) /
-                          product.regularPrice) *
-                          100
-                      )}
-                      % OFF
-                    </div>
-                  )}
-                </div>
-
-                <div className="flex gap-3 pt-2">
-                  <Link
-                    href={`/products/${product.slug || ""}`}
-                    className="flex-1"
-                  >
-                    <Button
-                      size="sm"
-                      className="w-full bg-primary text-primary-foreground hover:bg-primary/90 rounded-xl font-semibold shadow-lg hover:shadow-xl transform hover:scale-[1.02] transition-all duration-300"
-                    >
-                      <ShoppingCart className="h-3.5 w-3.5 mr-2" />
-                      Shop Now
-                    </Button>
-                  </Link>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="border-2 border-primary/20 text-primary hover:bg-primary hover:text-primary-foreground rounded-xl shadow-md hover:shadow-lg transition-all duration-300 bg-transparent"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      setQuickViewProduct(product);
-                      setQuickViewOpen(true);
-                    }}
-                  >
-                    <Eye className="h-3.5 w-3.5" />
-                  </Button>
-                </div>
-              </div>
-            </div>
+            <ProductCard product={product} />
           </motion.div>
         ))}
       </div>
@@ -532,19 +322,13 @@ const FeaturedProducts = ({
         <Link href="/products">
           <Button
             size="lg"
-            className="bg-primary text-primary-foreground hover:bg-primary/90 px-12 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+            className="bg-[#2E9692] text-white hover:bg-[#2E9692]/90 px-12 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
           >
             View All Products
             <ArrowRight className="ml-2 h-5 w-5" />
           </Button>
         </Link>
       </div>
-
-      <ProductQuickView
-        product={quickViewProduct}
-        open={quickViewOpen}
-        onOpenChange={setQuickViewOpen}
-      />
     </>
   );
 };

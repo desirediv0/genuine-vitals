@@ -29,7 +29,7 @@ import { logo } from "@/assets";
 
 export function Navbar() {
   const { user, isAuthenticated, logout } = useAuth();
-  const { cart } = useCart();
+  const { cart, getCartItemCount } = useCart();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [categories, setCategories] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -423,12 +423,9 @@ export function Navbar() {
                     className="relative p-3 text-gray-700 hover:text-primary hover:bg-gray-100 rounded-xl transition-all duration-200 group"
                   >
                     <ShoppingCart className="h-5 w-5 group-hover:scale-110 transition-transform duration-200" />
-                    {cart && cart.items?.length > 0 && (
-                      <span className="absolute -top-1 -right-1 bg-primary text-primary-foreground rounded-full text-xs w-6 h-6 flex items-center justify-center font-bold animate-pulse shadow-lg">
-                        {cart.items.reduce(
-                          (acc, item) => acc + item.quantity,
-                          0
-                        )}
+                    {getCartItemCount() > 0 && (
+                      <span className="absolute -top-1 -right-1 bg-primary text-white rounded-full text-xs w-5 h-5 flex items-center justify-center">
+                        {getCartItemCount()}
                       </span>
                     )}
                   </Link>
@@ -518,9 +515,6 @@ export function Navbar() {
                               <span className="font-medium">My Wishlist</span>
                             </div>
                             <div className="flex items-center space-x-2">
-                              <span className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-full">
-                                0
-                              </span>
                               <ArrowRight className="h-4 w-4 opacity-0 group-hover:opacity-100 transition-all duration-200" />
                             </div>
                           </Link>
@@ -850,9 +844,9 @@ export function Navbar() {
               } transition-transform duration-300`}
             >
               <ShoppingCart className="h-6 w-6" />
-              {cart && cart.items?.length > 0 && (
+              {getCartItemCount() > 0 && (
                 <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full text-xs w-5 h-5 flex items-center justify-center font-bold animate-bounce shadow-lg">
-                  {cart.items.reduce((acc, item) => acc + item.quantity, 0)}
+                  {getCartItemCount()}
                 </span>
               )}
               {pathname === "/cart" && (

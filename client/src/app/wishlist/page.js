@@ -8,9 +8,8 @@ import { Button } from "@/components/ui/button";
 import { ClientOnly } from "@/components/client-only";
 import { fetchApi } from "@/lib/utils";
 import Image from "next/image";
-import { Eye, Heart, Star, ShoppingBag, Trash2 } from "lucide-react";
+import { Heart, Star, ShoppingBag, Trash2 } from "lucide-react";
 import { motion } from "framer-motion";
-import ProductQuickView from "@/components/ProductQuickView";
 import { toast } from "sonner";
 
 export default function WishlistPage() {
@@ -19,8 +18,6 @@ export default function WishlistPage() {
 
   const [wishlistItems, setWishlistItems] = useState([]);
   const [loadingItems, setLoadingItems] = useState(true);
-  const [quickViewProduct, setQuickViewProduct] = useState(null);
-  const [quickViewOpen, setQuickViewOpen] = useState(false);
   const [error, setError] = useState("");
 
   // Redirect if not authenticated
@@ -74,15 +71,10 @@ export default function WishlistPage() {
     }
   };
 
-  const handleQuickView = (product) => {
-    setQuickViewProduct(product);
-    setQuickViewOpen(true);
-  };
-
   if (loading) {
     return (
       <div className="container mx-auto py-10 flex justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#2E9692]"></div>
       </div>
     );
   }
@@ -126,8 +118,8 @@ export default function WishlistPage() {
             </div>
           ) : wishlistItems.length === 0 ? (
             <div className="bg-white rounded-lg shadow-lg p-12 text-center">
-              <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-primary/10 mb-6">
-                <Heart className="h-10 w-10 text-primary" />
+              <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-[#2E9692]/10 mb-6">
+                <Heart className="h-10 w-10 text-[#2E9692]" />
               </div>
               <h2 className="text-2xl font-semibold mb-3">
                 Your Wishlist is Empty
@@ -137,7 +129,10 @@ export default function WishlistPage() {
                 Browse our products and add items you love!
               </p>
               <Link href="/products">
-                <Button size="lg" className="gap-2">
+                <Button
+                  size="lg"
+                  className="gap-2 bg-[#2E9692] hover:bg-[#2E9692]/90"
+                >
                   <ShoppingBag className="h-5 w-5" />
                   Explore Products
                 </Button>
@@ -171,14 +166,6 @@ export default function WishlistPage() {
                         <Button
                           variant="ghost"
                           size="icon"
-                          className="h-10 w-10 rounded-full bg-white/90 hover:bg-white text-gray-900"
-                          onClick={() => handleQuickView(product)}
-                        >
-                          <Eye className="h-5 w-5" />
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          size="icon"
                           className="h-10 w-10 rounded-full bg-white/90 hover:bg-white text-red-500"
                           onClick={() => removeFromWishlist(product.id)}
                         >
@@ -209,14 +196,14 @@ export default function WishlistPage() {
                         </span>
                       </div>
                       {product.flavors > 1 && (
-                        <span className="text-xs bg-primary/10 text-primary px-2 py-1 rounded-full">
+                        <span className="text-xs bg-[#2E9692]/10 text-[#2E9692] px-2 py-1 rounded-full">
                           {product.flavors} variants
                         </span>
                       )}
                     </div>
 
                     <Link href={`/products/${product.slug}`} className="block">
-                      <h3 className="font-medium text-lg mb-2 line-clamp-2 hover:text-primary transition-colors">
+                      <h3 className="font-medium text-lg mb-2 line-clamp-2 hover:text-[#2E9692] transition-colors">
                         {product.name}
                       </h3>
                     </Link>
@@ -226,13 +213,6 @@ export default function WishlistPage() {
             </div>
           )}
         </motion.div>
-
-        {/* Quick View Dialog */}
-        <ProductQuickView
-          product={quickViewProduct}
-          open={quickViewOpen}
-          onOpenChange={setQuickViewOpen}
-        />
       </div>
     </ClientOnly>
   );
