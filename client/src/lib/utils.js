@@ -176,6 +176,10 @@ export function formatDate(dateString) {
 
 // Load an external script
 export const loadScript = (src) => {
+  if (typeof window === "undefined") {
+    return Promise.reject(new Error("Cannot load script on server side"));
+  }
+
   return new Promise((resolve, reject) => {
     const script = document.createElement("script");
     script.src = src;

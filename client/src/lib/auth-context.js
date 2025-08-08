@@ -35,9 +35,17 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [mounted, setMounted] = useState(false);
+
+  // Ensure component is mounted before accessing browser APIs
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Check if user is logged in on first load
   useEffect(() => {
+    if (!mounted) return;
+
     const checkAuth = async () => {
       try {
         // First try to read from cookies to avoid unnecessary API calls
@@ -81,7 +89,7 @@ export function AuthProvider({ children }) {
     };
 
     checkAuth();
-  }, []);
+  }, [mounted]);
 
   // Login function
   const login = async (email, password) => {
@@ -98,32 +106,17 @@ export function AuthProvider({ children }) {
       // Set user data from response
       setUser(res.data.user);
 
-      // Save user session to cookie with 1 day expiration
+      // Set session cookie for quick auth checks
       if (typeof window !== "undefined") {
         document.cookie = `user_session=${encodeURIComponent(
-          JSON.stringify({
-            isAuthenticated: true,
-            userId: res.data.user.id,
-            timestamp: new Date().getTime(),
-          })
-        )}; path=/; max-age=86400`;
+          JSON.stringify({ isAuthenticated: true })
+        )}; path=/; max-age=3600; SameSite=Lax`;
       }
 
       return res.data;
     } catch (err) {
-      console.error("Login error:", err);
-
-      // Extract the error message from the error object
-      let errorMessage = "Failed to login. Please try again.";
-
-      if (err.message) {
-        errorMessage = err.message;
-      } else if (err.data && err.data.message) {
-        errorMessage = err.data.message;
-      }
-
-      setError(errorMessage);
-      throw new Error(errorMessage);
+      setError(err.message);
+      throw err;
     } finally {
       setLoading(false);
     }

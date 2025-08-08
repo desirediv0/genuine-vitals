@@ -20,9 +20,17 @@ export function CartProvider({ children }) {
   const [error, setError] = useState(null);
   const [coupon, setCoupon] = useState(null);
   const [couponLoading, setCouponLoading] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  // Ensure component is mounted before accessing browser APIs
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Fetch cart on mount and when auth state changes
   useEffect(() => {
+    if (!mounted) return;
+
     if (isAuthenticated) {
       fetchCart();
     } else {
@@ -30,7 +38,7 @@ export function CartProvider({ children }) {
       setCart({ items: [], subtotal: 0, itemCount: 0, totalQuantity: 0 });
       setCoupon(null);
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, mounted]);
 
   // Get cart
   const fetchCart = async () => {
@@ -55,7 +63,7 @@ export function CartProvider({ children }) {
       // Check if user is authenticated
       if (!isAuthenticated) {
         // User is not logged in, redirect to login page
-        if (typeof window !== "undefined") {
+        if (mounted && typeof window !== "undefined") {
           // Create a URL with the return path
           const returnUrl = encodeURIComponent(window.location.pathname);
           window.location.href = `/login?returnUrl=${returnUrl}`;
@@ -77,7 +85,7 @@ export function CartProvider({ children }) {
       const updatedCart = await fetchCart();
 
       // Provide visual feedback (could be improved with toast notification)
-      if (typeof window !== "undefined") {
+      if (mounted && typeof window !== "undefined") {
         // Make cart icon pulse briefly
         const cartIcon = document.querySelector(".cart-icon");
         if (cartIcon) {
@@ -96,10 +104,9 @@ export function CartProvider({ children }) {
       setError(err.message);
 
       // Show error toast
-      if (typeof window !== "undefined") {
+      if (mounted && typeof window !== "undefined") {
         toast.error(err.message || "Failed to add item to cart");
       }
-
       throw err;
     } finally {
       setLoading(false);

@@ -37,6 +37,7 @@ export function Navbar() {
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [isScrolled, setIsScrolled] = useState(false);
   const [announcementIndex, setAnnouncementIndex] = useState(0);
+  const [mounted, setMounted] = useState(false);
   const searchInputRef = useRef(null);
   const navbarRef = useRef(null);
   const router = useRouter();
@@ -58,8 +59,15 @@ export function Navbar() {
     },
   ];
 
+  // Ensure component is mounted before accessing browser APIs
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   // Handle scroll effect
   useEffect(() => {
+    if (!mounted) return;
+
     const handleScroll = () => {
       const scrollTop = window.scrollY;
       setIsScrolled(scrollTop > 10);
@@ -67,16 +75,18 @@ export function Navbar() {
 
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [mounted]);
 
   // Rotating announcements
   useEffect(() => {
+    if (!mounted) return;
+
     const interval = setInterval(() => {
       setAnnouncementIndex((prev) => (prev + 1) % announcements.length);
     }, 2500);
 
     return () => clearInterval(interval);
-  }, [announcements.length]);
+  }, [announcements.length, mounted]);
 
   // Close mobile menu when navigating to a new page
   useEffect(() => {
@@ -87,6 +97,8 @@ export function Navbar() {
 
   // Handle click outside of navbar to close dropdowns
   useEffect(() => {
+    if (!mounted) return;
+
     const handleClickOutside = (event) => {
       if (navbarRef.current && !navbarRef.current.contains(event.target)) {
         setIsSearchExpanded(false);
@@ -98,7 +110,7 @@ export function Navbar() {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, []);
+  }, [mounted]);
 
   // Focus search input when expanded
   useEffect(() => {
@@ -109,6 +121,8 @@ export function Navbar() {
 
   // Fetch categories on component mount
   useEffect(() => {
+    if (!mounted) return;
+
     const fetchCategories = async () => {
       try {
         const response = await fetchApi("/public/categories");
@@ -119,7 +133,7 @@ export function Navbar() {
     };
 
     fetchCategories();
-  }, []);
+  }, [mounted]);
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -147,7 +161,7 @@ export function Navbar() {
 
   const handleDropdownLeave = () => {
     setTimeout(() => {
-      if (!navbarRef.current?.contains(document.activeElement)) {
+      if (mounted && !navbarRef.current?.contains(document.activeElement)) {
         setActiveDropdown(null);
       }
     }, 150);
