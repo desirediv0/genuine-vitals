@@ -16,6 +16,7 @@ import {
 
 import { useRouter } from "next/navigation";
 import { bg1, bg1sm } from "@/assets";
+import { fetchApi } from "@/lib/utils";
 
 const HeroCarousel = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
