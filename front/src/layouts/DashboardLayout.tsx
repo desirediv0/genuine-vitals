@@ -21,6 +21,7 @@ import {
   MessageSquare,
   HelpCircle,
   BarChart,
+  ImageIcon
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SafeRender } from "@/components/SafeRender";
@@ -183,6 +184,16 @@ export default function DashboardLayout() {
                   admin,
                   Resource.PRODUCTS,
                   Action.UPDATE
+                )}
+              />
+              <NavItem
+                href="/banners"
+                icon={<ImageIcon className="h-5 w-5" />}
+                title="Banners"
+                hasPermission={hasPermissionFor(
+                  admin,
+                  Resource.BANNERS,
+                  Action.READ
                 )}
               />
               <NavItem
@@ -398,6 +409,17 @@ export default function DashboardLayout() {
                   admin,
                   Resource.PRODUCTS,
                   Action.UPDATE
+                )}
+              />
+              <NavItem
+                href="/banners"
+                icon={<ImageIcon className="h-5 w-5" />}
+                title="Banners"
+                onClick={toggleMobileMenu}
+                hasPermission={hasPermissionFor(
+                  admin,
+                  Resource.BANNERS,
+                  Action.READ
                 )}
               />
               <NavItem

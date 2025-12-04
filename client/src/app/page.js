@@ -7,16 +7,11 @@ import { fetchApi } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
   ArrowRight,
-  Star,
   Zap,
   Shield,
   Truck,
   Phone,
-  MapPin,
-  Users,
   Award,
-  Clock,
-  ShoppingCart,
 } from "lucide-react";
 import {
   Carousel,
@@ -27,11 +22,8 @@ import {
 } from "@/components/ui/carousel";
 import { motion } from "framer-motion";
 import ProductCard from "@/components/ProductCard";
-import { useAuth } from "@/lib/auth-context";
-import { toast } from "sonner";
 import useEmblaCarouselAutoplay from "@/hooks/use-embla-carousel-autoplay";
 import CTASection from "@/components/cta-section";
-import { useRouter } from "next/navigation";
 import { TestimonialsSection } from "@/components/additional-sections";
 import HeroCarousel from "@/components/HeroCarousel";
 
